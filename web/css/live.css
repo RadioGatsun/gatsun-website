@@ -1,0 +1,54 @@
+.media-object
+{
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#lecteur {
+    overflow: hidden;
+}
+
+#lecteur audio
+{
+    width: 100%;
+}
+
+#lecteur embed
+{
+    height: 34px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+textarea 
+{
+    resize: none;
+    height: 54px !important;
+}
+
+#commentaires
+{
+    max-height: 470px;
+    overflow: auto;
+}
+
+#commentaires .avatar
+{
+    max-height: 50px;
+    max-width: 50px;
+    float: left;
+    margin-right: 5px;
+}
+
+.texteCommentaire
+{
+    padding-top: 5px;
+    display: block;
+}
+
+time
+{
+    font-size: 70%;
+}

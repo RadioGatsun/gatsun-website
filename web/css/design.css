@@ -1,0 +1,168 @@
+@font-face {
+    font-family: 'Script MT Bold';
+    src: url('../fonts/script_mt_bold.eot');
+    src: url('../fonts/script_mt_bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/script_mt_bold.svg#Script MT Bold') format('svg'),
+         url('../fonts/script_mt_bold.woff') format('woff'),
+         url('../fonts/script_mt_bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*body
+{
+    background: url("../images/background.png") fixed no-repeat;
+    background-position-y: 50px;
+}*/
+
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+.card .card-action {
+    border-top: none;
+}
+
+.card-reveal .card-action {
+    padding: 0px;
+}
+
+.card-image .card-title {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-facebook {
+    background: url("../images/facebook.png") no-repeat right bottom #3A5897;
+    height: 200px;
+}
+.card-twitter {
+    background: url("../images/twitter.png") no-repeat right bottom #39A0CE;
+    height: 200px;
+    color: white;
+}
+
+nav img {
+    max-height: 40px;
+    vertical-align: middle;
+}
+
+.slick-prev:before,
+.slick-next:before
+{
+    color: silver;
+}
+
+
+.brand-logo {
+    font-family: 'Script MT Bold', serif;
+}
+
+/*
+.nav .active>a {
+    border-bottom: 5px solid #EB9723;
+    padding-bottom: 10px;
+}*/
+
+nav a img {
+    max-height: 18px;
+}
+
+/*
+nav form
+{
+    padding-right: 0px !important;
+}
+
+.form-img
+{
+    max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
+{
+    font-family: 'Script MT Bold', serif;
+    color: #EB9723;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-decoration: none;
+}
+
+.twitter-follow-button
+{
+    padding-left: 16px;
+}
+
+#footer
+{
+    margin: auto;
+    padding: 5px;
+    font-family: 'Script MT Bold', serif;
+    text-align: center;
+    color: white;
+    border-top: 5px solid #EB9723 !important;
+    font-size: 18px;
+}
+
+.facebook-logo
+{
+    display: inline-block;
+    background: url("../images/facebook-logo.png");
+    height: 24px;
+    width: 24px;
+    text-decoration: none;
+}
+
+.twitter-logo
+{
+    display: inline-block;
+    background: url("../images/twitter-logo.png");
+    height: 24px;
+    width: 24px;
+    text-decoration: none;
+}
+
+.facebook-logo:hover, .twitter-logo:hover
+{
+    background-position: 0px 24px;
+}*/
+
+aside
+{
+    font-size: 0.8em;
+}
+
+.input-field label {
+    left: 0;
+}
+
+/*.btn-xs img
+{
+    max-height: 16px;
+    vertical-align: top;
+}
+
+.input-group-addon img
+{
+    max-height: 20px;
+    vertical-align: top;
+}
+
+table img
+{
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
+{
+    vertical-align: middle !important;
+}*/

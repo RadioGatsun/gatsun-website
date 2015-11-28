@@ -1,0 +1,16 @@
+.slider .indicators .indicator-item.active {
+    background-color: #EB9723;
+}
+
+.slider .slides li .caption {
+    top: 45%;
+}
+
+
+.slider {
+    margin-top: 30px;
+}
+
+aside {
+    font-size: 0.8em;
+}

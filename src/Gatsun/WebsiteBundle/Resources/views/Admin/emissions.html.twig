@@ -1,0 +1,88 @@
+{% extends "::base.html.twig" %}
+{% block title %}Émissions &ndash; Administration &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+<section class="panel panel-default">
+	<div class="panel-heading">
+		<h1>Émissions &ndash; Administration</h1>
+	</div>
+	<div class="panel-body">
+		<div id="alert"></div>
+		<a href="{{ path('gatsun_website_emission_ajouter') }}"class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-plus"></span> Ajouter une émission</a>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
+					<th>Vignette</th>
+					<th>Bandeau</th>
+					<th>Description</th>
+					<th>Présentateurs</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for emission in emissions %}			
+					<tr>
+						<td>{{ emission.id }}</td>
+						<td>{{ emission.nom }}</td>
+						<td><img src="{{ asset(emission.vignette)}}" alt="Vignette de {{ emission.nom }}" /></td>
+						<td><img src="{{ asset(emission.bandeau)}}" alt="Bandeau de {{ emission.nom }}" /></td>
+						<td>{{ emission.description }}</td>
+						<td>
+							{% for utilisateur in emission.presentateurs %}
+								<a href="{{ path('gatsun_website_utilisateur', {'nom': utilisateur.username}) }}">{{ utilisateur.username }}</a>
+								{% if loop.last == false %}
+								, 
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td class="btn-group-vertical">
+							<a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-user"></span> Détails</a>
+							<a href="{{ path('gatsun_website_emission_modifier', {'id': emission.id}) }}" class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>
+							<a href="#" onClick="confirmerSuppression('{{ path('gatsun_website_emission_supprimer', {'id': emission.id}) }}')" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4">Pas d'émission.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+
+function confirmerSuppression(route)
+{
+	// Popup de confirmation
+	if(confirm('Êtes-vous sur de vouloir supprimer cette émission ?'))
+	{
+		// Requête AJAX
+		$.ajax({
+	        url: route,
+	        dataType: 'html',
+	        cache: false
+	    })
+	    .done(function(reponse) {
+	    	// Rafraîchir le corps du tableau (tbody)
+	        $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
+	        // Message : Succès !
+	        $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> L\'émission sélectionnée a été correctement supprimée.</div>');
+	    })
+	    .fail(function()
+	    {
+	    	// Message : Erreur !
+	    	$('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de l\'émission.</div>');
+	    });
+	}
+
+	return false;
+}
+</script>
+{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}

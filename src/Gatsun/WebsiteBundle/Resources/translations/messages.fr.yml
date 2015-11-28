@@ -1,0 +1,5 @@
+# src/Gatsun/WebsiteBundle/Resources/translations/messages.fr.yml
+Symfony2 is great: J'aime Symfony2
+Bad credentials.: Identifiant et/ou mot de passe incorrects.
+User account is disabled.: Le compte utilisateur saisi n'a pas été activé.
+User account is locked.: Le compte utilisateur saisi a été banni.

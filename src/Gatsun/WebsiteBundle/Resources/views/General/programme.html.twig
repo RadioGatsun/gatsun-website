@@ -1,0 +1,81 @@
+{% extends "::base.html.twig" %}
+{% block title %}Programme &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+	<section class="panel panel-default" id="programme">
+		<div class="panel-heading">
+			<h1>Programme</h1>
+		</div>
+	    <div class="panel-body">		
+	    	<h2>De Novembre 2014 à Avril 2015</h2>
+
+			<div class="media">
+				<a class="pull-left" href="{{ path('gatsun_website_emission', {'id': '7'}) }}">
+					<img class="media-object" src="../images/emissions/vignette-fmc.png">
+				</a>
+				<div class="media-body">
+					<h3>Lundi</h3>
+					<strong>Dès 20h</strong> : <abbr title="Full Metal Condom">FMC</abbr> → Présenté par 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Narkiin' })}} ">Greg</a> <br />
+					Retrouve chaque semaine la playlist métal, avec plein d'infos sur les artistes diffusés.
+				</div>
+			</div>
+
+			<div class="media">
+				<a class="pull-left" href="{{ path('gatsun_website_emission', {'id': '1'}) }}">
+					<img class="media-object" src="../images/emissions/vignette-le-son-du-geek.png">
+				</a>
+				<div class="media-body">
+					<h3>Mardi</h3>
+					<strong>Dès 20h30</strong> : Le Son du Geek → Présenté par 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Galadruin' })}} ">Dorian</a>, 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Regan' })}} ">Quentin</a>, 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'tmlsp' })}} ">Denis</a> et 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Tom65380' })}} ">Thomas</a> <br />
+					Toute l’actualité informatique, hi-tech et jeux vidéo ! Et en bonus, une bande originale bien sympa à écouter.
+				</div>
+			</div>
+
+			<div class="media">
+				<img class="media-object pull-left" src="../images/header.png">
+				<div class="media-body">
+					<h3>Mercredi</h3>
+					<em>Pas d'émission</em> → Pourquoi pas la tienne ? <br />
+					Si tu veux cette place dans le programme avec ta propre émission, <a href="mailto:gatsun.radio@gmail.com">contacte-nous par mail</a>.
+				</div>
+			</div>
+
+			<div class="media">
+				<a class="pull-left" href="{{ path('gatsun_website_emission', {'id': '10'}) }}">
+					<img class="media-object" src="../images/emissions/vignette-des-sons-animes.png">
+				</a>
+				<div class="media-body">
+					<h3>Jeudi</h3>
+					<strong>Dès 20h</strong> : Des Sons Animés → Présenté par 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Tyvr' })}} ">Marine</a> et 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Galadruin' })}} ">Dorian</a> <br />
+					Décryptage des films d'animation qui ont marqué ces dernières années.
+				</div>
+			</div>
+
+			<div class="media">
+				<a class="pull-left" href="{{ path('gatsun_website_emission', {'id': '11'}) }}">
+					<img class="media-object" src="../images/emissions/vignette-pixel.png">
+				</a>
+				<div class="media-body">
+					<h3>Vendredi</h3>
+					<strong>Dès 20h</strong> : Pixel → Présenté par 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Le poisson libre' })}} ">Paul</a> et 
+					<a href="{{ path('gatsun_website_utilisateur', { 'nom': 'Regan' })}} ">Quentin</a> <br />
+					Votre rendez-vous jeux vidéo.
+				</div>
+			</div>
+
+			<p>
+				<em>Planning donné à titre indicatif, les horaires peuvent changer selon la disponibilité des animateurs et de nouvelles émissions à venir.</em>
+			</p>
+		</div>
+	</section>
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/programme.css') }}" />
+{% endblock %}

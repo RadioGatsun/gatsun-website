@@ -1,0 +1,58 @@
+.media-object
+{
+	max-width: 150px;
+	max-height: 150px;
+}
+
+audio
+{
+	width: 100%;
+}
+
+embed
+{
+	height: 34px;
+}
+
+textarea 
+{
+	resize: none;
+	height: 54px !important;
+}
+
+#boutonCommenter
+{
+	height: 54px;
+}
+
+#commentaires
+{
+	max-height: 470px;
+	overflow: auto;
+}
+
+.commentaire
+{
+	padding: 5px 0px;
+	margin: 5px 0px;
+	min-height: 50px;
+}
+
+.commentaire>img
+{
+	max-height: 50px;
+	max-width: 50px;
+	float: left;
+	margin-right: 5px;
+}
+
+.texteCommentaire
+{
+	padding-top: 5px;
+	display: block;
+}
+
+time
+{
+	font-size: 70%;
+}

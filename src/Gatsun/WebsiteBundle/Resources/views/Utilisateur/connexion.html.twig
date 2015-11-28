@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+{% block title %}Connexion &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+    <section>
+        <h1>Connexion</h1>
+        {# S'il y a une erreur, on l'affiche dans un joli cadre #}
+        {% if error %}
+            <div class="alert alert-danger">
+                <strong>Erreur :</strong> {{ error.message|trans({},'messages') }}
+            </div>
+        {% endif %}
+
+        {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
+        <form action="{{ path('gatsun_website_verif_connexion') }}" method="post">
+            <div class="input-field">
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required"/>
+                <label for="username">Identifiant</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" name="_password" required="required"/>
+                <label for="password">Mot de passe</label>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light green">Connexion</button>
+            <a class="btn waves-effect waves-light orange" href="">Mot de passe oublié ?</a>
+            <a href="{{ path('gatsun_website_inscription') }}" class="btn waves-effect waves-light">S'inscrire</a>
+        </form>
+    </section>
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/connexion.css') }}"/>
+{% endblock %}

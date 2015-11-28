@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Radio Gatsun{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.jpg') }}"/>
+
+    <!-- CSS  -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick-theme.css"/>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/design.css') }}"/>
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav class="orange lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="{{ path('gatsun_website_homepage') }}"
+               class="brand-logo">{#<img src="micro.png"/>#} Radio Gatsun</a>
+            <ul class="right hide-on-med-and-down">
+                <li{% if 'live' in app.request.uri %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_live') }}">Live</a>
+                </li>
+                <li{% if 'emission'  in app.request.uri or 'emissions'  in app.request.uri %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_emissions') }}">Émissions</a>
+                </li>
+                <li{% if 'programme' in app.request.uri %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_programme') }}">Programme</a>
+                </li>
+                <li{% if 'la-radio' in app.request.uri %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_radio') }}">La radio</a>
+                </li>
+                {% if app.user == null %}
+                    <li {% if 'utilisateur' in app.request.uri and 'connexion' in app.request.uri %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_connexion') }}">Connexion</a>
+                    </li>
+                    <li {% if 'utilisateur' in app.request.uri and 'inscription' in app.request.uri %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_inscription') }}">Inscription</a>
+                    </li>
+                {% else %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li {% if 'admin' in app.request.uri %}class="active"{% endif %}>
+                            <a class="dropdown-button" href="#!" data-activates="dropdown-admin">
+                                Admin
+                                <i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                            <ul id="dropdown-admin" class="dropdown-content">
+                                <li><a href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_publications') }}">Publications</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a></li>
+                            </ul>
+                        </li>
+
+                    {% endif %}
+                    <li {% if 'utilisateur' in app.request.uri and app.user.username in app.request.uri %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
+                            <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
+                                 alt="Avatar de {{ app.user.username }}"/>
+                            {{ app.user.username }}
+                        </a>
+                    </li>
+                    <li><a href="{{ path('gatsun_website_deconnexion') }}">Déconnexion</a></li>
+                {% endif %}
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li{% if app.request.uri|split('/')[3] == null %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_homepage') }}">Accueil</a>
+                </li>
+                <li{% if app.request.uri|split('/')[3] == 'live' %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_live') }}">Live</a>
+                </li>
+                <li{% if (app.request.uri|split('/')[3] == 'emission' or app.request.uri|split('/')[3] == 'emissions') %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_emissions') }}">Émissions</a>
+                </li>
+                <li{% if app.request.uri|split('/')[3] == 'programme' %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_programme') }}">Programme</a>
+                </li>
+                <li{% if app.request.uri|split('/')[3] == 'la-radio' %} class="active"{% endif %}>
+                    <a href="{{ path('gatsun_website_radio') }}">La radio</a>
+                </li>
+                {% if app.user == null %}
+                    <li {% if app.request.uri|split('/')[3] == 'utilisateur' and app.request.uri|split('/')[4] == 'connexion' %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_connexion') }}">Connexion</a>
+                    </li>
+                    <li {% if app.request.uri|split('/')[3] == 'utilisateur' and app.request.uri|split('/')[4] == 'inscription' %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_inscription') }}">Inscription</a>
+                    </li>
+                {% else %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li {% if app.request.uri|split('/')[3] == 'admin' %}class="active"{% endif %}>
+                            <a class="dropdown-button" href="#!" data-activates="dropdown-admin-mobile">
+                                Admin
+                                <i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                            <ul id="dropdown-admin-mobile" class="dropdown-content">
+                                <li><a href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_publications') }}">Publications</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a></li>
+                                <li><a href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a></li>
+                            </ul>
+                        </li>
+
+                    {% endif %}
+                    <li {% if app.request.uri|split('/')[3] == 'utilisateur' and app.request.uri|split('/')[4] == app.user.username %}class="active"{% endif %}>
+                        <a href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
+                            <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
+                                 alt="Avatar de {{ app.user.username }}"/>
+                            {{ app.user.username }}
+                        </a>
+                    </li>
+                    <li><a href="{{ path('gatsun_website_deconnexion') }}">Déconnexion</a></li>
+                {% endif %}
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    {#{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-{{ flashMessage|split('|')[0] }}">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Fermer</span>
+            </button>
+            <strong>{{ flashMessage|split('|')[1] }}</strong> {{ flashMessage|split('|')[2] }}
+        </div>
+    {% endfor %}#}
+    {#<div class="row">
+        <div class="col-md-8">#}
+    {% block body %}{% endblock %}
+    {#</div>
+    {#<d class="col-md-4 hidden-sm hidden-xs">
+        <section class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Derniers podcasts</h1>
+            </div>
+            <div class="panel-body">
+                {{ render(controller("GatsunWebsiteBundle:General:derniersPodcasts")) }}
+            </div>
+        </section>
+    </div>
+    </div>#}
+</div><!-- /.container -->
+
+<footer class="page-footer orange">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Radio Gatsun
+                    <small>La webradio de l'INSA de Lyon</small>
+                </h5>
+                <p class="grey-text text-lighten-4">Gatsun est une association loi 1901, dont ses membres vous proposent
+                    bénévolement des émissions chaque semaine. Si vous souhaitez rejoindre cette belle aventure, passez
+                    nous voir au RdC du bâtiment G/J, ou <a class="orange-text text-lighten-3"
+                                                            href="mailto:gatsun.radio@gmail.com">contactez-nous</a> !
+                </p>
+
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Informations</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Contact</a></li>
+                    <li><a class="white-text" href="#!">Mentions légales</a></li>
+                    <li><a class="white-text" href="#!">CGU</a></li>
+                </ul>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Partenaires</h5>
+                <img src="https://upload.wikimedia.org/wikipedia/fr/d/d5/Logo_INSA_Lyon_2014.png"/>
+                <img src="http://va.bde-insa-lyon.fr/images/logo_cva_55.png"/>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 - Radio Gatsun &ndash; Tous droits réservés.
+        <span class="right">
+          Réalisé avec l'aide de <a class="orange-text text-lighten-3" href="https://symfony.com/">Symfony 2</a> et <a
+                    class="orange-text text-lighten-3" href="http://materializecss.com/">Materialize</a>.
+        </span>
+        </div>
+    </div>
+</footer>
+
+{# Javascripts #}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<!-- Compiled and minified Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+{#<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js"></script>#}
+
+<script type="text/javascript">
+    /*** FACEBOOK ***/
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5&appId=314380608681202";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    /*** TWITTER ***/
+    !function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+
+    $(document).ready(function () {
+        $('.button-collapse').sideNav();
+        $(".dropdown-button").dropdown();
+    });
+</script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

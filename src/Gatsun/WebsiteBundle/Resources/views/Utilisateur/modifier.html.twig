@@ -1,0 +1,158 @@
+{% extends "::base.html.twig" %}
+{% block title %}Modification du profil &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+{% form_theme form 'GatsunWebsiteBundle:Form:fields.html.twig' %}
+<section class="panel panel-default">
+    <div class="panel-heading">
+        <h1>Modification du profil</h1>
+    </div>
+    <div class="panel-body">
+        <form method="post" id="inscription" {{ form_enctype(form) }}>
+            {{ form_errors(form) }}
+            <fieldset>
+                <legend>Personnalisation du profil</legend>
+
+                <em>Tous les champs sont facultatifs.</em>
+
+                <p>
+                    Avatar actuel :
+                    {% if utilisateur.image != "/../defaut.png" %}
+                    <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image)}}" alt="Avatar de {{ utilisateur.username }}" />
+                    <button class="btn btn-default btn-danger" onClick="confirmerSuppression()"><i class="fa fa-trash-o fa-fw"></i> Supprimer</button>
+                    <br />
+                    {% else %}
+                    Aucun<br />
+                    {% endif %}
+                    
+
+                    {{ form_errors(form.fichier) }}
+                    <div class="input-group">
+                        <label for="form_fichier" class="input-group-addon"><i class="fa fa-picture-o fa-fw"></i></label>
+                        {{ form_widget(form.fichier, { 'attr': {'placeholder': 'Avatar', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.facebook) }}
+                    <div class="input-group">
+                        <label for="form_facebook" class="input-group-addon"><i class="fa fa-facebook fa-fw"></i></label>
+                        {{ form_widget(form.facebook, { 'attr': {'placeholder': 'Facebook', 'class' : 'form-control'} }) }}
+                    </div> <br />
+
+                    {{ form_errors(form.twitter) }}
+                    <div class="input-group">
+                        <label for="form_twitter" class="input-group-addon"><i class="fa fa-twitter fa-fw"></i></label>
+                        {{ form_widget(form.twitter, { 'attr': {'placeholder': 'Twitter', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.googlePlus) }}
+                    <div class="input-group">
+                        <label for="form_googlePlus" class="input-group-addon"><i class="fa fa-google-plus fa-fw"></i></label>
+                        {{ form_widget(form.googlePlus, { 'attr': {'placeholder': 'Google+', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.skype) }}
+                    <div class="input-group">
+                        <label for="form_skype" class="input-group-addon"><i class="fa fa-skype fa-fw"></i></label>
+                        {{ form_widget(form.skype, { 'attr': {'placeholder': 'Skype', 'class' : 'form-control'} }) }}
+                    </div>
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend>Informations personnelles</legend>
+
+                <em>Tous les champs sont facultatifs et servent uniquement pour les jeux concours.</em>
+
+                <p>
+                    {{ form_errors(form.nom) }}
+                    <div class="input-group">
+                        <label for="form_nom" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
+                        {{ form_widget(form.nom, { 'attr': {'placeholder': 'Nom', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.prenom) }}
+                    <div class="input-group">
+                        <label for="form_prenom" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
+                        {{ form_widget(form.prenom, { 'attr': {'placeholder': 'Prénom', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.dateNaissance) }}
+                    <div class="input-group">
+                        <label for="form_dateNaissance" class="input-group-addon"><i class="fa fa-birthday-cake fa-fw"></i></label>
+                        {{ form_widget(form.dateNaissance, { 'attr': {'placeholder': 'AAAA-MM-JJ', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.adresse) }}
+                    <div class="input-group">
+                        <label for="form_adresse" class="input-group-addon"><i class="fa fa-home fa-fw"></i></label>
+                        {{ form_widget(form.adresse, { 'attr': {'placeholder': 'Adresse', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.codePostal) }}
+                    <div class="input-group">
+                        <label for="formcodePostal" class="input-group-addon"><i class="fa fa-compass fa-fw"></i></label>
+                        {{ form_widget(form.codePostal, { 'attr': {'placeholder': 'Code postal', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.ville) }}
+                    <div class="input-group">
+                        <label for="form_ville" class="input-group-addon"><i class="fa fa-location-arrow fa-fw"></i></label>
+                        {{ form_widget(form.ville, { 'attr': {'placeholder': 'Ville', 'class' : 'form-control'} }) }}
+                    </div><br />
+
+                    {{ form_errors(form.telephone) }}
+                    <div class="input-group">
+                        <label for="form_telephone" class="input-group-addon"><i class="fa fa-phone fa-fw"></i></label>
+                        {{ form_widget(form.telephone, { 'attr': {'placeholder': 'Téléphone', 'class' : 'form-control'} }) }}
+                    </div>
+                </p>
+            </fieldset>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <fieldset>
+                    <legend>Rôles</legend>
+
+                    <div class="input-group">
+                        <label for="form_roles" class="input-group-addon"><i class="fa fa-cogs fa-fw"></i></label>
+                        {{ form_widget(form.roles, { 'attr': {'class': 'form-control'} }) }}
+                    </div><br />
+                </fieldset>
+            {% endif %}
+
+            {{ form_widget(form._token) }}
+            <input type="submit" class="btn btn-default btn-primary" value="Valider les modifications" />
+        </form>
+    </div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+
+function confirmerSuppression()
+{
+
+    if(confirm("Êtes-vous sur de vouloir supprimer votre avatar actuel ?"))
+    {
+        try 
+        {
+            xhrCom = new ActiveXObject("Microsoft.XMLHTTP");    // tenter IE
+        }
+        catch(e)    // en cas d'échec
+        {
+            xhrCom = new XMLHttpRequest();    // autres navigateurs
+        }
+        
+        xhrCom.onreadystatechange = function() 
+        {
+            if(xhrCom.readyState == 4 && xhrCom.status == 200) 
+            {
+                location.reload();
+            }
+        }
+        xhrCom.open("GET", "{{ path('gatsun_website_utilisateur_supprimer_avatar') }}", true);
+        xhrCom.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhrCom.send();
+    }
+
+    return false;
+}
+</script>
+{% endblock %}

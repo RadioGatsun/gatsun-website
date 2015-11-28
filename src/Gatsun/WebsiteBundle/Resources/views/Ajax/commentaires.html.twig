@@ -1,0 +1,34 @@
+{% for commentaire in commentaires %}
+	{% if commentaire.supprime == false %}
+		<p class="card-panel">
+			{% if app.user == commentaire.utilisateur and commentaire.modere == false %}
+				<span class="right">
+					 <button class="btn waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="Supprimer" onclick="supprimer({{ commentaire.id }})"><i class="material-icons">delete</i></button>
+				</span>
+			{% elseif is_granted('ROLE_MEMBRE') and commentaire.modere == false %}
+				<span class="right">
+					<button type="button" class="btn btn-danger btn-xs orange tooltipped" data-position="left" data-delay="50" data-tooltip="Modérer" onclick="moderer({{ commentaire.id }})"><i class="material-icons">report</i></button>
+				</span>
+			{% endif %}
+			<img class="avatar" src="{{ asset('images/profils/' ~ commentaire.utilisateur.username ~ '.' ~ commentaire.utilisateur.image)}}"/>
+			<a href="{{ path('gatsun_website_utilisateur', {'nom':commentaire.utilisateur.username}) }}">{{ commentaire.utilisateur.username }}</a>, 
+			<time class="date" datetime="{{ commentaire.date|date('Y-d-m') }}+02:00">le {{ commentaire.date|date('d/m/Y à H:i') }}</time>
+			<br />
+			<span class="texteCommentaire">
+				{% if commentaire.modere == true %}
+					<em>Commentaire modéré.</em>
+				{% else %}
+					{{ commentaire.texte|striptags|code|raw|nl2br }}
+				{% endif %}
+			</span>
+		</p>
+	{% endif %}
+{% else %}
+	<p class="card-panel">
+		{% if page == "live" %}
+			Pas de commentaire dans les dernières 24h.
+		{% else %}
+			Pas de commentaire.
+		{% endif %}
+	</p>
+{% endfor %}

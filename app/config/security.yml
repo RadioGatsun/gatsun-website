@@ -1,0 +1,35 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: sha512
+        Gatsun\WebsiteBundle\Entity\Utilisateur: sha512
+
+    role_hierarchy:
+        ROLE_MEMBRE:      ROLE_USER
+        ROLE_ADMIN:       ROLE_MEMBRE
+        ROLE_SUPER_ADMIN: [ROLE_MEMBRE, ROLE_ADMIN]
+
+    providers:
+        main:
+            entity: { class: Gatsun\WebsiteBundle\Entity\Utilisateur, property: username }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        public:
+            pattern:   ^/
+            anonymous: true 
+            provider:  main
+            form_login:
+                login_path: gatsun_website_connexion
+                check_path: gatsun_website_verif_connexion
+            logout:
+                path:   gatsun_website_deconnexion
+                target: /
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

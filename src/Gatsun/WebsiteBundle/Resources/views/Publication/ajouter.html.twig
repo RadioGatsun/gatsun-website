@@ -1,0 +1,233 @@
+{% extends "::base.html.twig" %}
+{% block title %}Ajouter une publication &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+	<section class="panel panel-default">
+		<div class="panel-heading">
+			<h1>Ajouter une publication</h1>
+		</div>
+		<form class="panel-body" method="post" id="publication" {{ form_enctype(form) }}>
+			<p>
+				{{ form_errors(form.emission) }}
+				<div class="input-group">
+					<label for="form_emission" class="input-group-addon">
+						<i class="fa fa-tag fa-fw"></i>
+					</label>
+					{{ form_widget(form.emission, { 'attr': {'class' : 'form-control'} } ) }}
+				</div>
+			</p>
+			<p>
+				{{ form_errors(form.titre) }}
+				<div class="input-group">
+					<label for="form_titre" class="input-group-addon">
+						<i class="fa fa-bookmark-o fa-fw"></i>
+					</label>
+					{{ form_widget(form.titre, { 'attr': {'placeholder': 'Titre', 'class' : 'form-control'} } ) }}
+				</div>
+			</p>
+			<p>
+				{{ form_errors(form.vignette) }}
+				<div class="input-group">
+					<label for="form_vignette" class="input-group-addon">
+						<i class="fa fa-picture-o fa-fw"></i>
+					</label>
+					{{ form_widget(form.vignette, { 'attr': {'placeholder': 'Lien vers la vignette (laissez vide pour celle par défaut)', 'class' : 'form-control'} } ) }}
+				</div>
+			</p>
+			<p>
+				{{ form_errors(form.contenu) }}	
+				<div class="col-md-9">			
+					<p class="btn-toolbar" role="toolbar">
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[b]', '[/b]');return(false)"><i class="fa fa-bold fa-fw"></i></button>
+							<button class="btn btn-default btn-xs"onClick="javascript:bbcode('[i]', '[/i]');return(false)"><i class="fa fa-italic fa-fw"></i></button>
+							<button class="btn btn-default btn-xs"onClick="javascript:bbcode('[u]', '[/u]');return(false)"><i class="fa fa-underline fa-fw"></i></button>
+							<button class="btn btn-default btn-xs"onClick="javascript:bbcode('[s]', '[/s]');return(false)"><i class="fa fa-strikethrough fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[left]', '[/left]');return(false)"><i class="fa fa-align-left fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[center]', '[/center]');return(false)"><i class="fa fa-align-center fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[right]', '[/right]');return(false)"><i class="fa fa-align-right fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[justified]', '[/justified]');return(false)" ><i class="fa fa-align-justify fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[list][*]', '\n[/list]');return(false)"><i class="fa fa-list-ul fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[list=1][*]', '\n[/list]');return(false)"><i class="fa fa-list-ol fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[hr]', '');return(false)"><i class="fa fa-minus fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[quote=Auteur]', '[/quote]');return(false)"><i class="fa fa-quote-left fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[table][tr][td]', '[/td][/tr][/table]');return(false)"><i class="fa fa-table fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[img]', '[/img]');return(false)"><i class="fa fa-picture-o fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[url=http://url/]', '[/url]');return(false)"><i class="fa fa-link fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[video]', '[/video]');return(false)"><i class="fa fa-video-camera fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[size=Valeurpx]', '[/size]');return(false)"><i class="fa fa-text-height fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[color=Nom]', '[/color]');return(false)"><i class="fa fa-paint-brush fa-fw"></i></span></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[font=Nom]', '[/font]');return(false)"><i class="fa fa-font fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[sub]', '[/sub]');return(false)"><i class="fa fa-subscript fa-fw"></i></button>
+							<button class="btn btn-default btn-xs" onClick="javascript:bbcode('[sup]', '[/sup]');return(false)"><i class="fa fa-superscript fa-fw"></i></button>
+						</div>
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" onClick='window.open("{{ path('gatsun_website_aide_bbcode') }}","","width=720,height=400");'><i class="fa fa-info fa-fw"></i></button>
+						</div>
+					</p>
+					<p class="input-group">
+						<label for="form_contenu" class="input-group-addon">
+							<i class="fa fa-pencil fa-fw"></i>
+						</label>
+						{{ form_widget(form.contenu, { 'attr': {'placeholder': 'Texte…', 'class' : 'form-control'} }) }}
+					</p>
+				</div>
+				<div id="smileys" class="col-md-3">
+					<img src="{{ asset('images/smileys/tres_heureux.png') }}" title="Très Heureux" alt=":)" onClick="javascript:smilies(':D');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/sourire.gif') }}" title="Sourire" alt=":D" onClick="javascript:smilies(':)');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/triste.gif') }}" title="Triste" alt=":(" onClick="javascript:smilies(':(');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/surpris.gif') }}" title="Surpris" alt=":o" onClick="javascript:smilies(':o');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/choque.gif') }}" title="Choqué" alt=":shock:" onClick="javascript:smilies(':shock:');return(false)" />
+					<img src="{{ asset('images/smileys/cool.gif') }}" title="Cool" alt="8)" onClick="javascript:smilies('8)');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/rire.gif') }}" title="Rire" alt="lol" onClick="javascript:smilies(':lol:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/agressif.gif') }}" title="Agressif" alt=":x" onClick="javascript:smilies(':x');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/langue.gif') }}" title="Tire la langue" alt=":P" onClick="javascript:smilies(':P');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/oups.gif') }}" title="Embarassé" alt=":oops:" onClick="javascript:smilies(':oops:');return(false)" />
+					<img src="{{ asset('images/smileys/pleure.gif') }}" title="Pleure" alt=":cry:" onClick="javascript:smilies(':cry:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/fache.gif') }}" title="F&acirc;ché" alt=":evil:" onClick="javascript:smilies(':evil:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/diable.gif') }}" title="Diable" alt=":twisted:" onClick="javascript:smilies(':twisted:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/yeux_roulants.gif') }}" title="Yeux roulants" alt=":roll:" onClick="javascript:smilies(':roll:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/clin_oeil.gif') }}" title="Clin d'œil" alt=";)" onClick="javascript:smilies(';)');return(false)" />
+					<img src="{{ asset('images/smileys/exclamation.gif') }}" title="Exclamation" alt=":!:" onClick="javascript:smilies(':!:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/interrogation.gif') }}" title="Interrogation" alt=":?:" onClick="javascript:smilies(':?:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/idee.png') }}" title="Idée" alt=":idea:" onClick="javascript:smilies(':idea:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/fleche.gif') }}" title="Flèche" alt=":arrow:" onClick="javascript:smilies(':arrow:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/neutre.gif') }}" title="Neutre" alt=":|" onClick="javascript:smilies(':|');return(false)" />
+					<img src="{{ asset('images/smileys/face.png') }}" title="Face" alt=":face:" onClick="javascript:smilies(':face:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/etoile.png') }}" title="Etoile" alt=":star:" onClick="javascript:smilies(':star:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/suspect.gif') }}" title="Suspect" alt=":suspect:" onClick="javascript:smilies(':suspect:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/coeur.png') }}" title="Cœur" alt=":heart:" onClick="javascript:smilies(':heart:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/non.gif') }}" title="Non" alt=":no:" onClick="javascript:smilies(':no:');return(false)" />
+					<img src="{{ asset('images/smileys/@.png') }}" title="@" alt=":@:" onClick="javascript:smilies(':@:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/cyclope.gif') }}" title="Cyclope" alt=":cyclops:" onClick="javascript:smilies(':cyclops:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/clown.png') }}" title="Clown" alt=":clown:" onClick="javascript:smilies(':clown:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/pirate.png') }}" title="Pirate" alt=":pirat:" onClick="javascript:smilies(':pirat:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/nyah-nyah.png') }}" title="Nyah-Nyah" alt=":tongue:" onClick="javascript:smilies(':tongue:');return(false)" />
+					<img src="{{ asset('images/smileys/silence.png') }}" title="Silence" alt=":silent:" onClick="javascript:smilies(':silent:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/pale.gif') }}" title="Pâle" alt=":pale:" onClick="javascript:smilies(':pale:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/alien.png') }}" title="Alien" alt=":alien:" onClick="javascript:smilies(':alien:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/chat.png') }}" title="Chat" alt=":cat:" onClick="javascript:smilies(':cat:');return(false)" />
+					<img src="{{ asset('images/smileys/singe.png') }}" title="Singe" alt=":monkey:" onClick="javascript:smilies(':monkey:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/cochon.png') }}" title="Cochon" alt=":pig:" onClick="javascript:smilies(':pig:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/lapin.png') }}" title="Lapin" alt=":rabbit:" onClick="javascript:smilies(':rabbit:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/bong.gif') }}" title="Bong" alt=":bounce:" onClick="javascript:smilies(':bounce:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/confus.png') }}" title="Confus" alt=":confused:" onClick="javascript:smilies(':confused:');return(false)" />
+					<img src="{{ asset('images/smileys/effraye.gif') }}" title="Effrayé" alt=":affraid:" onClick="javascript:smilies(':affraid:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/basketball.gif') }}" title="BasketBall" alt=":bball:" onClick="javascript:smilies(':bball:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/bravo.png') }}" title="Bravo" alt=":cheers:" onClick="javascript:smilies(':cheers:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/bebe.png') }}" title="Bébé" alt=":bom:" onClick="javascript:smilies(':bom:');return(false)" />
+					<img src="{{ asset('images/smileys/bourre.png') }}" title="Bourré" alt=":drunken:" onClick="javascript:smilies(':drunken:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/endormi.gif') }}" title="Endormi" alt=":sleep:" onClick="javascript:smilies(':sleep:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/soleil.png') }}" title="Soleil" alt=":sunny:" onClick="javascript:smilies(':sunny:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/albinos.png') }}" title="Lapin Albinos" alt=":albino:" onClick="javascript:smilies(':albino:');return(false)" />
+					<img src="{{ asset('images/smileys/cerise.png') }}" title="Cerise" alt=":cherry:" onClick="javascript:smilies(':cherry:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/pere_noel.png') }}" title="Père Noël" alt=":santa:" onClick="javascript:smilies(':santa:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/renne.png') }}" title="Renne" alt=":rendeer:" onClick="javascript:smilies(':rendeer:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/pharaon.png') }}" title="Pharaon" alt=":farao:" onClick="javascript:smilies(':farao:');return(false)" />
+					<img src="{{ asset('images/smileys/roi.png') }}" title="Roi" alt=":king:" onClick="javascript:smilies(':king:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/reine.png') }}" title="Reine" alt=":queen:" onClick="javascript:smilies(':queen:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/joker.png') }}" title="Joker" alt=":joker:" onClick="javascript:smilies(':joker:');return(false)" />
+					<img src="{{ asset('images/smileys/geek.png') }}" title="Geek" alt=":geek:" onClick="javascript:smilies(':geek:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/gratte.png') }}" title="Gratte" alt=":scratch" onClick="javascript:smilies(':scratch:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/etudie.png') }}" title="Etudie" alt=":study:" onClick="javascript:smilies(':study:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/elephant.png') }}" title="Eléphant" alt=":elephant:" onClick="javascript:smilies(':elephant:');return(false)" />
+					<img src="{{ asset('images/smileys/fleur.png') }}" title="Fleur" alt=":flower:" onClick="javascript:smilies(':flower:');return(false)" />&nbsp;
+					<img src="{{ asset('images/smileys/afro.png') }}" title="Afro" alt=":afro:" onClick="javascript:smilies(':afro:');return(false)" />
+					<img src="{{ asset('images/smileys/lol.gif') }}" title="Lol!" alt=":lol!:" onClick="javascript:smilies(':lol!:');return(false)" />
+				</div>
+			</p>
+			<p>
+				{{ form_errors(form.podcast) }}
+				<div class="input-group">
+					<label for="form_podcast" class="input-group-addon">
+						<i class="fa fa-headphones fa-fw"></i>
+					</label>
+					{{ form_widget(form.podcast, { 'attr': {'placeholder': 'Lien vers le podcast', 'class' : 'form-control'} }) }}
+				</div>
+			</p>
+			{{ form_widget(form._token) }}
+			<p>
+				<input type="submit" class="btn btn-default btn-primary" value="Ajouter" />
+			</p>
+		</form>
+		
+	</section>
+	
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+function bbcode ( bbdebut, bbfin )
+{
+	var input = document.getElementById ( "form_contenu" );
+	input.focus ( );
+	if( typeof document.selection != "undefined" )
+	{
+		var range = document.selection.createRange ( );
+		var insText = range.text;
+		range.text = bbdebut + insText + bbfin;
+		range = document.selection.createRange ( );
+		if ( insText.length == 0 )
+		{
+			range.move ( "character", -bbfin.length );
+		}
+		else
+		{
+			range.moveStart ( "character", bbdebut.length + insText.length + bbfin.length );
+		}
+		range.select ( );
+	}
+	else if ( typeof input.selectionStart != "undefined" )
+	{
+		var start = input.selectionStart;
+		var end = input.selectionEnd;
+		var insText = input.value.substring ( start, end );
+		input.value = input.value.substr ( 0, start ) + bbdebut + insText + bbfin + input.value.substr ( end );
+		var pos;
+		if ( insText.length == 0 )
+		{
+			pos = start + bbdebut.length;
+		}
+		else
+		{
+			pos = start + bbdebut.length + insText.length + bbfin.length;
+		}
+		input.selectionStart = pos;
+		input.selectionEnd = pos;
+	}
+	else
+	{
+		var pos;
+		var re = new RegExp ( "^[0-9]{0,3}$" );
+		while ( !re.test ( pos ) )
+		{
+			pos = prompt ( "insertion (0.." + input.value.length + "):", "0" );
+		}
+		if ( pos > input.value.length )
+		{
+			pos = input.value.length;
+		}
+		var insText = prompt ( "Veuillez taper le texte" );
+		input.value = input.value.substr ( 0, pos ) + bbdebut + insText + bbfin + input.value.substr ( pos );
+	}
+}
+
+function smilies ( img )
+{
+	document.getElementById ( "form_contenu" ).value += "" + img + "";
+}
+</script>
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/ajouterPublication.css') }}" />
+{% endblock %}

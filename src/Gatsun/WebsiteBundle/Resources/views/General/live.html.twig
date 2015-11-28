@@ -1,0 +1,361 @@
+{% extends "::base.html.twig" %}
+{% block title %}Live &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+    <section>
+        <h1>Live</h1>
+
+        <div class="card-panel">
+            <div id="imagePlayer" class="live left">
+                <img class="media-object"
+                     src="{{ emissionCourante is not null ? asset( emissionCourante.vignette) : asset('images/header.png') }}"/>
+            </div>
+            <div class="live media-body">
+                <p id="infosPlayer">
+                    {% if emissionCourante is not null %}
+                        {{ emissionCourante.heureDebut|date('H:i') }} &rarr; {{ emissionCourante.heureFin|date('H:i') }} :
+                        <strong>{{ emissionCourante.nom }}</strong><br/>
+                        <em>{{ emissionCourante.description }}</em>
+                    {% else %}
+                        <strong>La playlist Gatsun</strong><br/>
+                        <em>En attendant les prochaines émissions.</em>
+                    {% endif %}
+                </p>
+
+                <p id="lecteur">
+                    <audio controls="controls" autoplay="autoplay">
+                        <source src="http://gatsun-server.insa-lyon.fr/live_proxy" type="audio/mpeg"/>
+                        <embed height="34" width="530" src="http://gatsun-server.insa-lyon.fr/live_proxy"></embed>
+                    </audio>
+                </p>
+            </div>
+            <aside>
+                Si le lecteur ne s'affiche pas : <a href="http://gatsun-server.insa-lyon.fr/live_proxy">Lien
+                    direct</a>
+            </aside>
+            {#% endif %#}
+        </div>
+    </section>
+    <section>
+        <h3>Commentaires</h3>
+
+        <div class="card-panel">
+            <div id="alert"></div>
+            {% if app.user == null %}
+                <p><em class="avertissement">Inscrivez-vous ou connectez-vous pour publier des commentaires !</em></p>
+            {% else %}
+                <form action="" method="post" id="texteCommentaire">
+                    {# Boutons BBCode #}
+
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[b]', '[/b]');return(false)">
+                            <i class="material-icons">format_bold</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[i]', '[/i]');return(false)">
+                            <i class="material-icons">format_italic</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[u]', '[/u]');return(false)">
+                            <i class="material-icons">format_underlined</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[s]', '[/s]');return(false)">
+                            <i class="material-icons">format_strikethrough</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[left]', '[/left]');return(false)">
+                            <i class="material-icons">format_align_left</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[center]', '[/center]');return(false)">
+                            <i class="material-icons">format_align_center</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[right]', '[/right]');return(false)">
+                            <i class="material-icons">format_align_right</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[justified]', '[/justified]');return(false)">
+                            <i class="material-icons">format_align_justify</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[list][*]', '\n[/list]');return(false)">
+                            <i class="material-icons">format_list_bulleted</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[list=1][*]', '\n[/list]');return(false)">
+                            <i class="material-icons">format_list_numbered</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[hr]', '');return(false)">
+                            <i class="material-icons">remove</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[quote=Auteur]', '[/quote]');return(false)">
+                            <i class="material-icons">format_quote</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[table][tr][td]', '[/td][/tr][/table]');return(false)">
+                            <i class="material-icons">grid_on</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[img]', '[/img]');return(false)">
+                            <i class="material-icons">insert_photo</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[url=http://url/]', '[/url]');return(false)">
+                            <i class="material-icons">insert_link</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[video]', '[/video]');return(false)">
+                            <i class="material-icons">movie_creation</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[size=Valeurpx]', '[/size]');return(false)">
+                            <i class="material-icons">format_size</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[color=Nom]', '[/color]');return(false)">
+                            <i class="material-icons">format_color_text</i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[font=Nom]', '[/font]');return(false)">
+                            <i class="material-icons">font_download</i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[sub]', '[/sub]');return(false)"><i
+                                    class="fa fa-subscript fa-fw"></i>
+                        </button>
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick="bbcode('[sup]', '[/sup]');return(false)"><i
+                                    class="fa fa-superscript fa-fw"></i>
+                        </button>
+                    </div>
+                    <div class="inline-block">
+                        <button class="waves-effect waves-teal btn-flat"
+                                onClick='window.open("{{ path('gatsun_website_aide_bbcode') }}","","width=720,height=400");'>
+                            <i class="material-icons">help_outline</i>
+                        </button>
+                    </div>
+
+
+                    <div class="input-field">
+                        <textarea id="texte" class="materialize-textarea" onkeypress="gestion_entree(event);"
+                                  required="required"></textarea>
+                        <label for="texte">Commentaire</label>
+                        <button class="btn waves-effect waves-light" onClick="commenter()"
+                                id="boutonCommenter">
+                            Envoyer
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+
+                </form>
+            {% endif %}
+        </div>
+        <div id="commentaires">
+            {{ render(controller('GatsunWebsiteBundle:Ajax:rafraichirCommentaires', { 'page': 'live' })) }}
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var timerLecteur;
+        var reponseLecteur;
+        var timerCommentaires;
+
+        function rafraichirLecteur() {
+            try {
+                xhrLecteur = new ActiveXObject("Microsoft.XMLHTTP");	// tenter IE
+            }
+            catch (e)	// en cas d'échec
+            {
+                xhrLecteur = new XMLHttpRequest();	// autres navigateurs
+            }
+
+            xhrLecteur.onreadystatechange = function () {
+                if (xhrLecteur.readyState == 4 && xhrLecteur.status == 200) {
+                    var reponse = xhrLecteur.responseText;
+                    if (reponse != reponseLecteur) {
+                        var image = reponse.substring(0, reponse.indexOf("/>") + 2);
+                        var texte = reponse.substring(image.length + 1, reponse.length);
+                        document.getElementById("imagePlayer").innerHTML = image;
+                        document.getElementById("infosPlayer").innerHTML = texte;
+                        reponseLecteur = reponse;
+                    }
+                }
+            };
+
+            xhrLecteur.open("GET", "../ajax/rafraichirLecteur.php", true);
+            xhrLecteur.send(null);
+        }
+
+        function rafraichirCommentaires() {
+            $.ajax({
+                url: "{{ path('gatsun_website_ajax_commentaires_rafraichir', { 'page': 'live' }) }}",
+                method: "GET"
+            }).done(function (html) {
+                var commentaires = $("#commentaires");
+                if (html != commentaires.html()) {
+                    commentaires.html(html);
+                }
+            });
+        }
+
+        function commenter() {
+            try {
+                xhrCom = new ActiveXObject("Microsoft.XMLHTTP");	// tenter IE
+            }
+            catch (e)	// en cas d'échec
+            {
+                xhrCom = new XMLHttpRequest();	// autres navigateurs
+            }
+
+            xhrCom.onreadystatechange = function () {
+                if (xhrCom.readyState == 4 && xhrCom.status == 200) {
+                    rafraichirCommentaires();
+                    document.getElementById("texte").disabled = false;
+                    document.getElementById("boutonCommenter").disabled = false;
+                }
+            };
+            var texte = document.getElementById("texte").value;
+            document.getElementById("texte").disabled = true;
+            document.getElementById("boutonCommenter").disabled = true;
+            document.getElementById("texte").value = "";
+            xhrCom.open("POST", "{{ path('gatsun_website_ajax_commentaires_ajouter') }}", true);
+            xhrCom.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhrCom.send("texte=" + encodeURIComponent(texte) + "&page=live");
+        }
+
+        function gestion_entree(e) {
+            var e = e || window.event;
+            var k = e.keyCode || e.which;
+            if (k == 13 && !e.shiftKey) {
+                commenter();
+                return false;
+            }
+            return true;
+        }
+
+        function moderer(id) {
+            // Popup de confirmation
+            if (confirm('Êtes-vous sur de vouloir modérer ce commentaire ?')) {
+                // Requête AJAX
+                $.ajax({
+                            url: "{{ path('gatsun_website_ajax_commentaires_moderer') }}?id=" + id + "&page=live",
+                            dataType: 'html',
+                            cache: false
+                        })
+                        .done(function (reponse) {
+                            // Rafraichissement des commentaires avec les nouvelles modifications
+                            rafraichirCommentaires();
+
+                            // Message : Succès !
+                            $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> Le commentaire sélectionnée a été correctement modéré.</div>');
+                        })
+                        .fail(function () {
+                            // Message : Erreur !
+                            $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la modération du commentaire.</div>');
+                        });
+            }
+        }
+
+        function supprimer(id) {
+            // Popup de confirmation
+            if (confirm('Êtes-vous sur de vouloir supprimer votre commentaire ?')) {
+                // Requête AJAX
+                $.ajax({
+                            url: "{{ path('gatsun_website_ajax_commentaires_supprimer') }}?id=" + id + "&page=live",
+                            dataType: 'html',
+                            cache: false
+                        })
+                        .done(function (reponse) {
+                            // Rafraichissement des commentaires avec les nouvelles modifications
+                            rafraichirCommentaires();
+
+                            // Message : Succès !
+                            $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> Votre commentaire a été correctement supprimé.</div>');
+                        })
+                        .fail(function () {
+                            // Message : Erreur !
+                            $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de votre commentaire.</div>');
+                        });
+            }
+        }
+
+        function autoDefil() {
+            timerLecteur = window.setInterval(function () {
+                rafraichirLecteur()
+            }, 30000);
+            timerCommentaires = window.setInterval(function () {
+                rafraichirCommentaires()
+            }, 5000);
+        }
+
+        /*** BBCODE ***/
+        function bbcode(bbdebut, bbfin) {
+            var input = document.getElementById ("texte");
+            input.focus ();
+            if (typeof document.selection != "undefined") {
+                var range = document.selection.createRange ();
+                var insText = range.text;
+                range.text = bbdebut + insText + bbfin;
+                range = document.selection.createRange ();
+                if (insText.length == 0) {
+                    range.move ("character", -bbfin.length);
+                }
+                else {
+                    range.moveStart ("character", bbdebut.length + insText.length + bbfin.length);
+                }
+                range.select ();
+            }
+            else if (typeof input.selectionStart != "undefined") {
+                var start = input.selectionStart;
+                var end = input.selectionEnd;
+                var insText = input.value.substring (start, end);
+                input.value = input.value.substr (0, start) + bbdebut + insText + bbfin + input.value.substr (end);
+                var pos;
+                if (insText.length == 0) {
+                    pos = start + bbdebut.length;
+                }
+                else {
+                    pos = start + bbdebut.length + insText.length + bbfin.length;
+                }
+                input.selectionStart = pos;
+                input.selectionEnd = pos;
+            }
+            else {
+                var pos;
+                var re = new RegExp("^[0-9]{0,3}$");
+                while (!re.test (pos)) {
+                    pos = prompt("insertion (0.." + input.value.length + "):", "0");
+                }
+                if (pos > input.value.length) {
+                    pos = input.value.length;
+                }
+                var insText = prompt("Veuillez taper le texte");
+                input.value = input.value.substr (0, pos) + bbdebut + insText + bbfin + input.value.substr (pos);
+            }
+        }
+    </script>
+
+    <script language="javascript">
+        {#% if ("now"|date("U") < 1398981600) and ("now"|date("U") > 1383591600) %#}
+        //rafraichirLecteur();
+        {#% endif %#}
+        //rafraichirCommentaires();
+        //autoDefil();
+    </script>
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/live.css') }}"/>
+{% endblock %}

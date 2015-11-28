@@ -1,0 +1,9 @@
+parameters:
+#    gatsun_website.example.class: Gatsun\WebsiteBundle\Example
+
+services:
+    twig.extension.gatsun_extension:
+        class: Gatsun\WebsiteBundle\Twig\GatsunExtension
+        public: false
+        tags:
+            - { name: twig.extension }

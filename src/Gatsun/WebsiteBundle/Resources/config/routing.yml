@@ -1,0 +1,179 @@
+# Général
+
+gatsun_website_homepage:
+    path:  /
+    defaults: { _controller: GatsunWebsiteBundle:General:index }
+
+gatsun_website_live:
+    path:  /live
+    defaults: { _controller: GatsunWebsiteBundle:General:live }
+
+gatsun_website_emissions:
+    path:  /emissions
+    defaults: { _controller: GatsunWebsiteBundle:General:emissions }
+
+gatsun_website_programme:
+    path:  /programme
+    defaults: { _controller: GatsunWebsiteBundle:General:programme }
+
+gatsun_website_radio:
+    path:  /la-radio
+    defaults: { _controller: GatsunWebsiteBundle:General:radio }
+
+gatsun_website_vignette:
+    path: /vignette
+    defaults: { _controller: GatsunWebsiteBundle:General:vignette }
+
+gatsun_website_conditions:
+    path: /conditions-utilisation
+    defaults: { _controller: GatsunWebsiteBundle:General:conditionsUtilisation }
+
+# Aide
+
+gatsun_website_aide_bbcode:
+    path: /aide/bbcode
+    defaults: { _controller: GatsunWebsiteBundle:General:aidebbcode }
+
+# Utilisateurs
+
+gatsun_website_connexion:
+    path:   /utilisateur/connexion
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:connexion }
+
+gatsun_website_verif_connexion:
+    path:   /utilisateur/verifConnexion
+
+gatsun_website_deconnexion:
+    path:   /utilisateur/deconnexion
+
+gatsun_website_inscription:
+    path:   /utilisateur/inscription
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:inscription }
+
+gatsun_website_inscription_confirmation:
+    path:   /utilisateur/inscription/confirmation/{code}
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:confirmation }
+
+gatsun_website_utilisateur_modifier:
+    path:   /utilisateur/modifier/{nom}
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:modifier }
+
+gatsun_website_utilisateur_bannir:
+    path:   /utilisateur/bannir/{nom}
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:bannir }
+
+gatsun_website_utilisateur_debannir:
+    path:   /utilisateur/debannir/{nom}
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:debannir }
+
+gatsun_website_utilisateur_supprimer_avatar:
+    path:   /utilisateur/supprimerAvatar
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:supprimerAvatar }
+
+gatsun_website_utilisateur:
+    path:   /utilisateur/{nom}
+    defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:voir }
+
+# Publications
+
+gatsun_website_publication:
+    path:  /publication/{id}
+    defaults: { _controller: GatsunWebsiteBundle:Publication:voir }
+    requirements:
+        id:  \d+
+
+gatsun_website_publication_ajouter:
+    path:  /publication/ajouter
+    defaults: { _controller: GatsunWebsiteBundle:Publication:ajouter }
+
+gatsun_website_publication_modifier:
+    path:  /publication/modifier/{id}
+    defaults: { _controller: GatsunWebsiteBundle:Publication:modifier }
+    requirements:
+        id:  \d+
+
+gatsun_website_publication_supprimer:
+    path:  /publication/supprimer/{id}
+    defaults: { _controller: GatsunWebsiteBundle:Publication:supprimer }
+    requirements:
+        id:  \d+
+
+# Émissions
+
+gatsun_website_emission:
+   path:  /emission/{id}
+   defaults: { _controller: GatsunWebsiteBundle:Emission:voir }
+   requirements:
+       id:  \d+
+
+gatsun_website_emission_ajouter:
+   path:  /emission/ajouter
+   defaults: { _controller: GatsunWebsiteBundle:Emission:ajouter }
+
+gatsun_website_emission_modifier:
+   path:  /emission/modifier/{id}
+   defaults: { _controller: GatsunWebsiteBundle:Emission:modifier }
+   requirements:
+       id:  \d+
+
+gatsun_website_emission_supprimer:
+   path:  /emission/supprimer/{id}
+   defaults: { _controller: GatsunWebsiteBundle:Emission:supprimer }
+   requirements:
+       id:  \d+
+
+#Vignettes
+
+gatsun_website_vignette_ajouter:
+   path:  /vignette/ajouter
+   defaults: { _controller: GatsunWebsiteBundle:Vignette:ajouter }
+
+gatsun_website_vignette_modifier:
+   path:  /vignette/modifier/{id}
+   defaults: { _controller: GatsunWebsiteBundle:Vignette:modifier }
+   requirements:
+       id:  \d+
+
+gatsun_website_vignette_supprimer:
+   path:  /vignette/supprimer/{id}
+   defaults: { _controller: GatsunWebsiteBundle:Vignette:supprimer }
+
+#Ajax
+
+gatsun_website_ajax_commentaires_rafraichir:
+    path: /ajax/rafraichirCommentaires/{page}
+    defaults: { _controller: GatsunWebsiteBundle:Ajax:rafraichirCommentaires }
+
+gatsun_website_ajax_commentaires_ajouter:
+    path: /ajax/commenter
+    defaults: { _controller: GatsunWebsiteBundle:Ajax:ajouterCommentaire }
+
+gatsun_website_ajax_commentaires_moderer:
+    path: /ajax/moderer
+    defaults: { _controller: GatsunWebsiteBundle:Ajax:modererCommentaire }
+
+gatsun_website_ajax_commentaires_supprimer:
+    path: /ajax/supprimer
+    defaults: { _controller: GatsunWebsiteBundle:Ajax:supprimerCommentaire }
+
+#Admin
+
+gatsun_website_admin_vignettes:
+   path:  /admin/vignettes
+   defaults: { _controller: GatsunWebsiteBundle:Admin:vignettes }
+
+gatsun_website_admin_emissions:
+   path:  /admin/emissions
+   defaults: { _controller: GatsunWebsiteBundle:Admin:emissions }
+
+gatsun_website_admin_publications:
+   path:  /admin/publications
+   defaults: { _controller: GatsunWebsiteBundle:Admin:publications }
+
+gatsun_website_admin_commentaires_live:
+   path:  /admin/commentaires/live
+   defaults: { _controller: GatsunWebsiteBundle:Admin:commentairesLive }
+
+gatsun_website_admin_utilisateurs:
+   path:  /admin/utilisateurs
+   defaults: { _controller: GatsunWebsiteBundle:Admin:utilisateurs }

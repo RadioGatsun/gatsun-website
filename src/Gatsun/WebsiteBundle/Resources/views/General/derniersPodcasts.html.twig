@@ -1,0 +1,3 @@
+{% for podcast in podcasts %}
+    → <a href="{{ path('gatsun_website_publication', {'id': podcast.id}) }}">{{podcast.titre}}</a><br />
+{% endfor %}

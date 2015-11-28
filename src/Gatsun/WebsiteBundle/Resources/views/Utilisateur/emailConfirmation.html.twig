@@ -1,0 +1,27 @@
+{% extends "::email.html.twig" %}
+{% block title %}Confirmation de l'inscription &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+	<div id="section">
+	    <h1>Confirmation de l'inscription</h1>
+	    <div>
+	    	<p>
+	    		Bonjour {{ utilisateur.username }},
+	    	</p>
+	    	<p>
+	    		Votre inscription sur le site Internet de Radio Gatsun a bien été prise en compte.
+	    	</p>
+	    	<p>
+	    		Néanmoins, vous devez valider votre inscription en cliquant sur le lien ci-dessous :
+	    	</p>
+	    	<p>
+	    		<a href="{{ url('gatsun_website_inscription_confirmation', {'code': utilisateur.confirmation}) }}">
+	    			{{ url('gatsun_website_inscription_confirmation', {'code': utilisateur.confirmation}) }}
+	    		</a>
+	    	</p>
+	    	<p>
+	    		À très bientôt sur Radio Gatsun !
+	    	</p>
+
+	    </div>
+	</div>
+{% endblock %}

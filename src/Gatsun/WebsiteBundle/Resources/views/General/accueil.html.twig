@@ -1,0 +1,155 @@
+{% extends "::base.html.twig" %}
+{% block title %}Accueil &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+    <div class="slider">
+        <ul class="slides">
+            {% for vignette in listeVignettes %}
+                <li>
+                    <img src="{{ asset('images/vignettes/' ~ vignette.image) }}"> <!-- random image -->
+                    <div class="caption center-align">
+                        <h3>{{ vignette.titre }}</h3>
+                        <h5 class="light grey-text text-lighten-3">{{ vignette.description }}</h5>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col s12 m12 l6">
+                <h4>Actualités</h4>
+                {% if is_granted('ROLE_MEMBRE') %}
+                    <a href="{{ path('gatsun_website_publication_ajouter') }}"
+                       class="waves-effect waves-light btn green">
+                        <i class="material-icons left">add</i>
+                        Ajouter un article
+                    </a>
+                {% endif %}
+
+                {% for publication in publications %}
+                    <div class="card hoverable">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="{{ asset(publication.vignette) }}">
+                            <span class="card-title activator">{{ publication.titre }}</span>
+                        </div>
+                        <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ publication.titre }}<i
+                                    class="material-icons right">close</i></span>
+                            <aside>Par {{ publication.utilisateur.username }},
+                                le {{ publication.date|date('d/m/Y') }}</aside>
+                            <p>
+                                {% spaceless %}
+                                    {{ publication.contenu|code|striptags|slice(0, 255) }}
+                                    {% if publication.contenu|length > 255 %}
+                                        …
+                                    {% endif %}
+                                {% endspaceless %}
+                            </p>
+
+                            <div class="card-action">
+                                <a href="{{ path('gatsun_website_publication', {'id': publication.id}) }}">
+                                    {% if publication.contenu|length > 255 %}
+                                        Suite et commentaires&hellip;
+                                    {% else %}
+                                        Commentaires&hellip;
+                                    {% endif %}
+                                </a>
+                                {% if is_granted('ROLE_ADMIN') or publication.utilisateur == app.user %}
+                                    <a href="{{ path('gatsun_website_publication_supprimer', {'id': publication.id}) }}">
+                                        Supprimer
+                                    </a>
+                                    <a href="{{ path('gatsun_website_publication_modifier', {'id': publication.id}) }}">
+                                        Modifier
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    Pas de publications.
+                {% endfor %}
+            </div>
+
+            <div class="col s12 m12 l6">
+                <h4>À suivre</h4>
+
+                <div class="row">
+                    {% for emission in listeEmissions %}
+                        <div class="col s6 m6 l6">
+                            <div class="card hoverable">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator"
+                                         src="{{ emission.vignette ? asset(emission.vignette) : asset('images/header.png') }}">
+                            <span class="card-title activator">
+                                {% if "now"|date('N') != emission.jour.id %}
+                                    {{ emission.jour.libelle }},
+                                {% elseif date() >= emission.heureDebut and date() <= emission.heureFin %}
+                                    <strong>EN DIRECT</strong>
+                                {% endif %}
+                                {{ emission.heureDebut|date('H\\hi') }}
+                            </span>
+                                </div>
+                                <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">{{ emission.nom }}<i
+                                            class="material-icons right">close</i></span>
+
+                                    <p>
+                                        {{ emission.jour.libelle }},
+                                        {{ emission.heureDebut|date('H\\hi') }}.
+                                        {#Présenté par Thomas, Denis, Quentin et Dorian.#}
+                                    </p>
+
+                                    <p>{{ emission.description }}</p>
+
+                                    <div class="card-action">
+                                        <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">L'émission</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h4>Réseaux sociaux</h4>
+
+                <div class="card-panel card-facebook">
+                    <div class="fb-page" data-href="https://www.facebook.com/RadioGatsun" data-small-header="true"
+                         data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"
+                         data-show-posts="false">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/RadioGatsun"><a
+                                        href="https://www.facebook.com/RadioGatsun">Radio Gatsun</a></blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-panel card-twitter">
+                    <h4>
+                        Radio Gatsun<br/>
+                        sur Twitter
+                    </h4>
+
+                    <p>
+                        <a href="https://twitter.com/RadioGatsun" class="twitter-follow-button"
+                           data-size="large"
+                           data-width="292" data-align="center" data-lang="fr">Suivre @RadioGatsun</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.slider').slider({
+                height: 'auto'
+            });
+        });
+    </script>
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/accueil.css') }}"/>
+{% endblock %}

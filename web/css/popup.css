@@ -1,0 +1,32 @@
+@font-face { font-family: 'Script MT Bold'; 
+			 src: url('../fonts/script_mt_bold.eot'); 
+			 src: url('../fonts/script_mt_bold.eot?#iefix') format('embedded-opentype'), 
+			 	  url('../fonts/script_mt_bold.svg#Script MT Bold') format('svg'), 
+			 	  url('../fonts/script_mt_bold.woff') format('woff'), 
+			 	  url('../fonts/script_mt_bold.ttf') format('truetype'); 
+			 font-weight: normal; 
+			 font-style: normal;}
+body 
+{
+
+}
+
+h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
+{
+	font-family: 'Script MT Bold', serif;
+	color: #EB9723;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-decoration: none;
+}
+
+.btn-xs img
+{
+	max-height: 16px;
+	vertical-align: top;
+}
+
+section
+{
+	margin-bottom: 0px !important;
+}

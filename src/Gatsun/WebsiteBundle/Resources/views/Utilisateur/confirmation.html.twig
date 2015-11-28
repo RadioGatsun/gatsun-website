@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+{% block title %}Inscription &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+	<section class="panel panel-default">
+		<div class="panel-heading">
+	    	<h1>Inscription</h1>
+	    </div>
+	    <div class="panel-body">
+	    	<p>
+	    		Félicitations {{ utilisateur.username }} !
+	    	</p>
+	    	<p>
+	    		Merci d'avoir confirmé votre inscription sur le site Internet de Radio Gatsun !
+	    	</p>
+	    	<p>
+	    		Vous pouvez maintenant vous <a href="{{ path('gatsun_website_connexion') }}">connecter</a> à l'aide du pseudo et du mot de passe saisis lors de l'inscription.
+	    	</p>
+	    	<p>
+	    		À très bientôt sur Radio Gatsun !
+	    	</p>
+
+	    </div>
+	</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "::base.html.twig" %}
+{% block title %}Vignettes &ndash; Administration &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+<section class="panel panel-default">
+	<div class="panel-heading">
+		<h1>Vignettes &ndash; Administration</h1>
+	</div>
+	<div class="panel-body">
+		<div id="alert"></div>
+		<a href="{{ path('gatsun_website_vignette_ajouter') }}"class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-plus"></span> Ajouter une vignette</a>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Titre</th>
+					<th>Description</th>
+					<th>Image</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for vignette in vignettes %}			
+					<tr>
+						<td>{{ vignette.id }}</td>
+						<td>{{ vignette.titre }}</td>
+						<td>{{ vignette.description }}</td>
+						<td><img src="{{ asset('images/vignettes/' ~ vignette.image) }}"/></td>
+						<td class="btn-group-vertical">
+							<a href="{{ path('gatsun_website_vignette_modifier', {'id': vignette.id}) }}" class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>
+							<a href="#" onClick="confirmerSuppression('{{ path('gatsun_website_vignette_supprimer', {'id': vignette.id}) }}')" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4">Pas de vignette</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+
+function confirmerSuppression(route)
+{
+	// Popup de confirmation
+	if(confirm('Êtes-vous sur de vouloir supprimer cette vignette ?'))
+	{
+		// Requête AJAX
+		$.ajax({
+	        url: route,
+	        dataType: 'html',
+	        cache: false
+	    })
+	    .done(function(reponse) {
+	    	// Rafraîchir le corps du tableau (tbody)
+	        $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
+	        // Message : Succès !
+	        $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> La vignette sélectionnée a été correctement supprimée.</div>');
+	    })
+	    .fail(function()
+	    {
+	    	// Message : Erreur !
+	    	$('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de la vignette.</div>');
+	    });
+	}
+
+	return false;
+}
+</script>
+{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}

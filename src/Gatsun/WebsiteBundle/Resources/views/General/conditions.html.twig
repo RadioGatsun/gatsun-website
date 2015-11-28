@@ -1,0 +1,412 @@
+{% extends "::base.html.twig" %}
+{% block title %}Conditions d'utilisation &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+    <section>
+        <h1>Conditions d'utilisation</h1>
+        <ul class="collapsible popout" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><h4>Charte de bonne conduite</h4></div>
+                <div class="collapsible-body">
+                    <ul class="collapsible" data-collapsible="accordion">
+                        <li>
+                            <div class="collapsible-header"><h5>Préambule</h5></div>
+                            <div class="collapsible-body">
+                                <p>Cette charte vous informe des règles minimum à respecter
+                                    dans le cas où vous publieriez du contenu (commentaires de publications, podcasts,
+                                    émissions en live, etc.) sur le site Internet de Radio Gatsun. Elles sont
+                                    applicables à tout utilisateur enregistré sur le site Internet de Radio Gatsun.
+                                </p>
+
+                                <p>
+                                    Les sanctions éventuelles seront prises par les modérateurs, l’équipe Web de Radio
+                                    Gatsun.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Article 1</h5></div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Vous devez respecter des règles élémentaires de politesse. Quel que soit le sujet,
+                                    <strong>vous ne devez pas en venir aux insultes</strong>. Si vous avez un différend
+                                    à régler, faites remonter le problème aux modérateurs dans la rubrique « Contact ».
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Article 2</h5></div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Vous devez <strong>écrire avec une orthographe convenable</strong>. Respectez ceux
+                                    qui liront vos messages, faites l'effort de les écrire correctement. Les excuses du
+                                    type "Ouais je ne fais pas attention j'écris vite" ne seront <strong>PAS</strong>
+                                    admises. Par conséquent, les messages écrits en "SMS" seront systématiquement
+                                    supprimés.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Article 3</h5></div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Nous vous recommandons fortement d'<strong>éviter d'ouvrir des sujets portant à
+                                        polémique</strong> (appelés "trolls"). Quelques exemples de trolls classiques à
+                                    éviter : « Telle émission est meilleure qu’une autre ! », « Ce mec à le charisme
+                                    d’une huître ! ». Si vous repérez un sujet à troll, avertissez les modérateurs via
+                                    la rubrique « Contact », mais ne postez pas afin de ne pas alimenter la discussion.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Article 4</h5></div>
+                            <div class="collapsible-body">
+                                <p>
+                                    <strong>Les modérateurs et les administrateurs sont seuls juges.</strong> Ce sont
+                                    eux qui décident des commentaires qui doivent être fermés ou supprimés. Vous devez
+                                    respecter leurs remarques, sans quoi vous pourriez être banni du site selon la
+                                    gravité de votre faute.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Article 5</h5></div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Il est <strong>interdit de flooder</strong>. Cela signifie que vous ne devez pas
+                                    poster plusieurs messages d'affilée. Utilisez la fonction "Supprimer" si vous avez
+                                    fait une erreur.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><h5>Sanctions applicables</h5></div>
+                            <div class="collapsible-body">
+                                <h6>Avertissement</h6>
+
+                                <p>
+                                    Si vous recevez un jour un avertissement, vous en serez tout de suite informé par
+                                    l’envoi d’un e-mail (l’adresse saisie lors de l’inscription). L’avertissement est un
+                                    simple « rappel à l’ordre », vous aurez toujours accès aux mêmes fonctionnalités.
+                                    Vous disposez de 2 avertissements avant d’encourir une sanction plus importante.
+                                </p>
+
+                                <h6>Banissement</h6>
+
+                                <p>
+                                    Le bannissement consiste à bloquer entièrement l'accès au site à un membre. Cette
+                                    sanction n'est appliquée que dans les cas les plus graves. Cette sanction peut être
+                                    temporaire ou permanente selon la faute que vous avez commise.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><h4>Charte des données personnelles</h4></div>
+                <div class="collapsible-body">
+                    <p>
+                        Lors de l’utilisation et de l’inscription sur le site Internet de Radio Gatsun, son éditeur,
+                        l’association « Gatsun », recueille des données personnelles concernant ses utilisateurs.
+                    </p>
+                    <ul class="collapsible" data-collapsible="accordion">
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    La Définition des données personnelles des utilisateurs du site Internet de Radio
+                                    Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Le second alinéa de l’article 2 de la Loi du 6 janvier 1978 définit les données
+                                    personnelles comme :
+                                </p>
+
+                                <p>
+                                    <em>« toute information relative à une personne physique identifiée ou qui peut être
+                                        identifiée, directement ou indirectement, par référence à un numéro
+                                        d'identification ou à un ou plusieurs éléments qui lui sont propres. Pour
+                                        déterminer si une personne est identifiable, il convient de considérer
+                                        l'ensemble des moyens en vue de permettre son identification dont dispose ou
+                                        auxquels peut avoir accès le responsable du traitement ou toute autre personne
+                                        ».</em>
+                                </p>
+
+                                <p>
+                                    Toute information qui permet d’identifier directement ou indirectement les
+                                    utilisateurs du site Internet de Radio Gatsun constitue donc une donnée personnelle
+                                    : pseudo, nom, prénom, numéro de téléphone, adresse e-mail, adresse IP…
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Les Finalités de la collecte des données personnelles des utilisateurs du Site
+                                    Internet de Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Gatsun collecte des données personnelles concernant les utilisateurs du Site
+                                    Internet de Radio Gatsun afin de leur permettre d’utiliser les différents services
+                                    proposés par le site, notamment pour participer aux différents jeux / concours à
+                                    l’antenne.
+                                </p>
+
+                                <p>
+                                    Les données concernant l’Utilisateur du Site Internet de Radio Gatsun peuvent être
+                                    également utilisées afin d’adresser aux membres la newsletter du Site Internet de
+                                    Radio Gatsun, à des fins statistiques destinées à mesurer la fréquentation du Site
+                                    Internet de Radio Gatsun ou encore pour cibler la publicité diffusée sur le Site
+                                    Internet de Radio Gatsun.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Le responsable de la collecte et du traitement des données personnelles des
+                                    utilisateurs du Site Internet de Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    L’association « Gatsun » est responsable de la collecte et du traitement des données
+                                    personnelles du Site Internet de Radio Gatsun qu’elle édite.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Les personnes qui accèdent aux données personnelles des utilisateurs du Site
+                                    Internet de Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Seul un nombre limité de personnes a accès aux données personnelles des utilisateurs
+                                    du Site Internet de Radio Gatsun.
+                                </p>
+
+                                <p>
+                                    Il s’agit des dirigeants et de l’équipe web de Gatsun, afin de garantir une veille
+                                    technique sur le site Internet.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Les données recueillies auprès des utilisateurs du Site Internet de Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Lorsqu’un internaute utilise le Site Internet de Radio Gatsun, Gatsun recueille
+                                    automatiquement son adresse IP.
+                                </p>
+
+                                <p>
+                                    Le site Internet de Radio Gatsun utilise la technologie des marqueurs (cookies) afin
+                                    d’améliorer la qualité du et mieux répondre aux attentes des utilisateurs, par
+                                    exemple en facilitant la navigation sur le site.
+                                </p>
+
+                                <p>
+                                    Un cookie est un fichier informatique que Gatsun envoie sur le disque dur de
+                                    l’ordinateur de l’utilisateur et qui permet de reconnaître son ordinateur et de se «
+                                    souvenir » des données émises ou saisies lors de la navigation effectuée sur le
+                                    site.
+                                </p>
+
+                                <p>
+                                    De manière générale, les cookies sont sans dommage pour le poste informatique des
+                                    utilisateurs qui est libre d’accepter ou refuser les cookies en configurant son
+                                    logiciel de navigation sur Internet. Pour ce faire, l’Utilisateur peut se rendre sur
+                                    le site de la Commission Nationale de l’Informatique et des Libertés (« CNIL ») à
+                                    l’adresse <a href="http://www.cnil.fr/vos-libertes/vos-traces/les-cookies/">http://www.cnil.fr/vos-libertes/vos-traces/les-cookies/</a>
+                                    qui explique comment effectuer une telle configuration.
+                                </p>
+
+                                <p>
+                                    Par ailleurs, certains services du Site Internet de Radio Gatsun sont réservés aux
+                                    seuls utilisateurs, dénommés les membres. Lorsqu’un utilisateur souhaite devenir
+                                    membre, il doit créer un compte au moyen du formulaire en ligne prévu à cet effet.
+                                </p>
+
+                                <p>
+                                    Les utilisateurs doivent mentionner obligatoirement dans ce formulaire :
+                                </p>
+                                <ul>
+                                    <li>Un pseudonyme ;</li>
+                                    <li>Une adresse de messagerie électronique ;</li>
+                                    <li>Un mot de passe.</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Les droits des utilisateurs du Site Internet de Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Les utilisateurs peuvent tout d’abord s’opposer, à la condition qu’ils justifient de
+                                    motifs légitimes, à ce que des données à caractère personnel les concernant fassent
+                                    l’objet d’un traitement par Gatsun.
+                                </p>
+
+                                <p>
+                                    Les utilisateurs peuvent ainsi refuser de communiquer les renseignements sollicités
+                                    par Gatsun lors de leur inscription sur le Site Internet de Radio Gatsun. Dans ce
+                                    cas, ils ne peuvent pas en devenir membre.
+                                </p>
+
+                                <p>
+                                    Par ailleurs, les utilisateurs peuvent à tout moment accéder aux informations
+                                    personnelles les concernant détenues par Gatsun et demander leur modification, leur
+                                    rectification ou leur suppression.
+                                </p>
+
+                                <p>
+                                    Cela signifie que les utilisateurs peuvent interroger Gatsun sur le point de savoir
+                                    si celle-ci détient des données personnelles les concernant puis, si c'est le cas,
+                                    demander que ces données leur soient communiquées.
+                                </p>
+
+                                <p>
+                                    En exerçant ce droit d'accès, les utilisateurs peuvent ainsi contrôler si les
+                                    données collectées qui les concernent sont exactes et, au besoin, peuvent demander à
+                                    Gatsun de rectifier, compléter, mettre à jour ou supprimer les données à caractère
+                                    personnel les concernant.
+                                </p>
+
+                                <p>
+                                    Il est cependant impératif que les utilisateurs exercent eux-mêmes ce droit en
+                                    précisant leurs nom et prénom, leur adresse e-mail et leur identifiant afin que
+                                    Gatsun puisse vérifier que les données personnelles en cause les concernent bien.
+                                </p>
+
+                                <p>
+                                    Pour exercer ces droits, les utilisateurs peuvent se servir du formulaire de contact
+                                    ou adresser un courrier à l’adresse suivante :
+                                </p>
+                                <address>
+                                    <strong>Association Gatsun</strong><br/>
+                                    20 Avenue Albert Einstein<br/>
+                                    RDC Bâtiment G-J<br/>
+                                    69621 Villeurbanne Cedex
+                                </address>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    La protection des données personnelles des utilisateurs du Site Internet de Radio
+                                    Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Gatsun prend les dispositions nécessaires pour que les données à caractère personnel
+                                    recueillies au moyen du Site Internet de Radio Gatsun ne soient, ni perdues, ni
+                                    détournées, ni consultées, ni modifiées ni divulguées par des tiers non autorisés
+                                    sauf si la communication de ces données est imposée par la réglementation en
+                                    vigueur, notamment à la requête d’une autorité judiciaire, de police, de gendarmerie
+                                    ou de toute autre autorité habilitée par la Loi.
+                                </p>
+
+                                <p>
+                                    La sécurité des données personnelles dépend également des utilisateurs. C’est
+                                    pourquoi, les utilisateurs qui sont membres du Site Internet de Radio Gatsun
+                                    s'engagent à conserver la confidentialité de leur identifiant et de leur mot de
+                                    passe.
+                                </p>
+
+                                <p>
+                                    Les membres s’engagent également à ne pas partager leur compte et à déclarer à
+                                    Gatsun toute utilisation non autorisée dudit compte dès lors qu’ils en ont
+                                    connaissance.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Durée de conservation des données personnelles des utilisateurs du Site Internet de
+                                    Radio Gatsun
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Les données à caractère personnel communiquées par les utilisateurs du Site Internet
+                                    de Radio Gatsun seront détruites trois ans après leur dernière connexion au Site
+                                    Internet de Radio Gatsun, ce qui entraînera l’anonymisation des données personnelles
+                                    du membre. Sont ainsi supprimés au bout de trois ans :
+                                </p>
+                                <ul>
+                                    <li>Les nom et prénom des utilisateurs ;</li>
+                                    <li>Leurs adresses postales ;</li>
+                                    <li>Les liens vers les profils sociaux et les sites web des utilisateurs ;</li>
+                                    <li>Leurs adresses de contact par messagerie instantanée ;</li>
+                                    <li>Leur biographie et leur signature ;</li>
+                                    <li>Leur avatar ;</li>
+                                    <li>Leur historique de connexion IP</li>
+                                </ul>
+                                <p>
+                                    Afin de permettre aux membres de récupérer leur compte en cas d’oubli de mot de
+                                    passe après une période prolongée sans connexion au site, leur e-mail est conservé
+                                    par sécurité. Il est néanmoins possible de le supprimer en modifiant les
+                                    informations de son profil sur la section « Mon compte » du site.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <h5>
+                                    Modification de la Charte Données Personnelles
+                                </h5>
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    Gatsun se réserve le droit de modifier à tout moment et sans préavis la Charte
+                                    Données Personnelles en raison notamment d’une modification législative ou
+                                    réglementaire ou de l’introduction de nouveaux services.
+                                </p>
+
+                                <p>
+                                    Les utilisateurs sont donc invités à consulter régulièrement leur dernière version
+                                    mise à jour, accessible en permanence sur la page d’accueil du Site Internet de
+                                    Radio Gatsun, en cliquant sur le lien Conditions d'utilisation puis l'onglet Charte
+                                    des données personnelles.
+                                </p>
+
+                                <p>
+                                    Pour toutes autres questions concernant la Charte Données Personnelles du Site
+                                    Internet de Radio Gatsun ou toute précision, les utilisateurs peuvent se servir du
+                                    formulaire de contact ou adresser un courrier à l’adresse suivante :
+                                </p>
+                                <address>
+                                    <strong>Association Gatsun</strong><br/>
+                                    20 Avenue Albert Einstein<br/>
+                                    RDC Bâtiment G-J<br/>
+                                    69621 Villeurbanne Cedex
+                                </address>
+                                <p>
+                                    Les utilisateurs peuvent également se rendre sur le site de la CNIL à l’adresse <a
+                                            href="http://www.cnil.fr">http://www.cnil.fr</a>.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </section>
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}

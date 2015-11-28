@@ -26,6 +26,9 @@
 /web/bundles/
 /web/uploads/
 
+# Assets managed by Bower
+/web/assets/vendor/
+
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
@@ -35,3 +38,6 @@
 
 # Composer PHAR
 /composer.phar
+
+# IDE settings
+/.idea

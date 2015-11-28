@@ -1,0 +1,91 @@
+{% extends "::base.html.twig" %}
+{% block title %}Utilisateurs &ndash; Administration &ndash; {{ parent() }}{% endblock %}
+{% block body %}
+<section class="panel panel-default">
+	<div class="panel-heading">
+		<h1>Administration</h1>
+	</div>
+	<div class="panel-body">
+		<h2>Utilisateurs</h2>
+		<div id="alert"></div>
+		
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Image</th>
+					<th>Pseudo</th>
+					<th>E-mail</th>
+					<th>Rôles</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for utilisateur in utilisateurs %}			
+					<tr id="{{utilisateur.username}}">
+						<td>{{ utilisateur.id }}</td>
+						<td><img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image)}}" alt="Avatar de {{ utilisateur.username }}" /></td>
+						<td>{{ utilisateur.username }}</td>
+						<td><a href="mailto:{{ utilisateur.email }}">{{ utilisateur.email }}</a></td>
+						<td>
+							{% for role in utilisateur.roles %}
+								{{ role }}
+								{% if loop.last == false %}
+								, 
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td class="btn-group-vertical">
+							<a href="{{ path('gatsun_website_utilisateur', {'nom': utilisateur.username}) }}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-user"></span> Détails</a>
+							<a href="{{ path('gatsun_website_utilisateur_modifier', {'nom': utilisateur.username}) }}" class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>
+							{% if not utilisateur.isAccountNonLocked %}
+							<a href="#" onClick="confirmerAction('debanni', '{{ path('gatsun_website_utilisateur_debannir', {'nom': utilisateur.username}) }}')" class="btn btn-default btn-warning"><span class="glyphicon glyphicon-plus"></span> Débannir</a>
+							{% else %}
+							<a href="#" onClick="confirmerAction('banni', '{{ path('gatsun_website_utilisateur_bannir', {'nom': utilisateur.username}) }}')" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Bannir</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4">Pas d'utilisateur.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+
+function confirmerAction(action, route)
+{
+	// Popup de confirmation
+	if(confirm('Êtes-vous sur de vouloir ' + action + 'r cet utilisateur ?'))
+	{
+		// Requête AJAX
+		$.ajax({
+	        url: route,
+	        dataType: 'html',
+	        cache: false
+	    })
+	    .done(function(reponse) {
+	    	// Rafraîchir le corps du tableau (tbody)
+	        $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
+	        // Message : Succès !
+	        $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> L\'utilisateur sélectionné a été ' + action + '.</div>');
+	    })
+	    .fail(function()
+	    {
+	    	// Message : Erreur !
+	    	$('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors du ' + action + 'ssement de l\'utilisateur.</div>');
+	    });
+	}
+
+	return false;
+}
+</script>
+{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
