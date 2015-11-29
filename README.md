@@ -9,7 +9,7 @@ Copyright &copy; 2015 Gatsun
  
 ## Licence
 
-Pour des informations sur la licence, consulez le fichier [`LICENCE`](./licence).
+Pour des informations sur la licence, consulez le fichier [`LICENCE`](./LICENCE).
 
 ## Mise en route
 
