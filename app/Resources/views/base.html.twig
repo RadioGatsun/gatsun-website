@@ -135,22 +135,9 @@
             <strong>{{ flashMessage|split('|')[1] }}</strong> {{ flashMessage|split('|')[2] }}
         </div>
     {% endfor %}#}
-    {#<div class="row">
-        <div class="col-md-8">#}
     {% block body %}{% endblock %}
-    {#</div>
-    {#<d class="col-md-4 hidden-sm hidden-xs">
-        <section class="panel panel-default">
-            <div class="panel-heading">
-                <h1>Derniers podcasts</h1>
-            </div>
-            <div class="panel-body">
-                {{ render(controller("GatsunWebsiteBundle:General:derniersPodcasts")) }}
-            </div>
-        </section>
-    </div>
-    </div>#}
-</div><!-- /.container -->
+
+</div>
 
 <footer class="page-footer orange">
     <div class="container">
@@ -193,15 +180,17 @@
 </footer>
 
 {# Javascripts #}
+
+{# jQuery hébergé chez Google Hosted Librairies#}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-<!-- Compiled and minified Materialize JavaScript -->
+{# Materialize JavaScript #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
 {% block javascripts %}{% endblock %}
 
+{# Carde Facebook #}
 <script type="text/javascript">
-    /*** FACEBOOK ***/
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -210,7 +199,11 @@
         js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5&appId=314380608681202";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+</script>
 
+
+{# Bouton Twitter #}
+<script type="text/javascript">
     /*** TWITTER ***/
     !function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
