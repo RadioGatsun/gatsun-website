@@ -28,6 +28,10 @@ gatsun_website_conditions:
     path: /conditions-utilisation
     defaults: { _controller: GatsunWebsiteBundle:General:conditionsUtilisation }
 
+gatsun_website_live_infos:
+    path: /live/infos
+    defaults: { _controller: GatsunWebsiteBundle:General:liveInfo }
+
 # Aide
 
 gatsun_website_aide_bbcode:

@@ -7,22 +7,17 @@
         <div class="card-panel">
             <div id="imagePlayer" class="live left">
                 <img class="media-object"
-                     src="{{ emissionCourante is not null ? asset( emissionCourante.vignette) : asset('images/header.png') }}"/>
+                     src="{{ asset('images/header.png') }}"/>
             </div>
             <div class="live media-body">
                 <p id="infosPlayer">
-                    {% if emissionCourante is not null %}
-                        {{ emissionCourante.heureDebut|date('H:i') }} &rarr; {{ emissionCourante.heureFin|date('H:i') }} :
-                        <strong>{{ emissionCourante.nom }}</strong><br/>
-                        <em>{{ emissionCourante.description }}</em>
-                    {% else %}
-                        <strong>La playlist Gatsun</strong><br/>
-                        <em>En attendant les prochaines émissions.</em>
-                    {% endif %}
+                    <strong>Chargement en cours&hellip;</strong><br/>
+                    <em>Merci de patienter.</em>
                 </p>
 
                 <p id="lecteur">
-                    <audio controls="controls" autoplay="autoplay">
+                    <!-- TODO: Réactiver l'autoplay autoplay="autoplay" -->
+                    <audio controls="controls">
                         <source src="http://gatsun-server.insa-lyon.fr/live_proxy" type="audio/mpeg"/>
                         <embed height="34" width="530" src="http://gatsun-server.insa-lyon.fr/live_proxy"></embed>
                     </audio>
@@ -169,45 +164,58 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
-        var timerLecteur;
-        var reponseLecteur;
-        var timerCommentaires;
-
         function rafraichirLecteur() {
-            try {
-                xhrLecteur = new ActiveXObject("Microsoft.XMLHTTP");	// tenter IE
-            }
-            catch (e)	// en cas d'échec
-            {
-                xhrLecteur = new XMLHttpRequest();	// autres navigateurs
-            }
-
-            xhrLecteur.onreadystatechange = function () {
-                if (xhrLecteur.readyState == 4 && xhrLecteur.status == 200) {
-                    var reponse = xhrLecteur.responseText;
-                    if (reponse != reponseLecteur) {
-                        var image = reponse.substring(0, reponse.indexOf("/>") + 2);
-                        var texte = reponse.substring(image.length + 1, reponse.length);
-                        document.getElementById("imagePlayer").innerHTML = image;
-                        document.getElementById("infosPlayer").innerHTML = texte;
-                        reponseLecteur = reponse;
+            $.ajax({
+                url: "{{ path('gatsun_website_live_infos') }}",
+                method: "GET",
+                dataType: "json",
+                cache: false
+            }).done(function (json) {
+                if (json != null) {
+                    var heureDebut = new Date(json.heure_debut).getHours();
+                    var minutesDebut = new Date(json.heure_debut).getMinutes();
+                    if (minutesDebut < 10) minutesDebut = "0" + minutesDebut;
+                    var heureFin = new Date(json.heure_fin).getHours();
+                    var minutesFin = new Date(json.heure_fin).getMinutes();
+                    if (minutesFin < 10) minutesFin = "0" + minutesFin;
+                    $('#infosPlayer').html(heureDebut + 'h' + minutesDebut + " &rarr; " + heureFin + 'h' + minutesFin + " : <strong>" + json.nom + "</strong><br />" + json.description);
+                    if (json.vignette != "") {
+                        $('#imagePlayer').find('img').attr('src', json.vignette);
+                    } else {
+                        $('#imagePlayer').find('img').attr('src', "{{ asset('images/header.png') }}");
                     }
-                }
-            };
 
-            xhrLecteur.open("GET", "../ajax/rafraichirLecteur.php", true);
-            xhrLecteur.send(null);
+                    // Rafraîchisement du lecteur à la fin de l'émission
+                    var heureCourante = new Date().getHours();
+                    var minutesCourantes = new Date().getMinutes();
+                    var secondesCourantes = new Date().getSeconds();
+
+                    var timestampFin = heureFin * 3600000 + (minutesFin + 1) * 60000;
+                    var timestampCourant = heureCourante * 3600000 + minutesCourantes * 60000 + secondesCourantes * 1000;
+                    console.log(timestampFin - timestampCourant);
+                    setTimeout(rafraichirLecteur, timestampFin - timestampCourant);
+                } else {
+                    $('#infosPlayer').html("<strong> La playlist Gatsun </strong><br />En attendant les émissions !");
+                    $('#imagePlayer').find('img').attr('src', "{{ asset('images/header.png') }}");
+
+                    // Rafraîchissement du lecteur dans 30 secondes
+                    setTimeout(rafraichirLecteur, 30000);
+                }
+            });
         }
 
         function rafraichirCommentaires() {
             $.ajax({
                 url: "{{ path('gatsun_website_ajax_commentaires_rafraichir', { 'page': 'live' }) }}",
-                method: "GET"
+                method: "GET",
+                cache: false
             }).done(function (html) {
                 var commentaires = $("#commentaires");
                 if (html != commentaires.html()) {
                     commentaires.html(html);
                 }
+
+                setTimeout(rafraichirCommentaires, 5000);
             });
         }
 
@@ -255,7 +263,7 @@
                             dataType: 'html',
                             cache: false
                         })
-                        .done(function (reponse) {
+                        .done(function () {
                             // Rafraichissement des commentaires avec les nouvelles modifications
                             rafraichirCommentaires();
 
@@ -290,15 +298,6 @@
                             $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de votre commentaire.</div>');
                         });
             }
-        }
-
-        function autoDefil() {
-            timerLecteur = window.setInterval(function () {
-                rafraichirLecteur()
-            }, 30000);
-            timerCommentaires = window.setInterval(function () {
-                rafraichirCommentaires()
-            }, 5000);
         }
 
         /*** BBCODE ***/
@@ -346,14 +345,9 @@
                 input.value = input.value.substr (0, pos) + bbdebut + insText + bbfin + input.value.substr (pos);
             }
         }
-    </script>
 
-    <script language="javascript">
-        {#% if ("now"|date("U") < 1398981600) and ("now"|date("U") > 1383591600) %#}
-        //rafraichirLecteur();
-        {#% endif %#}
-        //rafraichirCommentaires();
-        //autoDefil();
+        rafraichirLecteur();
+        rafraichirCommentaires();
     </script>
 {% endblock %}
 {% block stylesheets %}

@@ -5,6 +5,8 @@
 namespace Gatsun\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class GeneralController extends Controller
 {
@@ -92,7 +94,10 @@ class GeneralController extends Controller
                 null
             );
 
-        return $this->render('GatsunWebsiteBundle:General:programme.html.twig', array('listeEmissions' => $listeEmissions));
+        return $this->render(
+            'GatsunWebsiteBundle:General:programme.html.twig',
+            array('listeEmissions' => $listeEmissions)
+        );
     }
 
     public function emissionsAction()
@@ -129,5 +134,18 @@ class GeneralController extends Controller
     public function conditionsUtilisationAction()
     {
         return $this->render('GatsunWebsiteBundle:General:conditions.html.twig');
+    }
+
+    public function liveInfoAction()
+    {
+        return new Response(
+            $this->get('jms_serializer')->serialize(
+                $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GatsunWebsiteBundle:Emission')
+                    ->getCurrentEmission(),
+                'json'
+            )
+        );
     }
 }
