@@ -10,21 +10,6 @@ class GeneralController extends Controller
 {
     public function indexAction()
     {
-        /*if($this->getUser() != null)
-        {
-            $user = new Utilisateur();
-            $user = $this->getDoctrine()
-                         ->getManager()
-                         ->getRepository('GatsunWebsiteBundle:Utilisateur')
-                         ->findOneBy(array('id' => $this->getUser()->getId()));
-
-            $user->setRoles(array('ROLE_ADMIN'));
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-        }*/
-
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('GatsunWebsiteBundle:Publication');

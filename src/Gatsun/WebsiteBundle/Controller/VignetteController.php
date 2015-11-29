@@ -5,11 +5,7 @@
 namespace Gatsun\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\SecurityContext;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 use Gatsun\WebsiteBundle\Entity\Vignette;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class VignetteController extends Controller

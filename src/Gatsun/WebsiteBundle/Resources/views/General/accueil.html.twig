@@ -1,18 +1,16 @@
 {% extends "::base.html.twig" %}
 {% block title %}Accueil &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-    <div class="slider">
-        <ul class="slides">
-            {% for vignette in listeVignettes %}
-                <li>
-                    <img src="{{ asset('images/vignettes/' ~ vignette.image) }}"> <!-- random image -->
-                    <div class="caption center-align">
-                        <h3>{{ vignette.titre }}</h3>
-                        <h5 class="light grey-text text-lighten-3">{{ vignette.description }}</h5>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+    <div id="carrousel">
+        {% for vignette in listeVignettes %}
+            <div class="vignette">
+                <img src="{{ asset('images/vignettes/' ~ vignette.image) }}"> <!-- random image -->
+                <div class="caption center-align">
+                    <h5>{{ vignette.titre }}</h5>
+                    <h6>{{ vignette.description }}</h6>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
     <section class="section">
@@ -50,9 +48,9 @@
                             <div class="card-action">
                                 <a href="{{ path('gatsun_website_publication', {'id': publication.id}) }}">
                                     {% if publication.contenu|length > 255 %}
-                                        Suite et commentaires&hellip;
+                                        Suite et commentaires
                                     {% else %}
-                                        Commentaires&hellip;
+                                        Commentaires
                                     {% endif %}
                                 </a>
                                 {% if is_granted('ROLE_ADMIN') or publication.utilisateur == app.user %}
@@ -98,7 +96,6 @@
                                     <p>
                                         {{ emission.jour.libelle }},
                                         {{ emission.heureDebut|date('H\\hi') }}.
-                                        {#Présenté par Thomas, Denis, Quentin et Dorian.#}
                                     </p>
 
                                     <p>{{ emission.description }}</p>
@@ -141,15 +138,23 @@
     </section>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.slider').slider({
-                height: 'auto'
+            $('#carrousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 300,
+                lazyLoad: 'ondemand',
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                adaptiveHeight: true
             });
         });
     </script>
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/accueil.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
 {% endblock %}

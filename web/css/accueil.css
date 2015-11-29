@@ -1,14 +1,14 @@
-.slider .indicators .indicator-item.active {
-    background-color: #EB9723;
-}
-
-.slider .slides li .caption {
-    top: 45%;
-}
-
-
-.slider {
+#carrousel {
     margin-top: 30px;
+}
+
+.vignette {
+    background-color: black;
+    color: white;
+}
+
+.vignette img {
+    width: 100%;
 }
 
 aside {
