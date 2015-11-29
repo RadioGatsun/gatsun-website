@@ -34,6 +34,7 @@
         <h3>Commentaires</h3>
 
         <div class="card-panel">
+            <!-- TODO: Enlever DIV -->
             <div id="alert"></div>
             {% if app.user == null %}
                 <p><em class="avertissement">Inscrivez-vous ou connectez-vous pour publier des commentaires !</em></p>
@@ -143,8 +144,7 @@
 
 
                     <div class="input-field">
-                        <textarea id="texte" class="materialize-textarea" onkeypress="gestion_entree(event);"
-                                  required="required"></textarea>
+                        <textarea id="texte" class="materialize-textarea" required="required"></textarea>
                         <label for="texte">Commentaire</label>
                         <button class="btn waves-effect waves-light" onClick="commenter()"
                                 id="boutonCommenter">
@@ -172,6 +172,7 @@
                 cache: false
             }).done(function (json) {
                 if (json != null) {
+                    // Il y a une émission actuellement, afficher les infos
                     var heureDebut = new Date(json.heure_debut).getHours();
                     var minutesDebut = new Date(json.heure_debut).getMinutes();
                     if (minutesDebut < 10) minutesDebut = "0" + minutesDebut;
@@ -192,9 +193,9 @@
 
                     var timestampFin = heureFin * 3600000 + (minutesFin + 1) * 60000;
                     var timestampCourant = heureCourante * 3600000 + minutesCourantes * 60000 + secondesCourantes * 1000;
-                    console.log(timestampFin - timestampCourant);
                     setTimeout(rafraichirLecteur, timestampFin - timestampCourant);
                 } else {
+                    // Pas d'émission, c'est la playlist !
                     $('#infosPlayer').html("<strong> La playlist Gatsun </strong><br />En attendant les émissions !");
                     $('#imagePlayer').find('img').attr('src', "{{ asset('images/header.png') }}");
 
@@ -220,38 +221,22 @@
         }
 
         function commenter() {
-            try {
-                xhrCom = new ActiveXObject("Microsoft.XMLHTTP");	// tenter IE
-            }
-            catch (e)	// en cas d'échec
-            {
-                xhrCom = new XMLHttpRequest();	// autres navigateurs
-            }
+            var texte = $('#texte');
+            var boutonCommenter = $("#boutonCommenter");
 
-            xhrCom.onreadystatechange = function () {
-                if (xhrCom.readyState == 4 && xhrCom.status == 200) {
-                    rafraichirCommentaires();
-                    document.getElementById("texte").disabled = false;
-                    document.getElementById("boutonCommenter").disabled = false;
-                }
-            };
-            var texte = document.getElementById("texte").value;
-            document.getElementById("texte").disabled = true;
-            document.getElementById("boutonCommenter").disabled = true;
-            document.getElementById("texte").value = "";
-            xhrCom.open("POST", "{{ path('gatsun_website_ajax_commentaires_ajouter') }}", true);
-            xhrCom.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhrCom.send("texte=" + encodeURIComponent(texte) + "&page=live");
-        }
+            texte.attr('disabled', 'disabled');
+            boutonCommenter.attr('disabled', 'disabled');
 
-        function gestion_entree(e) {
-            var e = e || window.event;
-            var k = e.keyCode || e.which;
-            if (k == 13 && !e.shiftKey) {
-                commenter();
-                return false;
-            }
-            return true;
+            $.ajax({
+                url: "{{ path('gatsun_website_ajax_commentaires_ajouter') }}",
+                method: "POST",
+                data: {texte: texte.val(), page: 'live'}
+            }).done(function () {
+                rafraichirCommentaires();
+                texte.val('');
+                texte.removeAttr('disabled');
+                boutonCommenter.removeAttr('disabled');
+            });
         }
 
         function moderer(id) {
@@ -268,11 +253,11 @@
                             rafraichirCommentaires();
 
                             // Message : Succès !
-                            $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> Le commentaire sélectionnée a été correctement modéré.</div>');
+                            Materialize.toast('Commentaire modéré avec succès', 4000);
                         })
                         .fail(function () {
                             // Message : Erreur !
-                            $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la modération du commentaire.</div>');
+                            Materialize.toast('Erreur lors de la modération du commentaire', 10000);
                         });
             }
         }
@@ -291,11 +276,11 @@
                             rafraichirCommentaires();
 
                             // Message : Succès !
-                            $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> Votre commentaire a été correctement supprimé.</div>');
+                            Materialize.toast('Commentaire supprimé avec succès', 4000);
                         })
                         .fail(function () {
                             // Message : Erreur !
-                            $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de votre commentaire.</div>');
+                            Materialize.toast('Erreur lors de la suppression du commentaire', 10000);
                         });
             }
         }
@@ -346,8 +331,21 @@
             }
         }
 
-        rafraichirLecteur();
-        rafraichirCommentaires();
+
+        $(document).ready(function () {
+            $("#texte").keypress(event, function () {
+                e = event || window.event;
+                var k = e.keyCode || e.which || e.charCode;
+                if (k == 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    commenter();
+                    return false;
+                }
+                return true;
+            });
+            rafraichirLecteur();
+            rafraichirCommentaires();
+        });
     </script>
 {% endblock %}
 {% block stylesheets %}

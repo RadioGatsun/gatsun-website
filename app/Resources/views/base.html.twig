@@ -198,7 +198,7 @@
 <!-- Compiled and minified Materialize JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
-{#<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js"></script>#}
+{% block javascripts %}{% endblock %}
 
 <script type="text/javascript">
     /*** FACEBOOK ***/
@@ -228,6 +228,5 @@
     });
 </script>
 
-{% block javascripts %}{% endblock %}
 </body>
 </html>

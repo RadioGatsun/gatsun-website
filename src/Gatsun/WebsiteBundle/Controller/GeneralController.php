@@ -5,7 +5,6 @@
 namespace Gatsun\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class GeneralController extends Controller
@@ -66,15 +65,7 @@ class GeneralController extends Controller
 
     public function liveAction()
     {
-        $emission = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('GatsunWebsiteBundle:Emission')
-            ->getCurrentEmission();
-
-        return $this->render(
-            'GatsunWebsiteBundle:General:live.html.twig',
-            array("emissionCourante" => $emission)
-        );
+        return $this->render('GatsunWebsiteBundle:General:live.html.twig');
     }
 
     public function radioAction()
