@@ -2,8 +2,10 @@
 
 
 Le projet Git du site Inetrnet de Radio Gatsun.
+
 http://gatsun.asso.insa-lyon.fr/
-&copy; 2015 - Gatsun
+
+Copyright &copy; 2015 Gatsun
  
 ## Licence
 
