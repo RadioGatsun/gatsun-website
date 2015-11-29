@@ -14,6 +14,9 @@
     background: url("../images/background.png") fixed no-repeat;
     background-position-y: 50px;
 }*/
+.inline-block {
+    display: inline-block;
+}
 
 .icon-block {
     padding: 0 15px;

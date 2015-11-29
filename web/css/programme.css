@@ -1,5 +1,9 @@
 #programme img
 {
-	max-height: 100px;
-	max-width: 100%;
+    margin-right: 20px;
+    width: 180px;
+}
+
+#programme .inline-block {
+    vertical-align: middle;
 }

@@ -4,10 +4,17 @@
     <div id="carrousel">
         {% for vignette in listeVignettes %}
             <div class="vignette">
-                <img src="{{ asset('images/vignettes/' ~ vignette.image) }}"> <!-- random image -->
+                <a href="{{ vignette.lien }}">
+                    <img src="{{ asset('images/vignettes/' ~ vignette.image) }}">
+                </a>
+
                 <div class="caption center-align">
-                    <h5>{{ vignette.titre }}</h5>
-                    <h6>{{ vignette.description }}</h6>
+                    <h5>
+                        <a class="white-text" href="{{ vignette.lien }}">
+                            {{ vignette.titre }}
+                        </a>
+                    </h5>
+                    <h6 class="light grey-text text-lighten-3">{{ vignette.description }}</h6>
                 </div>
             </div>
         {% endfor %}

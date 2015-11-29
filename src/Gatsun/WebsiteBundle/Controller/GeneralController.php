@@ -36,7 +36,7 @@ class GeneralController extends Controller
             array(
                 'publications' => $listePublications,
                 'listeVignettes' => $listeVignettes,
-                'listeEmissions' => $listeEmissions
+                'listeEmissions' => $listeEmissions,
             )
         );
     }
@@ -69,8 +69,10 @@ class GeneralController extends Controller
             ->getRepository('GatsunWebsiteBundle:Emission')
             ->getCurrentEmission();
 
-        return $this->render('GatsunWebsiteBundle:General:live.html.twig',
-            array("emissionCourante" => $emission));
+        return $this->render(
+            'GatsunWebsiteBundle:General:live.html.twig',
+            array("emissionCourante" => $emission)
+        );
     }
 
     public function radioAction()
@@ -80,7 +82,17 @@ class GeneralController extends Controller
 
     public function programmeAction()
     {
-        return $this->render('GatsunWebsiteBundle:General:programme.html.twig');
+        $listeEmissions = $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('GatsunWebsiteBundle:Emission')
+            ->findBy(
+                array('active' => true),
+                array('jour' => 'asc', 'heureDebut' => 'asc'),
+                null,
+                null
+            );
+
+        return $this->render('GatsunWebsiteBundle:General:programme.html.twig', array('listeEmissions' => $listeEmissions));
     }
 
     public function emissionsAction()
