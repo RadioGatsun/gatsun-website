@@ -17,3 +17,9 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    # Facebook API
+    facebook.app_id:                ~
+    facebook.app_secret:            ~
+    facebook.default_graph_version: ~
+    facebook.default_access_token:  ~

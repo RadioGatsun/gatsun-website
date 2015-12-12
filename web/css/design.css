@@ -46,11 +46,25 @@ img {
 .card-facebook {
     background: url("../images/facebook.png") no-repeat right bottom #3A5897;
     height: 200px;
+    color: white;
 }
 .card-twitter {
     background: url("../images/twitter.png") no-repeat right bottom #39A0CE;
     height: 200px;
     color: white;
+}
+
+.card-facebook h4{
+    background-color: rgba(58, 88, 151, 0.53);
+    display: inline-block;
+    padding: 10px;
+    margin: 7px -10px 3px -10px;
+}
+.card-twitter h4 {
+    background-color: rgba(57, 160, 206, 0.53);
+    display: inline-block;
+    padding: 10px;
+    margin: 7px -10px 3px -10px;
 }
 
 nav img {

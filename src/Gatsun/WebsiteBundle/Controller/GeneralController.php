@@ -6,11 +6,37 @@ namespace Gatsun\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Facebook\Facebook;
+use Facebook\FacebookRequest;
 
 class GeneralController extends Controller
 {
     public function indexAction()
     {
+        // Initialisation de Facebook
+        $fb = new Facebook(
+            [
+                'app_id' => $this->getParameter('facebook.app_id'),
+                'app_secret' => $this->getParameter('facebook.app_secret'),
+                'default_graph_version' => $this->getParameter('facebook.default_graph_version'),
+                'default_access_token' => $this->getParameter('facebook.default_access_token'),
+            ]
+        );
+
+        // Requête sur le nombre de likes
+        $request = new FacebookRequest(
+            $fb->getApp(),
+            $fb->getDefaultAccessToken(),
+            'GET',
+            '/RadioGatsun',
+            array(
+                'fields' => 'likes',
+            )
+        );
+
+        // Extraction
+        $likes = $fb->getClient()->sendRequest($request)->getGraphNode()->getField('likes');
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('GatsunWebsiteBundle:Publication');
@@ -38,6 +64,7 @@ class GeneralController extends Controller
                 'publications' => $listePublications,
                 'listeVignettes' => $listeVignettes,
                 'listeEmissions' => $listeEmissions,
+                'facebookLikes' => $likes
             )
         );
     }

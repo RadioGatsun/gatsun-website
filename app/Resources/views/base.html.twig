@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -172,8 +172,9 @@
         <div class="container">
             &copy; 2015 - Radio Gatsun &ndash; Tous droits réservés.
         <span class="right">
-          Réalisé avec l'aide de <a class="orange-text text-lighten-3" href="https://symfony.com/">Symfony 2</a> et <a
-                    class="orange-text text-lighten-3" href="http://materializecss.com/">Materialize</a>.
+          Réalisé avec l'aide de <a class="orange-text text-lighten-3" href="https://symfony.com/">Symfony 2</a>,
+            <a class="orange-text text-lighten-3" href="http://kenwheeler.github.io/slick/">Slick</a> et
+            <a class="orange-text text-lighten-3" href="http://materializecss.com/">Materialize</a>.
         </span>
         </div>
     </div>
@@ -189,32 +190,7 @@
 
 {% block javascripts %}{% endblock %}
 
-{# Carde Facebook #}
 <script type="text/javascript">
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5&appId=314380608681202";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-
-{# Bouton Twitter #}
-<script type="text/javascript">
-    /*** TWITTER ***/
-    !function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//platform.twitter.com/widgets.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }
-    }(document, "script", "twitter-wjs");
-
     $(document).ready(function () {
         $('.button-collapse').sideNav();
         $(".dropdown-button").dropdown();

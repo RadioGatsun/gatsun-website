@@ -118,27 +118,29 @@
 
                 <h4>Réseaux sociaux</h4>
 
-                <div class="card-panel card-facebook">
-                    <div class="fb-page" data-href="https://www.facebook.com/RadioGatsun" data-small-header="true"
-                         data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"
-                         data-show-posts="false">
-                        <div class="fb-xfbml-parse-ignore">
-                            <blockquote cite="https://www.facebook.com/RadioGatsun"><a
-                                        href="https://www.facebook.com/RadioGatsun">Radio Gatsun</a></blockquote>
+                <div class="row">
+                    <div class="col s6 m6 l6">
+                        <div class="card-panel card-facebook">
+                            <h4>Facebook</h4>
+                            <a class="waves-effect waves-light btn light-blue darken-4"
+                               href="https://www.facebook.com/RadioGatsun"><i class="material-icons left">thumb_up</i>J'aime</a><br/>
+
+                            <p> {{ facebookLikes }} J'aime</p>
+
+
                         </div>
                     </div>
-                </div>
-                <div class="card-panel card-twitter">
-                    <h4>
-                        Radio Gatsun<br/>
-                        sur Twitter
-                    </h4>
 
-                    <p>
-                        <a href="https://twitter.com/RadioGatsun" class="twitter-follow-button"
-                           data-size="large"
-                           data-width="292" data-align="center" data-lang="fr">Suivre @RadioGatsun</a>
-                    </p>
+
+                    <div class="col s6 m6 l6">
+                        <div class="card-panel card-twitter">
+                            <h4>Twitter</h4>
+                            <a href="https://twitter.com/RadioGatsun" class="twitter-follow-button"
+                               data-show-screen-name="false"
+                               data-dnt="true">Follow @RadioGatsun</a>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +148,21 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js"></script>
+
+    {# Twitter #}
+    <script>
+        !function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+            if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = p + '://platform.twitter.com/widgets.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+        }(document, 'script', 'twitter-wjs');
+    </script>
+
+    {# Carrousel #}
     <script type="text/javascript">
         $(document).ready(function () {
             $('#carrousel').slick({
