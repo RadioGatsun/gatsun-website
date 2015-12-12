@@ -19,7 +19,7 @@ git clone https://github.com/RadioGatsun/gatsun-website
 
 2. Téléchargez [Composer](https://getcomposer.org/) et installez-le.
  Sous archlinux, installez le paquet `php-composer`.
- Sous une autre distribution linux :
+ Sous une autre distribution Linux :
 
 ```
 $ cd /usr/src
@@ -33,7 +33,7 @@ de pear (dans `php.ini`)
 
 3. Récupérez les `vendors` via la commande `composer update`.
 
-    > Si vous avez opté pour le téléchargement du fichier composer.phar, la commande devient : `php composer.pharu pdate`.
+    > Si vous avez opté pour le téléchargement du fichier composer.phar, la commande devient : `php composer.phar update`.
 
 4. Configurez le fichier `app/config/parameters.yml` à partir du template [`app/config/parameters.yml.dist`](./app/config/parameters.yml.dist).
  Ou remplissez le lorsque composer vous le demande (Linux cli)
@@ -43,4 +43,4 @@ de pear (dans `php.ini`)
 
 ## Troubleshouting
 
-Selon le système que vous utilisez, vous allez potentiellement galérer à configurer apache et php.
+Selon le système que vous utilisez, vous allez potentiellement galérer à configurer Apache et PHP.
