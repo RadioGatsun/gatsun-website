@@ -1,56 +1,41 @@
 {% extends "::base.html.twig" %}
 {% block title %}&Eacute;missions &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-	<section class="panel panel-default">
-        <div class="panel-heading">
-           <h1>Émissions</h1>
-        </div>
-        <div class="panel-body">
-            {% for emission in emissions %}
-            <div class="media">
-                <div class="media-body">
-                    <h2 class="media-heading">
-                        <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">{{ emission.nom }}</a>
-                    </h2>
-                    {% if emission.bandeau != '' %}
-                        <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">
-                            <img class="bandeau" src="{{ asset(emission.bandeau) }}" alt="{{ emission.nom }}" title="{{ emission.nom }}" />
-                        </a>
-                        <br />
-                    {% else %}
-                        {{ emission.description }}
-                    {% endif %}
+    <section>
+        <h1>Émissions</h1>
+        {% for emission in emissions %}
+            <div class="card hoverable">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">
+                        <img src="{{ asset(emission.bandeau != null ? emission.bandeau : 'images/defaut/emission.png') }}"/>
+                    </a>
+                    <a class="card-title truncate white-text"
+                       href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">
+                        {{ emission.nom }}
+                        <small class="hide-on-small-only"> &ndash; {{ emission.description }}</small>
+                    </a>
                 </div>
             </div>
-            {% else %}
+
+        {% else %}
             Aucune émission disponible.
-            {% endfor %}
-        </div>
+        {% endfor %}
     </section>
 
-    <section class="panel panel-default">
-        <div class="panel-heading">
-           <h1>Anciennes émissions</h1>
-        </div>
-        <div class="panel-body">
+    <section>
+        <h2>Anciennes émissions</h2>
+        <div class="collection hoverable">
             {% for emission in anciennesEmissions %}
-            <div class="media">
-                <div class="media-body">
-                    <h2 class="media-heading">
-                        <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">{{ emission.nom }}</a>
-                    </h2>
-                    {% if emission.bandeau != '' %}
-                        <img class="bandeau" src="{{ asset(emission.bandeau) }}" alt="{{ emission.nom }}" title="{{ emission.nom }}" /><br />
-                    {% endif %}
-                    {{ emission.description }}
-                </div>
-            </div>
+                <span class="collection-item truncate">
+                    <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">{{ emission.nom }}</a>
+                    <small class="hide-on-small-only"> &ndash; {{ emission.description }}</small>
+                    </span>
             {% else %}
-            Aucune émission disponible.
+                Aucune émission disponible.
             {% endfor %}
         </div>
     </section>
 {% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/emission.css') }}" />
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/emission.css') }}"/>
 {% endblock %}

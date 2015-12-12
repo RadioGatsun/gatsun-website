@@ -39,7 +39,7 @@ class Emission
     /**
      * @var string
      *
-     * @ORM\Column(name="bandeau", type="text")
+     * @ORM\Column(name="bandeau", type="text", nullable=true)
      */
     private $bandeau;
 

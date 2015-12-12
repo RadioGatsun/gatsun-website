@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Radio Gatsun, la webradio de l'INSA de Lyon.">
     <title>{% block title %}Radio Gatsun{% endblock %}</title>
+
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.jpg') }}">
+    <meta name="msapplication-TileColor" content="#FFA726">
+    <meta name="msapplication-TileImage" content="{{ asset('images/favicon.jpg') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.jpg') }}"/>
+
+    <!--  Android 5 Chrome Color-->
+    <meta name="theme-color" content="#FFA726">
 
     <!-- CSS  -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
