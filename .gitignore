@@ -43,6 +43,6 @@
 /.idea
 
 # Raw data
-/web/images/emissions
-/web/images/profils
-/web/images/vignettes
+#/web/images/emissions
+#/web/images/profils
+#/web/images/vignettes
