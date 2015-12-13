@@ -46,3 +46,6 @@
 /web/images/emissions
 /web/images/profils
 /web/images/vignettes
+!/web/images/emissions/.gitkeep
+!/web/images/profils/.gitkeep
+!/web/images/vignettes/.gitkeep
