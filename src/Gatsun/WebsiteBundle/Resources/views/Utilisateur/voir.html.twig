@@ -1,51 +1,59 @@
 {% extends "::base.html.twig" %}
-{% block title %}Profil de l'utilisateur : {{ utilisateur.username }} &ndash; {{ parent() }}{% endblock %}
+{% block title %}Profil de {{ utilisateur.username }} &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-	<section id="profil" class="panel panel-default">
-		<div class="panel-heading">
-	    	<h1>Profil de l'utilisateur : {{ utilisateur.username }}</h1>
-		</div>
-		<div class="panel-body">
-		    {# Ajouter ici rang #}
+    <section id="profil">
+        <h1>Profil de {{ utilisateur.username }}
+            <span class="chip">
+                {% if 'ROLE_ADMIN' in utilisateur.roles %}
+                    Administrateur
+                {% elseif 'ROLE_MEMBRE' in utilisateur.roles %}
+                    Membre de l'association
+                {% else %}
+                    Auditeur
+                {% endif %}
+            </span>
+        </h1>
 
-			<div class="pull-left">
-			    <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image)}}" alt="Avatar de {{ utilisateur.username }}" />
-			    {% if app.user == utilisateur %}
-				    <br />
-				    <a href="{{ path('gatsun_website_utilisateur_modifier', { 'nom': utilisateur.username} )}}" class="btn btn-default btn-info btn-block">
-				    	<span class="glyphicon glyphicon-pencil"></span> Modifier le profil
-				    </a>
-			    {% endif %}
-			</div>
-			<div>
-			    <h2>Informations</h2>
-			    <p>
-			    	E-mail : <a href="mailto:{{ utilisateur.email }}">{{ utilisateur.email }}</a>
-			    	<br />
-			    	{% if utilisateur.facebook != null %}
-			    	Facebook : <a href="https://www.facebook.com/{{ utilisateur.facebook }}">{{ utilisateur.facebook }}</a>
-			    	<br />
-			    	{% endif %}
-			    	{% if utilisateur.twitter != null %}
-			    	Twitter : <a href="https://www.twitter.com/{{ utilisateur.twitter }}">@{{ utilisateur.twitter }}</a>
-			    	<br />
-			    	{% endif %}
-			    	{% if utilisateur.googlePlus != null %}
-			    	Google+ : <a href="https://plus.google.com/{{ utilisateur.googlePlus }}">{{ utilisateur.googlePlus }}</a>
-			    	<br />
-			    	{% endif %}
-			    	{% if utilisateur.skype != null %}
-			    	Skype : <a href="callto:{{ utilisateur.skype }}">{{ utilisateur.skype }}</a>
-			    	<br />
-			    	{% endif %}
-			    </p>
-			</div>
-	    </div>
-	</section>
-	
-{% endblock %}
-{% block javascripts %}
-{% endblock %}
-{% block stylesheets %}
-<link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/profil.css') }}" />
+        {% if app.user == utilisateur %}
+            <p>
+                <a href="{{ path('gatsun_website_utilisateur_modifier', { 'nom': utilisateur.username} ) }}"
+                   class="waves-effect waves-light btn">
+                    <i class="material-icons left">mode_edit</i> Modifier le profil
+                </a>
+            </p>
+        {% endif %}
+
+        <div class="row">
+            <div class="col s4 m4 l4 center-align">
+                <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
+                     alt="Avatar de {{ utilisateur.username }}"/>
+            </div>
+
+            <div class="col s8 m8 l8">
+                <p>
+                    E-mail : <a href="mailto:{{ utilisateur.email }}">{{ utilisateur.email }}</a>
+                    <br/>
+                    {% if utilisateur.facebook != null %}
+                        Facebook : <a
+                            href="https://www.facebook.com/{{ utilisateur.facebook }}">{{ utilisateur.facebook }}</a>
+                        <br/>
+                    {% endif %}
+                    {% if utilisateur.twitter != null %}
+                        Twitter : <a
+                            href="https://www.twitter.com/{{ utilisateur.twitter }}">@{{ utilisateur.twitter }}</a>
+                        <br/>
+                    {% endif %}
+                    {% if utilisateur.googlePlus != null %}
+                        Google+ : <a
+                            href="https://plus.google.com/{{ utilisateur.googlePlus }}">{{ utilisateur.googlePlus }}</a>
+                        <br/>
+                    {% endif %}
+                    {% if utilisateur.skype != null %}
+                        Skype : <a href="callto:{{ utilisateur.skype }}">{{ utilisateur.skype }}</a>
+                        <br/>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </section>
 {% endblock %}
