@@ -41,8 +41,13 @@
                         <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">{{ publication.titre }}<i
                                     class="material-icons right">close</i></span>
-                            <aside>Par {{ publication.utilisateur.username }},
-                                le {{ publication.date|date('d/m/Y') }}</aside>
+                            <aside>
+                                <i class="material-icons tiny">account_circle</i> {{ publication.utilisateur.username }}
+                                <i class="material-icons tiny">access_time</i>
+                                <time class="date" datetime="{{ publication.date|date('Y-d-m') }}+02:00">
+                                    {{ publication.date|date('d/m/Y, H:i') }}
+                                </time>
+                            </aside>
                             <p>
                                 {% spaceless %}
                                     {{ publication.contenu|code|striptags|slice(0, 255) }}
