@@ -1,58 +1,55 @@
-.media-object
+.vignette-publication
 {
-	max-width: 150px;
-	max-height: 150px;
+    text-align: center;
+    padding-bottom: 15px;
 }
 
-audio
+.vignette-publication img
 {
-	width: 100%;
+    max-width: 830px;
+    max-height: 300px;
 }
 
-embed
+#lecteur {
+    overflow: hidden;
+}
+
+#lecteur audio
 {
-	height: 34px;
+    width: 100%;
+}
+
+.inline-block {
+    display: inline-block;
 }
 
 textarea 
 {
-	resize: none;
-	height: 54px !important;
-}
-
-#boutonCommenter
-{
-	height: 54px;
+    resize: none;
+    height: 54px !important;
 }
 
 #commentaires
 {
-	max-height: 470px;
-	overflow: auto;
+    max-height: 470px;
+    overflow: auto;
 }
 
-.commentaire
+#commentaires .avatar
 {
-	padding: 5px 0px;
-	margin: 5px 0px;
-	min-height: 50px;
-}
-
-.commentaire>img
-{
-	max-height: 50px;
-	max-width: 50px;
-	float: left;
-	margin-right: 5px;
+    max-height: 50px;
+    max-width: 50px;
+    float: left;
+    margin-right: 5px;
 }
 
 .texteCommentaire
 {
-	padding-top: 5px;
-	display: block;
+    padding-top: 5px;
+    display: block;
 }
 
 time
 {
-	font-size: 70%;
+    font-size: 70%;
 }

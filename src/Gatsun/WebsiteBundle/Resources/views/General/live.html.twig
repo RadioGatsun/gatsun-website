@@ -33,8 +33,6 @@
         <h3>Commentaires</h3>
 
         <div class="card-panel">
-            <!-- TODO: Enlever DIV -->
-            <div id="alert"></div>
             {% if app.user == null %}
                 <p><em class="avertissement">Inscrivez-vous ou connectez-vous pour publier des commentaires !</em></p>
             {% else %}
@@ -126,12 +124,12 @@
                     </div>
                     <div class="inline-block">
                         <button class="waves-effect waves-teal btn-flat"
-                                onClick="bbcode('[sub]', '[/sub]');return(false)"><i
-                                    class="fa fa-subscript fa-fw"></i>
+                                onClick="bbcode('[sub]', '[/sub]');return(false)">
+                            A<sub>x</sub>
                         </button>
                         <button class="waves-effect waves-teal btn-flat"
-                                onClick="bbcode('[sup]', '[/sup]');return(false)"><i
-                                    class="fa fa-superscript fa-fw"></i>
+                                onClick="bbcode('[sup]', '[/sup]');return(false)">
+                            A<sup>x</sup>
                         </button>
                     </div>
                     <div class="inline-block">
@@ -151,8 +149,6 @@
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
-
-
                 </form>
             {% endif %}
         </div>
@@ -209,10 +205,19 @@
                 url: "{{ path('gatsun_website_ajax_commentaires_rafraichir', { 'page': 'live' }) }}",
                 method: "GET",
                 cache: false
-            }).done(function (html) {
+            }).done(function (response) {
+                var html = $.parseHTML(response);
                 var commentaires = $("#commentaires");
-                if (html != commentaires.html()) {
+                if (html.length != $.parseHTML(commentaires.html()).length) {
+                    var tooltiped =  $('.tooltipped');
+                    // Désactiver le tooltip des boutons des commentaires
+                    tooltiped.tooltip('remove');
+
+                    // Mise à jour visuelle des commentaires
                     commentaires.html(html);
+
+                    // Réactivation des tooltips des commentaires
+                    tooltiped.tooltip({delay: 50});
                 }
 
                 setTimeout(rafraichirCommentaires, 5000);
@@ -330,8 +335,8 @@
             }
         }
 
-        /*** Gestion de la touche entrée ***/
         $(document).ready(function () {
+            /*** Gestion de la touche entrée ***/
             $("#texte").keypress(event, function () {
                 e = event || window.event;
                 var k = e.keyCode || e.which || e.charCode;
@@ -342,7 +347,8 @@
                 }
                 return true;
             });
-            rafraichirLecteur();
+
+            // Lancement du rafraichissement des commentaires
             rafraichirCommentaires();
         });
     </script>
