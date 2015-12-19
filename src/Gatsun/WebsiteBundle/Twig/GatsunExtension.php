@@ -2,8 +2,16 @@
 // src/Gatsun/WebsiteBundle/Twig/GatsunExtension.php
 namespace Gatsun\WebsiteBundle\Twig;
 
+use Symfony\Component\Asset\Packages;
+
 class GatsunExtension extends \Twig_Extension
 {
+    private $packages;
+
+    public function __construct(Packages $packages)
+    {
+        $this->packages = $packages;
+    }
     public function getFilters()
     {
         return array(
@@ -14,67 +22,67 @@ class GatsunExtension extends \Twig_Extension
     public function codeFilter($texte)
     {
         //Smileys
-        $texte = str_replace(':D', '<img src="../images/smileys/tres_heureux.png" title="Très Heureux" alt=":)" />', $texte);
-        $texte = str_replace(':) ', '<img src="../images/smileys/sourire.gif" title="Sourire" alt=":D" />', $texte);
-        $texte = str_replace(':( ', '<img src="../images/smileys/triste.gif" title="Triste" alt=":(" />', $texte);
-        $texte = str_replace(':o ', '<img src="../images/smileys/surpris.gif" title="Surpris" alt=":o" />', $texte);
-        $texte = str_replace(':shock: ', '<img src="../images/smileys/choque.gif" title="Choqué" alt=":shock:" />', $texte);
-        $texte = str_replace('8) ', '<img src="../images/smileys/cool.gif" title="Cool" alt="8)" />', $texte);
-        $texte = str_replace(':lol: ', '<img src="../images/smileys/rire.gif" title="Rire" alt="lol" />', $texte);
-        $texte = str_replace(':x ', '<img src="../images/smileys/agressif.gif" title="Agressif" alt=":x" />', $texte);
-        $texte = str_replace(':P ', '<img src="../images/smileys/langue.gif" title="Tire la langue" alt=":P" />', $texte);
-        $texte = str_replace(':oops: ', '<img src="../images/smileys/oups.gif" title="Embarassé" alt=":oops:" />', $texte);
-        $texte = str_replace(':cry: ', '<img src="../images/smileys/pleure.gif" title="Pleure" alt=":cry:" />', $texte);
-        $texte = str_replace(':evil: ', '<img src="../images/smileys/fache.gif" title="Fâché" alt=":evil:" />', $texte);
-        $texte = str_replace(':twisted: ', '<img src="../images/smileys/diable.gif" title="Diable" alt=":twisted:" />', $texte);
-        $texte = str_replace(':roll: ', '<img src="../images/smileys/yeux_roulants.gif" title="Yeux roulants" alt=":roll:" />', $texte);
-        $texte = str_replace(';) ', '<img src="../images/smileys/clin_oeil.gif" title="Clin d\'&oelig;il" alt=";)" />', $texte);
-        $texte = str_replace(':!:', '<img src="../images/smileys/exclamation.gif" title="Exclamation" alt=":!:" />', $texte);
-        $texte = str_replace(':?:', '<img src="../images/smileys/interrogation.gif" title="Interrogation" alt=":?:" />', $texte);
-        $texte = str_replace(':idea:', '<img src="../images/smileys/idee.png" title="Idée" alt=":idea:" />', $texte);
-        $texte = str_replace(':arrow:', '<img src="../images/smileys/fleche.gif" title="Flèche" alt=":arrow:" />', $texte);
-        $texte = str_replace(':| ', '<img src="../images/smileys/neutre.gif" title="Neutre" alt=":|" />', $texte);
-        $texte = str_replace(':face:', '<img src="../images/smileys/face.png" title="Face" alt=":face:" />', $texte);
-        $texte = str_replace(':star:', '<img src="../images/smileys/etoile.png" title="Etoile" alt=":star:" />', $texte);
-        $texte = str_replace(':suspect:', '<img src="../images/smileys/suspect.gif" title="Suspect" alt=":suspect:" />', $texte);
-        $texte = str_replace(':heart:', '<img src="../images/smileys/coeur.png" title="CÅ“ur" alt=":heart:" />', $texte);
-        $texte = str_replace(':no:', '<img src="../images/smileys/non.gif" title="Non" alt=":no:" />', $texte);
-        $texte = str_replace(':@:', '<img src="../images/smileys/@.png" title="@" alt=":@:" />', $texte);
-        $texte = str_replace(':cyclops:', '<img src="../images/smileys/cyclope.gif" title="Cyclope" alt=":cyclops:" />', $texte);
-        $texte = str_replace(':clown:', '<img src="../images/smileys/clown.png" title="Clown" alt=":clown:" />', $texte);
-        $texte = str_replace(':pirat:', '<img src="../images/smileys/pirate.png" title="Pirate" alt=":pirat:" />', $texte);
-        $texte = str_replace(':tongue:', '<img src="../images/smileys/nyah-nyah.png" title="Nyah-Nyah" alt=":tongue:" />', $texte);
-        $texte = str_replace(':silent:', '<img src="../images/smileys/silence.png" title="Silence" alt=":silent:" />', $texte);
-        $texte = str_replace(':pale:', '<img src="../images/smileys/pale.gif" title="Pâle" alt=":pale:" />', $texte);
-        $texte = str_replace(':alien:', '<img src="../images/smileys/alien.png" title="Alien" alt=":alien:" />', $texte);
-        $texte = str_replace(':cat:', '<img src="../images/smileys/chat.png" title="Chat" alt=":cat:" />', $texte);
-        $texte = str_replace(':monkey:', '<img src="../images/smileys/singe.png" title="Singe" alt=":monkey:" />', $texte);
-        $texte = str_replace(':pig:', '<img src="../images/smileys/cochon.png" title="Cochon" alt=":pig:" />', $texte);
-        $texte = str_replace(':rabbit:', '<img src="../images/smileys/lapin.png" title="Lapin" alt=":rabbit:" />', $texte);
-        $texte = str_replace(':bounce:', '<img src="../images/smileys/bong.gif" title="Bong" alt=":bounce:" />', $texte);
-        $texte = str_replace(':confused:', '<img src="../images/smileys/confus.png" title="Confus" alt=":confused:" />', $texte);
-        $texte = str_replace(':affraid:', '<img src="../images/smileys/effraye.gif" title="Effrayé" alt=":affraid:" />', $texte);
-        $texte = str_replace(':bball:', '<img src="../images/smileys/basketball.gif" title="BasketBall" alt=":bball:" />', $texte);
-        $texte = str_replace(':cheers:', '<img src="../images/smileys/bravo.png" title="Bravo" alt=":cheers:" />', $texte);
-        $texte = str_replace(':bom:', '<img src="../images/smileys/bebe.png" title="Bébé" alt=":bom:" />', $texte);
-        $texte = str_replace(':drunken:', '<img src="../images/smileys/bourre.png" title="Bourré" alt=":drunken:" />', $texte);
-        $texte = str_replace(':sleep:', '<img src="../images/smileys/endormi.gif" title="Endormi" alt=":sleep:" />', $texte);
-        $texte = str_replace(':sunny:', '<img src="../images/smileys/soleil.png" title="Soleil" alt=":sunny:" />', $texte);
-        $texte = str_replace(':albino:', '<img src="../images/smileys/albinos.png" title="Lapin Albinos" alt=":albino:" />', $texte);
-        $texte = str_replace(':cherry:', '<img src="../images/smileys/cerise.png" title="Cerise" alt=":cherry:" />', $texte);
-        $texte = str_replace(':santa:', '<img src="../images/smileys/pere_noel.png" title="Père Noël" alt=":santa:" />', $texte);
-        $texte = str_replace(':rendeer:', '<img src="../images/smileys/renne.png" title="Renne" alt=":rendeer:" />', $texte);
-        $texte = str_replace(':farao:', '<img src="../images/smileys/pharaon.png" title="Pharaon" alt=":farao:" />', $texte);
-        $texte = str_replace(':king:', '<img src="../images/smileys/roi.png" title="Roi" alt=":king:" />', $texte);
-        $texte = str_replace(':queen:', '<img src="../images/smileys/reine.png" title="Reine" alt=":queen:" />', $texte);
-        $texte = str_replace(':joker:', '<img src="../images/smileys/joker.png" title="Joker" alt=":joker:" />', $texte);
-        $texte = str_replace(':geek:', '<img src="../images/smileys/geek.png" title="Geek" alt=":geek:" />', $texte);
-        $texte = str_replace(':scratch:', '<img src="../images/smileys/gratte.png" title="Gratte" alt=":scratch" />', $texte);
-        $texte = str_replace(':study:', '<img src="../images/smileys/etudie.png" title="Etudie" alt=":study:" />', $texte);
-        $texte = str_replace(':elephant:', '<img src="../images/smileys/elephant.png" title="Eléphant" alt=":elephant:" />', $texte);
-        $texte = str_replace(':flower:', '<img src="../images/smileys/fleur.png" title="Fleur" alt=":flower:" />', $texte);
-        $texte = str_replace(':afro:', '<img src="../images/smileys/afro.png" title="Afro" alt=":afro:" />', $texte);
-        $texte = str_replace(':lol!:', '<img src="../images/smileys/lol.gif" title="Lol!" alt=":lol!:" />', $texte);
+        $texte = str_replace(':D', '<img src="' . $this->packages->getUrl('images/smileys/tres_heureux.png') . '" title="Très Heureux" alt=":)" />', $texte);
+        $texte = str_replace(':) ', '<img src="' . $this->packages->getUrl('images/smileys/sourire.gif') . '" title="Sourire" alt=":D" />', $texte);
+        $texte = str_replace(':( ', '<img src="' . $this->packages->getUrl('images/smileys/triste.gif') . '" title="Triste" alt=":(" />', $texte);
+        $texte = str_replace(':o ', '<img src="' . $this->packages->getUrl('images/smileys/surpris.gif') . '" title="Surpris" alt=":o" />', $texte);
+        $texte = str_replace(':shock: ', '<img src="' . $this->packages->getUrl('images/smileys/choque.gif') . '" title="Choqué" alt=":shock:" />', $texte);
+        $texte = str_replace('8) ', '<img src="' . $this->packages->getUrl('images/smileys/cool.gif') . '" title="Cool" alt="8)" />', $texte);
+        $texte = str_replace(':lol: ', '<img src="' . $this->packages->getUrl('images/smileys/rire.gif') . '" title="Rire" alt="lol" />', $texte);
+        $texte = str_replace(':x ', '<img src="' . $this->packages->getUrl('images/smileys/agressif.gif') . '" title="Agressif" alt=":x" />', $texte);
+        $texte = str_replace(':P ', '<img src="' . $this->packages->getUrl('images/smileys/langue.gif') . '" title="Tire la langue" alt=":P" />', $texte);
+        $texte = str_replace(':oops: ', '<img src="' . $this->packages->getUrl('images/smileys/oups.gif') . '" title="Embarassé" alt=":oops:" />', $texte);
+        $texte = str_replace(':cry: ', '<img src="' . $this->packages->getUrl('images/smileys/pleure.gif') . '" title="Pleure" alt=":cry:" />', $texte);
+        $texte = str_replace(':evil: ', '<img src="' . $this->packages->getUrl('images/smileys/fache.gif') . '" title="Fâché" alt=":evil:" />', $texte);
+        $texte = str_replace(':twisted: ', '<img src="' . $this->packages->getUrl('images/smileys/diable.gif') . '" title="Diable" alt=":twisted:" />', $texte);
+        $texte = str_replace(':roll: ', '<img src="' . $this->packages->getUrl('images/smileys/yeux_roulants.gif') . '" title="Yeux roulants" alt=":roll:" />', $texte);
+        $texte = str_replace(';) ', '<img src="' . $this->packages->getUrl('images/smileys/clin_oeil.gif') . '" title="Clin d\'&oelig;il" alt=";)" />', $texte);
+        $texte = str_replace(':!:', '<img src="' . $this->packages->getUrl('images/smileys/exclamation.gif') . '" title="Exclamation" alt=":!:" />', $texte);
+        $texte = str_replace(':?:', '<img src="' . $this->packages->getUrl('images/smileys/interrogation.gif') . '" title="Interrogation" alt=":?:" />', $texte);
+        $texte = str_replace(':idea:', '<img src="' . $this->packages->getUrl('images/smileys/idee.png') . '" title="Idée" alt=":idea:" />', $texte);
+        $texte = str_replace(':arrow:', '<img src="' . $this->packages->getUrl('images/smileys/fleche.gif') . '" title="Flèche" alt=":arrow:" />', $texte);
+        $texte = str_replace(':| ', '<img src="' . $this->packages->getUrl('images/smileys/neutre.gif') . '" title="Neutre" alt=":|" />', $texte);
+        $texte = str_replace(':face:', '<img src="' . $this->packages->getUrl('images/smileys/face.png') . '" title="Face" alt=":face:" />', $texte);
+        $texte = str_replace(':star:', '<img src="' . $this->packages->getUrl('images/smileys/etoile.png') . '" title="Etoile" alt=":star:" />', $texte);
+        $texte = str_replace(':suspect:', '<img src="' . $this->packages->getUrl('images/smileys/suspect.gif') . '" title="Suspect" alt=":suspect:" />', $texte);
+        $texte = str_replace(':heart:', '<img src="' . $this->packages->getUrl('images/smileys/coeur.png') . '" title="CÅ“ur" alt=":heart:" />', $texte);
+        $texte = str_replace(':no:', '<img src="' . $this->packages->getUrl('images/smileys/non.gif') . '" title="Non" alt=":no:" />', $texte);
+        $texte = str_replace(':@:', '<img src="' . $this->packages->getUrl('images/smileys/@.png') . '" title="@" alt=":@:" />', $texte);
+        $texte = str_replace(':cyclops:', '<img src="' . $this->packages->getUrl('images/smileys/cyclope.gif') . '" title="Cyclope" alt=":cyclops:" />', $texte);
+        $texte = str_replace(':clown:', '<img src="' . $this->packages->getUrl('images/smileys/clown.png') . '" title="Clown" alt=":clown:" />', $texte);
+        $texte = str_replace(':pirat:', '<img src="' . $this->packages->getUrl('images/smileys/pirate.png') . '" title="Pirate" alt=":pirat:" />', $texte);
+        $texte = str_replace(':tongue:', '<img src="' . $this->packages->getUrl('images/smileys/nyah-nyah.png') . '" title="Nyah-Nyah" alt=":tongue:" />', $texte);
+        $texte = str_replace(':silent:', '<img src="' . $this->packages->getUrl('images/smileys/silence.png') . '" title="Silence" alt=":silent:" />', $texte);
+        $texte = str_replace(':pale:', '<img src="' . $this->packages->getUrl('images/smileys/pale.gif') . '" title="Pâle" alt=":pale:" />', $texte);
+        $texte = str_replace(':alien:', '<img src="' . $this->packages->getUrl('images/smileys/alien.png') . '" title="Alien" alt=":alien:" />', $texte);
+        $texte = str_replace(':cat:', '<img src="' . $this->packages->getUrl('images/smileys/chat.png') . '" title="Chat" alt=":cat:" />', $texte);
+        $texte = str_replace(':monkey:', '<img src="' . $this->packages->getUrl('images/smileys/singe.png') . '" title="Singe" alt=":monkey:" />', $texte);
+        $texte = str_replace(':pig:', '<img src="' . $this->packages->getUrl('images/smileys/cochon.png') . '" title="Cochon" alt=":pig:" />', $texte);
+        $texte = str_replace(':rabbit:', '<img src="' . $this->packages->getUrl('images/smileys/lapin.png') . '" title="Lapin" alt=":rabbit:" />', $texte);
+        $texte = str_replace(':bounce:', '<img src="' . $this->packages->getUrl('images/smileys/bong.gif') . '" title="Bong" alt=":bounce:" />', $texte);
+        $texte = str_replace(':confused:', '<img src="' . $this->packages->getUrl('images/smileys/confus.png') . '" title="Confus" alt=":confused:" />', $texte);
+        $texte = str_replace(':affraid:', '<img src="' . $this->packages->getUrl('images/smileys/effraye.gif') . '" title="Effrayé" alt=":affraid:" />', $texte);
+        $texte = str_replace(':bball:', '<img src="' . $this->packages->getUrl('images/smileys/basketball.gif') . '" title="BasketBall" alt=":bball:" />', $texte);
+        $texte = str_replace(':cheers:', '<img src="' . $this->packages->getUrl('images/smileys/bravo.png') . '" title="Bravo" alt=":cheers:" />', $texte);
+        $texte = str_replace(':bom:', '<img src="' . $this->packages->getUrl('images/smileys/bebe.png') . '" title="Bébé" alt=":bom:" />', $texte);
+        $texte = str_replace(':drunken:', '<img src="' . $this->packages->getUrl('images/smileys/bourre.png') . '" title="Bourré" alt=":drunken:" />', $texte);
+        $texte = str_replace(':sleep:', '<img src="' . $this->packages->getUrl('images/smileys/endormi.gif') . '" title="Endormi" alt=":sleep:" />', $texte);
+        $texte = str_replace(':sunny:', '<img src="' . $this->packages->getUrl('images/smileys/soleil.png') . '" title="Soleil" alt=":sunny:" />', $texte);
+        $texte = str_replace(':albino:', '<img src="' . $this->packages->getUrl('images/smileys/albinos.png') . '" title="Lapin Albinos" alt=":albino:" />', $texte);
+        $texte = str_replace(':cherry:', '<img src="' . $this->packages->getUrl('images/smileys/cerise.png') . '" title="Cerise" alt=":cherry:" />', $texte);
+        $texte = str_replace(':santa:', '<img src="' . $this->packages->getUrl('images/smileys/pere_noel.png') . '" title="Père Noël" alt=":santa:" />', $texte);
+        $texte = str_replace(':rendeer:', '<img src="' . $this->packages->getUrl('images/smileys/renne.png') . '" title="Renne" alt=":rendeer:" />', $texte);
+        $texte = str_replace(':farao:', '<img src="' . $this->packages->getUrl('images/smileys/pharaon.png') . '" title="Pharaon" alt=":farao:" />', $texte);
+        $texte = str_replace(':king:', '<img src="' . $this->packages->getUrl('images/smileys/roi.png') . '" title="Roi" alt=":king:" />', $texte);
+        $texte = str_replace(':queen:', '<img src="' . $this->packages->getUrl('images/smileys/reine.png') . '" title="Reine" alt=":queen:" />', $texte);
+        $texte = str_replace(':joker:', '<img src="' . $this->packages->getUrl('images/smileys/joker.png') . '" title="Joker" alt=":joker:" />', $texte);
+        $texte = str_replace(':geek:', '<img src="' . $this->packages->getUrl('images/smileys/geek.png') . '" title="Geek" alt=":geek:" />', $texte);
+        $texte = str_replace(':scratch:', '<img src="' . $this->packages->getUrl('images/smileys/gratte.png') . '" title="Gratte" alt=":scratch" />', $texte);
+        $texte = str_replace(':study:', '<img src="' . $this->packages->getUrl('images/smileys/etudie.png') . '" title="Etudie" alt=":study:" />', $texte);
+        $texte = str_replace(':elephant:', '<img src="' . $this->packages->getUrl('images/smileys/elephant.png') . '" title="Eléphant" alt=":elephant:" />', $texte);
+        $texte = str_replace(':flower:', '<img src="' . $this->packages->getUrl('images/smileys/fleur.png') . '" title="Fleur" alt=":flower:" />', $texte);
+        $texte = str_replace(':afro:', '<img src="' . $this->packages->getUrl('images/smileys/afro.png') . '" title="Afro" alt=":afro:" />', $texte);
+        $texte = str_replace(':lol!:', '<img src="' . $this->packages->getUrl('images/smileys/lol.gif') . '" title="Lol!" alt=":lol!:" />', $texte);
 
         //Mise en forme du texte
         //gras
