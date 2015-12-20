@@ -10,6 +10,14 @@ use Gatsun\WebsiteBundle\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class UtilisateurController extends Controller
 {
@@ -43,40 +51,51 @@ class UtilisateurController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('username', 'text', array('label' => 'Identifiant'))
+            ->add('username', TextType::class, array('label' => 'Identifiant'))
             ->add(
                 'password',
-                'repeated',
+                RepeatedType::class,
                 array(
-                    'type' => 'password',
+                    'type' => PasswordType::class,
                     'invalid_message' => 'Les mots de passe doivent correspondre',
                     'options' => array('required' => true),
                     'first_options' => array('label' => 'Mot de passe'),
                     'second_options' => array('label' => 'Mot de passe (validation)'),
                 )
             )
-            ->add('email', 'email', array('label' => 'E-mail'))
-            ->add('fichier', 'file', array('required' => false, 'label' => 'Avatar'))
-            ->add('facebook', 'text', array('required' => false, 'label' => 'Facebook'))
-            ->add('twitter', 'text', array('required' => false, 'label' => 'Twitter'))
-            ->add('googlePlus', 'text', array('required' => false, 'label' => 'Google+'))
-            ->add('skype', 'text', array('required' => false, 'label' => 'Skype'))
-            ->add('nom', 'text', array('required' => false, 'label' => 'Nom'))
-            ->add('prenom', 'text', array('required' => false, 'label' => 'Nom'))
+            ->add('email', EmailType::class, array('label' => 'E-mail'))
+            ->add('fichier', FileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
+            ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
+            ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
+            ->add('skype', TextType::class, array('required' => false, 'label' => 'Skype'))
+            ->add('nom', TextType::class, array('required' => false, 'label' => 'Nom'))
+            ->add('prenom', TextType::class, array('required' => false, 'label' => 'Nom'))
             ->add(
                 'dateNaissance',
-                'date',
-                array('required' => false, 'label' => 'Date de naissance', 'widget' => 'single_text', 'attr' => array('class' => 'datepicker'))
+                DateType::class,
+                array(
+                    'required' => false,
+                    'label' => 'Date de naissance',
+                    'widget' => 'single_text',
+                    'format' => 'dd MMMM y',
+                    'attr' => array('class' => 'datepicker')
+                )
             )
-            ->add('nom', 'text', array('required' => false, 'label' => 'Prénom'))
-            ->add('adresse', 'text', array('required' => false, 'label' => 'Adresse'))
-            ->add('codePostal', 'text', array('required' => false, 'label' => 'Code postal'))
-            ->add('ville', 'text', array('required' => false, 'label' => 'Ville'))
-            ->add('telephone', 'text', array('required' => false, 'label' => 'Téléphone'))
+            ->add('nom', TextType::class, array('required' => false, 'label' => 'Prénom'))
+            ->add('adresse', TextType::class, array('required' => false, 'label' => 'Adresse'))
+            ->add('codePostal', TextType::class, array('required' => false, 'label' => 'Code postal'))
+            ->add('ville', TextType::class, array('required' => false, 'label' => 'Ville'))
+            ->add('telephone', TextType::class, array('required' => false, 'label' => 'Téléphone'))
             ->add(
                 'acceptConditions',
-                'checkbox',
-                array('required' => true, 'label' => 'J\'ai lu et j\'accepte les ', 'mapped' => false, 'attr' => array('class' => 'filled-in'))
+                CheckboxType::class,
+                array(
+                    'required' => true,
+                    'label' => 'J\'ai lu et j\'accepte les ',
+                    'mapped' => false,
+                    'attr' => array('class' => 'filled-in'),
+                )
             );
 
         // À partir du formBuilder, on génère le formulaire
@@ -98,7 +117,7 @@ class UtilisateurController extends Controller
             $em->persist($user);
             $em->flush();
 
-           $message = \Swift_Message::newInstance()
+            $message = \Swift_Message::newInstance()
                 ->setSubject('[Gatsun Site] Confirmation de l\'inscription')
                 ->setFrom('gatsun.radio@gmail.com')
                 ->setTo($user->getEmail())
@@ -157,37 +176,46 @@ class UtilisateurController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('fichier', 'file', array('required' => false, 'label' => 'Avatar'))
-            ->add('facebook', 'text', array('required' => false, 'label' => 'Facebook'))
-            ->add('twitter', 'text', array('required' => false, 'label' => 'Twitter'))
-            ->add('googlePlus', 'text', array('required' => false, 'label' => 'Google+'))
-            ->add('skype', 'text', array('required' => false, 'label' => 'Skype'))
-            ->add('nom', 'text', array('required' => false, 'label' => 'Nom'))
-            ->add('prenom', 'text', array('required' => false, 'label' => 'Nom'))
+            ->add('fichier', FileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
+            ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
+            ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
+            ->add('skype', TextType::class, array('required' => false, 'label' => 'Skype'))
+            ->add('nom', TextType::class, array('required' => false, 'label' => 'Nom'))
+            ->add('prenom', TextType::class, array('required' => false, 'label' => 'Nom'))
             ->add(
                 'dateNaissance',
-                'date',
-                array('required' => false, 'label' => 'Date de naissance', 'widget' => 'single_text')
+                DateType::class,
+                array(
+                    'required' => false,
+                    'label' => 'Date de naissance',
+                    'widget' => 'single_text',
+                    'format' => 'dd MMMM y',
+                    'attr' => array('class' => 'datepicker')
+                )
             )
-            ->add('nom', 'text', array('required' => false, 'label' => 'Prénom'))
-            ->add('adresse', 'text', array('required' => false, 'label' => 'Adresse'))
-            ->add('codePostal', 'text', array('required' => false, 'label' => 'Code postal'))
-            ->add('ville', 'text', array('required' => false, 'label' => 'Ville'))
-            ->add('telephone', 'text', array('required' => false, 'label' => 'Téléphone'));
+            ->add('nom', TextType::class, array('required' => false, 'label' => 'Prénom'))
+            ->add('adresse', TextType::class, array('required' => false, 'label' => 'Adresse'))
+            ->add('codePostal', TextType::class, array('required' => false, 'label' => 'Code postal'))
+            ->add('ville', TextType::class, array('required' => false, 'label' => 'Ville'))
+            ->add('telephone', TextType::class, array('required' => false, 'label' => 'Téléphone'));
 
         // Modification du rôle uniquement si l'on est admin
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $formBuilder->add(
                 'roles',
-                'choice',
+                ChoiceType::class,
                 array(
                     'choices' => array(
-                        'ROLE_USER' => 'Utilisateur classique',
-                        'ROLE_MEMBRE' => 'Membre de l\'association',
-                        'ROLE_ADMIN' => 'Administrateur',
+                        'Auditeur' => 'ROLE_USER',
+                        'Membre de l\'association' => 'ROLE_MEMBRE',
+                        'Administrateur' => 'ROLE_ADMIN',
                     ),
                     'multiple' => true,
+                    'choices_as_values' => true,
                     'required' => true,
+                    'label' => 'Rôle',
+                    'attr' => array('class' => 'browser-default')
                 )
             );
         }

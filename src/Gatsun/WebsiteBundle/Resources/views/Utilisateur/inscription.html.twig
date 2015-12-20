@@ -5,150 +5,150 @@
     <section>
         <h1>Inscription</h1>
 
-        <form method="post" id="inscription" {{ form_enctype(form) }}>
-            {% for error in form.vars.errors %}
-                <div class="alert alert-danger">
-                    <strong>Erreur :</strong> {{ error.message|trans({},'messages') }}
-                </div>
-            {% endfor %}
-            <div class="card-panel">
-                <h3>Informations de connexion</h3>
-
-                <em>Tous les champs sont obligatoires.</em>
-
-                {{ form_errors(form.username) }}
-                <div class="input-field">
-                    {{ form_widget(form.username) }}
-                    {{ form_label(form.username) }}
-                </div>
-
-                {{ form_errors(form.password.first) }}
-                <div class="input-field">
-                    {{ form_widget(form.password.first) }}
-                    {{ form_label(form.password.first) }}
-                </div>
-
-                {{ form_errors(form.password.second) }}
-                <div class="input-field">
-                    {{ form_widget(form.password.second) }}
-                    {{ form_label(form.password.second) }}
-                </div>
-
-                {{ form_errors(form.email) }}
-                <div class="input-field">
-                    {{ form_widget(form.email) }}
-                    {{ form_label(form.email) }}
-                </div>
+        {{ form_start(form) }}
+        {% for error in form.vars.errors %}
+            <div class="alert alert-danger">
+                <strong>Erreur :</strong> {{ error.message|trans({},'messages') }}
             </div>
-            <div class="card-panel">
-                <h3>Personnalisation du profil</h3>
+        {% endfor %}
+        <div class="card-panel">
+            <h3>Informations de connexion</h3>
 
-                <em>Tous les champs sont facultatifs.</em>
-                {{ form_errors(form.fichier) }}
+            <em>Tous les champs sont obligatoires.</em>
 
-                <div class="file-field input-field">
-                    <div class="btn waves-effect waves-light">
-                        <span>Avatar</span>
-                        {{ form_widget(form.fichier) }}
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Sélectionnez un fichier">
-                    </div>
-                </div>
-
-                {{ form_errors(form.facebook) }}
-                <div class="input-field">
-                    {{ form_widget(form.facebook) }}
-                    {{ form_label(form.facebook) }}
-                </div>
-
-                {{ form_errors(form.twitter) }}
-                <div class="input-field">
-                    {{ form_widget(form.twitter) }}
-                    {{ form_label(form.twitter) }}
-                </div>
-
-                {{ form_errors(form.googlePlus) }}
-                <div class="input-field">
-                    {{ form_widget(form.googlePlus) }}
-                    {{ form_label(form.googlePlus) }}
-                </div>
-
-                {{ form_errors(form.skype) }}
-                <div class="input-field">
-                    {{ form_widget(form.skype) }}
-                    {{ form_label(form.skype) }}
-                </div>
+            {{ form_errors(form.username) }}
+            <div class="input-field">
+                {{ form_widget(form.username) }}
+                {{ form_label(form.username) }}
             </div>
-            <div class="card-panel">
-                <h3>Informations personnelles</h3>
 
-                <em>Tous les champs sont facultatifs et servent uniquement pour les jeux concours.</em>
+            {{ form_errors(form.password.first) }}
+            <div class="input-field">
+                {{ form_widget(form.password.first) }}
+                {{ form_label(form.password.first) }}
+            </div>
 
-                {{ form_errors(form.nom) }}
+            {{ form_errors(form.password.second) }}
+            <div class="input-field">
+                {{ form_widget(form.password.second) }}
+                {{ form_label(form.password.second) }}
+            </div>
 
-                <div class="input-field">
-                    {{ form_widget(form.nom) }}
-                    {{ form_label(form.nom) }}
+            {{ form_errors(form.email) }}
+            <div class="input-field">
+                {{ form_widget(form.email) }}
+                {{ form_label(form.email) }}
+            </div>
+        </div>
+        <div class="card-panel">
+            <h3>Personnalisation du profil</h3>
+
+            <em>Tous les champs sont facultatifs.</em>
+
+            {{ form_errors(form.fichier) }}
+            <div class="file-field input-field">
+                <div class="btn waves-effect waves-light">
+                    <span>Avatar</span>
+                    {{ form_widget(form.fichier) }}
                 </div>
-
-                {{ form_errors(form.prenom) }}
-                <div class="input-field">
-                    {{ form_widget(form.prenom) }}
-                    {{ form_label(form.prenom) }}
-                </div>
-
-                {{ form_errors(form.dateNaissance) }}
-
-                <div class="input-field">
-                    {{ form_widget(form.dateNaissance) }}
-                    {{ form_label(form.dateNaissance) }}
-                </div>
-
-                {{ form_errors(form.adresse) }}
-                <div class="input-field">
-                    {{ form_widget(form.adresse) }}
-                    {{ form_label(form.adresse) }}
-                </div>
-
-                {{ form_errors(form.codePostal) }}
-                <div class="input-field">
-                    {{ form_widget(form.codePostal) }}
-                    {{ form_label(form.codePostal) }}
-                </div>
-
-                {{ form_errors(form.ville) }}
-                <div class="input-field">
-                    {{ form_widget(form.ville) }}
-                    {{ form_label(form.ville) }}
-                </div>
-
-                {{ form_errors(form.telephone) }}
-                <div class="input-field">
-                    {{ form_widget(form.telephone) }}
-                    {{ form_label(form.telephone) }}
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Sélectionnez un fichier">
                 </div>
             </div>
 
-            {{ form_errors(form.acceptConditions) }}
-            <p>
-                {{ form_widget(form.acceptConditions) }}
-                {{ form_label(form.acceptConditions) }}
-                <a href="{{ path('gatsun_website_conditions') }}">Conditions d'utilisation</a>
-            </p>
+            {{ form_errors(form.facebook) }}
+            <div class="input-field">
+                {{ form_widget(form.facebook) }}
+                {{ form_label(form.facebook) }}
+            </div>
 
-            {{ form_widget(form._token) }}
-            <button type="submit" class="btn waves-effect waves-light green">
-                <i class="material-icons left">done</i>
-                S'inscrire
-            </button>
-        </form>
+            {{ form_errors(form.twitter) }}
+            <div class="input-field">
+                {{ form_widget(form.twitter) }}
+                {{ form_label(form.twitter) }}
+            </div>
+
+            {{ form_errors(form.googlePlus) }}
+            <div class="input-field">
+                {{ form_widget(form.googlePlus) }}
+                {{ form_label(form.googlePlus) }}
+            </div>
+
+            {{ form_errors(form.skype) }}
+            <div class="input-field">
+                {{ form_widget(form.skype) }}
+                {{ form_label(form.skype) }}
+            </div>
+        </div>
+        <div class="card-panel">
+            <h3>Informations personnelles</h3>
+
+            <em>Tous les champs sont facultatifs et servent uniquement pour les jeux concours.</em>
+
+            {{ form_errors(form.nom) }}
+            <div class="input-field">
+                {{ form_widget(form.nom) }}
+                {{ form_label(form.nom) }}
+            </div>
+
+            {{ form_errors(form.prenom) }}
+            <div class="input-field">
+                {{ form_widget(form.prenom) }}
+                {{ form_label(form.prenom) }}
+            </div>
+
+            {{ form_errors(form.dateNaissance) }}
+
+            <div class="input-field">
+                {{ form_widget(form.dateNaissance) }}
+                {{ form_label(form.dateNaissance) }}
+            </div>
+
+            {{ form_errors(form.adresse) }}
+            <div class="input-field">
+                {{ form_widget(form.adresse) }}
+                {{ form_label(form.adresse) }}
+            </div>
+
+            {{ form_errors(form.codePostal) }}
+            <div class="input-field">
+                {{ form_widget(form.codePostal) }}
+                {{ form_label(form.codePostal) }}
+            </div>
+
+            {{ form_errors(form.ville) }}
+            <div class="input-field">
+                {{ form_widget(form.ville) }}
+                {{ form_label(form.ville) }}
+            </div>
+
+            {{ form_errors(form.telephone) }}
+            <div class="input-field">
+                {{ form_widget(form.telephone) }}
+                {{ form_label(form.telephone) }}
+            </div>
+        </div>
+
+        {{ form_errors(form.acceptConditions) }}
+        <p>
+            {{ form_widget(form.acceptConditions) }}
+            {{ form_label(form.acceptConditions) }}
+            <a href="{{ path('gatsun_website_conditions') }}">Conditions d'utilisation</a>
+        </p>
+
+        {{ form_widget(form._token) }}
+        <button type="submit" class="btn waves-effect waves-light green">
+            <i class="material-icons left">done</i>
+            S'inscrire
+        </button>
+        {{ form_end(form) }}
     </section>
 {% endblock %}
 
 {% block javascripts %}
     <script>
         $(document).ready(function () {
+            // Définition du DatePicker
             $.extend(jQuery.fn.pickadate.defaults, {
                 // Chaînes de caractères et traductions
                 monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -164,7 +164,7 @@
                 // Formats
                 firstDay: 1,
                 format: 'dd mmmm yyyy',
-                formatSubmit: 'yyyy-mm-dd',
+                formatSubmit: 'dd mmmm yyyy',
                 hiddenName: true,
 
                 // Labels d'accessibilité
