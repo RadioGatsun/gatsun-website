@@ -49,3 +49,4 @@
 !/web/images/emissions/.gitkeep
 !/web/images/profils/.gitkeep
 !/web/images/vignettes/.gitkeep
+composer.lock
