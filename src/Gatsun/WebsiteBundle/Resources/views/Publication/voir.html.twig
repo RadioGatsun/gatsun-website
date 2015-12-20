@@ -212,11 +212,11 @@
                             rafraichirCommentaires();
 
                             // Message : Succès !
-                            Materialize.toast('Commentaire modéré avec succès', 4000);
+                            Materialize.toast('Commentaire modéré avec succès', 4000, 'green');
                         })
                         .fail(function () {
                             // Message : Erreur !
-                            Materialize.toast('Erreur lors de la modération du commentaire', 10000);
+                            Materialize.toast('Erreur lors de la modération du commentaire', 10000, 'red');
                         });
             }
         }
@@ -235,11 +235,11 @@
                             rafraichirCommentaires();
 
                             // Message : Succès !
-                            Materialize.toast('Commentaire supprimé avec succès', 4000);
+                            Materialize.toast('Commentaire supprimé avec succès', 4000, 'green');
                         })
                         .fail(function () {
                             // Message : Erreur !
-                            Materialize.toast('Erreur lors de la suppression du commentaire', 10000);
+                            Materialize.toast('Erreur lors de la suppression du commentaire', 10000, 'red');
                         });
             }
         }

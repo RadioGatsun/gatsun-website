@@ -3,12 +3,6 @@
 {% block body %}
     <section>
         <h1>Connexion</h1>
-        {# S'il y a une erreur, on l'affiche dans un joli cadre #}
-        {% if error %}
-            <div class="alert alert-danger">
-                <strong>Erreur :</strong> {{ error.message|trans({},'messages') }}
-            </div>
-        {% endif %}
 
         {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
         <form action="{{ path('gatsun_website_verif_connexion') }}" method="post">
@@ -25,6 +19,16 @@
             <a href="{{ path('gatsun_website_inscription') }}" class="btn waves-effect waves-light">S'inscrire</a>
         </form>
     </section>
+{% endblock %}
+{% block javascripts %}
+    {% if error %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // Afficher les erreurs
+                Materialize.toast('<strong>Erreur :&nbsp</strong>{{ error.message|trans({}, 'messages') }}', 10000, 'red');
+            });
+        </script>
+    {% endif %}
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('css/connexion.css') }}"/>
