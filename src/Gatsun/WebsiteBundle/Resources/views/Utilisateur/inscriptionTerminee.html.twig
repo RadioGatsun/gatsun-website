@@ -1,24 +1,21 @@
 {% extends "::base.html.twig" %}
 {% block title %}Inscription &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-	<section class="panel panel-default">
-		<div class="panel-heading">
-	    	<h1>Inscription</h1>
-	    </div>
-	    <div class="panel-body">
-	    	<p>
-	    		Félicitations {{ utilisateur.username }} !
-	    	</p>
-	    	<p>
-	    		Votre inscription sur le site Internet de Radio Gatsun a bien été prise en compte.
-	    	</p>
-	    	<p>
-	    		Néanmoins, vous devez valider votre inscription à l'aide de l'e-mail que nous venons de vous envoyer à l'adresse <a href="mailto:{{ utilisateur.email }}">{{ utilisateur.email }}</a>.
-	    	</p>
-	    	<p>
-	    		À très bientôt sur Radio Gatsun !
-	    	</p>
+    <section>
+        <h1>Inscription</h1>
 
-	    </div>
-	</section>
+        <p>
+            Félicitations {{ utilisateur.username }} !
+        </p>
+        <p>
+            Votre inscription sur le site Internet de Radio Gatsun a bien été prise en compte.
+        </p>
+        <p>
+            Néanmoins, vous devez valider votre inscription à l'aide de l'e-mail que nous venons de vous envoyer à
+            l'adresse <a href="mailto:{{ utilisateur.email }}">{{ utilisateur.email }}</a>.
+        </p>
+        <p>
+            À très bientôt sur Radio Gatsun !
+        </p>
+    </section>
 {% endblock %}
