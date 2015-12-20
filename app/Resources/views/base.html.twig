@@ -63,16 +63,21 @@
                                 <i class="material-icons right">arrow_drop_down</i>
                             </a>
                             <ul id="dropdown-admin" class="dropdown-content">
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a></li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_publications') }}">Publications</a></li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a></li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a></li>
+                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a>
+                                </li>
+                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_publications') }}">Publications</a>
+                                </li>
+                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a>
+                                </li>
+                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a>
+                                </li>
                             </ul>
                         </li>
 
                     {% endif %}
                     <li {% if 'utilisateur' in app.request.uri and app.user.username in app.request.uri %}class="active"{% endif %}>
-                        <a class="waves-effect" href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
+                        <a class="waves-effect"
+                           href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
                             <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
                                  alt="Avatar de {{ app.user.username }}"/>
                             {{ app.user.username }}
@@ -117,14 +122,18 @@
                                     <div class="collapsible-body">
                                         <ul>
                                             <li>
-                                                <a class="waves-effect" href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a>
+                                                <a class="waves-effect"
+                                                   href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a>
                                             </li>
                                             <li>
-                                                <a class="waves-effect" href="{{ path('gatsun_website_admin_publications') }}">Publications</a>
+                                                <a class="waves-effect"
+                                                   href="{{ path('gatsun_website_admin_publications') }}">Publications</a>
                                             </li>
-                                            <li><a class="waves-effect" href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a>
+                                            <li><a class="waves-effect"
+                                                   href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a>
                                             </li>
-                                            <li><a class="waves-effect" href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a>
+                                            <li><a class="waves-effect"
+                                                   href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -134,7 +143,8 @@
 
                     {% endif %}
                     <li {% if app.request.uri|split('/')[3] == 'utilisateur' and app.request.uri|split('/')[4] == app.user.username %}class="active"{% endif %}>
-                        <a class="waves-effect" href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
+                        <a class="waves-effect"
+                           href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
                             <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
                                  alt="Avatar de {{ app.user.username }}"/>
                             {{ app.user.username }}
@@ -149,15 +159,7 @@
 </div>
 
 <div class="container">
-    {#{% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="alert alert-dismissible alert-{{ flashMessage|split('|')[0] }}">
-            <button type="button" class="close" data-dismiss="alert">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Fermer</span>
-            </button>
-            <strong>{{ flashMessage|split('|')[1] }}</strong> {{ flashMessage|split('|')[2] }}
-        </div>
-    {% endfor %}#}
+
     {% block body %}{% endblock %}
 
 </div>
@@ -217,6 +219,12 @@
     $(document).ready(function () {
         $('.button-collapse').sideNav();
         $(".dropdown-button").dropdown();
+
+        {% for type, messages in app.session.flashbag.all %}
+        {% for message in messages %}
+        Materialize.toast('{{ message }}', 10000);
+        {% endfor %}
+        {% endfor %}
     });
 </script>
 
