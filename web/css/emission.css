@@ -1,15 +1,5 @@
-.media-object
-{
-	max-width: 150px;
-	max-height: 150px;
-}
-
-.bandeau
-{
-	max-width: 100%;
-}
-
-aside
-{
-	font-size: 0.8em;
+#presentateurs img {
+    max-width: 30px;
+    max-height: 30px;
+    vertical-align: middle;
 }

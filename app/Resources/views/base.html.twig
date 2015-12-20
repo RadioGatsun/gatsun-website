@@ -58,7 +58,7 @@
                 {% else %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <li {% if 'admin' in app.request.uri %}class="active"{% endif %}>
-                            <a class="dropdown-button waves-effect" href="#!" data-activates="dropdown-admin">
+                            <a class="dropdown-button waves-effect" href="#" data-activates="dropdown-admin">
                                 Admin
                                 <i class="material-icons right">arrow_drop_down</i>
                             </a>
@@ -79,7 +79,7 @@
                         <a class="waves-effect"
                            href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
                             <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
-                                 alt="Avatar de {{ app.user.username }}"/>
+                                 alt="Avatar de {{ app.user.username }}" class="circle"/>
                             {{ app.user.username }}
                         </a>
                     </li>
