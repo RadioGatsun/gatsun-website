@@ -2,140 +2,154 @@
 {% block title %}Modification du profil &ndash; {{ parent() }}{% endblock %}
 {% block body %}
     {% form_theme form 'GatsunWebsiteBundle:Form:fields.html.twig' %}
-    <section class="panel panel-default">
-        <div class="panel-heading">
-            <h1>Modification du profil</h1>
-        </div>
-        <div class="panel-body">
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            <div class="card-panel">
-                <h3>Personnalisation du profil</h3>
+    <section>
+        <h1>Modification du profil</h1>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="card-panel">
+            <h3>Personnalisation du profil</h3>
 
-                <em>Tous les champs sont facultatifs.</em>
+            <em>Tous les champs sont facultatifs.</em>
 
-                <div>
-                    Avatar actuel :
-                    {% if utilisateur.image != "/../defaut.png" %}
-                        <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
-                             alt="Avatar de {{ utilisateur.username }}"/>
-                        <button class="btn btn-default btn-danger" onClick="confirmerSuppression()"><i
-                                    class="fa fa-trash-o fa-fw"></i> Supprimer
-                        </button>
-                        <br/>
-                    {% else %}
-                        Aucun<br/>
-                    {% endif %}
-                </div>
-
-                {{ form_errors(form.fichier) }}
-                <div class="file-field input-field">
-                    <div class="btn waves-effect waves-light">
-                        <span>Avatar</span>
-                        {{ form_widget(form.fichier) }}
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Sélectionnez un fichier">
-                    </div>
-                </div>
-
-                {{ form_errors(form.facebook) }}
-                <div class="input-field">
-                    {{ form_widget(form.facebook) }}
-                    {{ form_label(form.facebook) }}
-                </div>
-
-                {{ form_errors(form.twitter) }}
-                <div class="input-field">
-                    {{ form_widget(form.twitter) }}
-                    {{ form_label(form.twitter) }}
-                </div>
-
-                {{ form_errors(form.googlePlus) }}
-                <div class="input-field">
-                    {{ form_widget(form.googlePlus) }}
-                    {{ form_label(form.googlePlus) }}
-                </div>
-
-                {{ form_errors(form.skype) }}
-                <div class="input-field">
-                    {{ form_widget(form.skype) }}
-                    {{ form_label(form.skype) }}
-                </div>
-            </div>
-            <div class="card-panel">
-                <h3>Informations personnelles</h3>
-
-                <em>Tous les champs sont facultatifs et servent uniquement pour les jeux concours.</em>
-
-                {{ form_errors(form.nom) }}
-                <div class="input-field">
-                    {{ form_widget(form.nom) }}
-                    {{ form_label(form.nom) }}
-                </div>
-
-                {{ form_errors(form.prenom) }}
-                <div class="input-field">
-                    {{ form_widget(form.prenom) }}
-                    {{ form_label(form.prenom) }}
-                </div>
-
-                {{ form_errors(form.dateNaissance) }}
-
-                <div class="input-field">
-                    {{ form_widget(form.dateNaissance) }}
-                    {{ form_label(form.dateNaissance) }}
-                </div>
-
-                {{ form_errors(form.adresse) }}
-                <div class="input-field">
-                    {{ form_widget(form.adresse) }}
-                    {{ form_label(form.adresse) }}
-                </div>
-
-                {{ form_errors(form.codePostal) }}
-                <div class="input-field">
-                    {{ form_widget(form.codePostal) }}
-                    {{ form_label(form.codePostal) }}
-                </div>
-
-                {{ form_errors(form.ville) }}
-                <div class="input-field">
-                    {{ form_widget(form.ville) }}
-                    {{ form_label(form.ville) }}
-                </div>
-
-                {{ form_errors(form.telephone) }}
-                <div class="input-field">
-                    {{ form_widget(form.telephone) }}
-                    {{ form_label(form.telephone) }}
-                </div>
-            </div>
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <div class="card-panel">
-                    <h3>Rôles</h3>
-
-                    {{ form_errors(form.roles) }}
-                    <div class="input-field">
-                        {{ form_widget(form.roles) }}
-                        {{ form_label(form.roles) }}
-                    </div>
+            <div id="avatar">
+                Avatar actuel :
+                {% if utilisateur.image != "/../defaut.png" %}
+                    <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
+                         alt="Avatar de {{ utilisateur.username }}"/>
+                    <button class="btn red modal-trigger" data-target="supprimerAvatar">
+                        <i class="material-icons left">delete</i>
+                        Supprimer
+                    </button>
                     <br/>
-                </div>
-            {% endif %}
+                {% else %}
+                    Aucun<br/>
+                {% endif %}
+            </div>
 
-            {{ form_widget(form._token) }}
-            <input type="submit" class="btn" value="Valider les modifications"/>
-            {{ form_end(form) }}
+            {{ form_errors(form.fichier) }}
+            <div class="file-field input-field">
+                <div class="btn waves-effect waves-light">
+                    <span>Avatar</span>
+                    {{ form_widget(form.fichier) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Sélectionnez un fichier">
+                </div>
+            </div>
+
+            {{ form_errors(form.facebook) }}
+            <div class="input-field">
+                {{ form_widget(form.facebook) }}
+                {{ form_label(form.facebook) }}
+            </div>
+
+            {{ form_errors(form.twitter) }}
+            <div class="input-field">
+                {{ form_widget(form.twitter) }}
+                {{ form_label(form.twitter) }}
+            </div>
+
+            {{ form_errors(form.googlePlus) }}
+            <div class="input-field">
+                {{ form_widget(form.googlePlus) }}
+                {{ form_label(form.googlePlus) }}
+            </div>
+
+            {{ form_errors(form.skype) }}
+            <div class="input-field">
+                {{ form_widget(form.skype) }}
+                {{ form_label(form.skype) }}
+            </div>
         </div>
+        <div class="card-panel">
+            <h3>Informations personnelles</h3>
+
+            <em>Tous les champs sont facultatifs et servent uniquement pour les jeux concours.</em>
+
+            {{ form_errors(form.nom) }}
+            <div class="input-field">
+                {{ form_widget(form.nom) }}
+                {{ form_label(form.nom) }}
+            </div>
+
+            {{ form_errors(form.prenom) }}
+            <div class="input-field">
+                {{ form_widget(form.prenom) }}
+                {{ form_label(form.prenom) }}
+            </div>
+
+            {{ form_errors(form.dateNaissance) }}
+
+            <div class="input-field">
+                {{ form_widget(form.dateNaissance) }}
+                {{ form_label(form.dateNaissance) }}
+            </div>
+
+            {{ form_errors(form.adresse) }}
+            <div class="input-field">
+                {{ form_widget(form.adresse) }}
+                {{ form_label(form.adresse) }}
+            </div>
+
+            {{ form_errors(form.codePostal) }}
+            <div class="input-field">
+                {{ form_widget(form.codePostal) }}
+                {{ form_label(form.codePostal) }}
+            </div>
+
+            {{ form_errors(form.ville) }}
+            <div class="input-field">
+                {{ form_widget(form.ville) }}
+                {{ form_label(form.ville) }}
+            </div>
+
+            {{ form_errors(form.telephone) }}
+            <div class="input-field">
+                {{ form_widget(form.telephone) }}
+                {{ form_label(form.telephone) }}
+            </div>
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="card-panel">
+                <h3>Rôles</h3>
+
+                {{ form_errors(form.roles) }}
+                <div class="input-field">
+                    {{ form_widget(form.roles) }}
+                    {{ form_label(form.roles) }}
+                </div>
+            </div>
+        {% endif %}
+
+        {{ form_widget(form._token) }}
+        <button type="submit" class="btn green">
+            <i class="material-icons left">done</i>
+            Valider les modifications
+        </button>
+        {{ form_end(form) }}
     </section>
+
+    {# Boîte de confirmation de suppression #}
+    <div id="supprimerAvatar" class="modal">
+        <div class="modal-content">
+            <h4>Suppression de l'avatar</h4>
+            <p>Êtes-vous sur de vouloir supprimer l'avatar actuel ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="suppression" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
-    <script language="JavaScript" type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             // Activer le select multiple
             $('select').material_select();
+
+            // Activer la suppression de l'avatar
+            $('.modal-trigger').leanModal();
 
             // Design des checkboxes du select multiple
             $('input:checkbox').addClass('filled-in');
@@ -177,30 +191,24 @@
                 // Dates limites
                 max: new Date()
             });
+
+            $('#suppression').click(function () {
+                $.ajax({
+                            url: "{{ path('gatsun_website_utilisateur_supprimer_avatar', {id: utilisateur.id}) }}"
+                        })
+                        .done(function () {
+                            // Suppression visuelle de l'avatar
+                            $('#avatar').html("Avatar actuel : Aucun <br />");
+
+                            // Message : Succès !
+                            Materialize.toast('Avatar supprimé avec succès', 4000, 'green');
+                        })
+                        .fail(function () {
+                            // Message : Erreur !
+                            Materialize.toast('Erreur lors de la suppression de l\'avatar', 10000, 'red');
+                        });
+
+            });
         });
-
-        function confirmerSuppression() {
-
-            if (confirm("Êtes-vous sur de vouloir supprimer votre avatar actuel ?")) {
-                try {
-                    xhrCom = new ActiveXObject("Microsoft.XMLHTTP");    // tenter IE
-                }
-                catch (e)    // en cas d'échec
-                {
-                    xhrCom = new XMLHttpRequest();    // autres navigateurs
-                }
-
-                xhrCom.onreadystatechange = function () {
-                    if (xhrCom.readyState == 4 && xhrCom.status == 200) {
-                        location.reload();
-                    }
-                }
-                xhrCom.open("GET", "{{ path('gatsun_website_utilisateur_supprimer_avatar') }}", true);
-                xhrCom.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhrCom.send();
-            }
-
-            return false;
-        }
     </script>
 {% endblock %}

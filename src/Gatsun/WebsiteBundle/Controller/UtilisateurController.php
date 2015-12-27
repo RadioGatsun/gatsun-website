@@ -214,8 +214,7 @@ class UtilisateurController extends Controller
                     'multiple' => true,
                     'choices_as_values' => true,
                     'required' => true,
-                    'label' => 'Rôle',
-                    'attr' => array('class' => 'browser-default')
+                    'label' => 'Rôle'
                 )
             );
         }
@@ -391,9 +390,12 @@ class UtilisateurController extends Controller
         }
     }
 
-    public function supprimerAvatarAction()
+    public function supprimerAvatarAction($id)
     {
-        $utilisateur = $this->getUser();
+        $utilisateur = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('GatsunWebsiteBundle:Utilisateur')
+            ->findOneById($id);
         $utilisateur->supprimerImage();
         $em = $this->getDoctrine()->getManager();
         $em->persist($utilisateur);

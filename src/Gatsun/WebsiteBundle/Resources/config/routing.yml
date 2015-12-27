@@ -20,9 +20,9 @@ gatsun_website_radio:
     path:  /la-radio
     defaults: { _controller: GatsunWebsiteBundle:General:radio }
 
-gatsun_website_vignette:
-    path: /vignette
-    defaults: { _controller: GatsunWebsiteBundle:General:vignette }
+#gatsun_website_vignette:
+#    path: /vignette
+#    defaults: { _controller: GatsunWebsiteBundle:General:vignette }
 
 gatsun_website_conditions:
     path: /conditions-utilisation
@@ -71,7 +71,7 @@ gatsun_website_utilisateur_debannir:
     defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:debannir }
 
 gatsun_website_utilisateur_supprimer_avatar:
-    path:   /utilisateur/supprimerAvatar
+    path:   /utilisateur/supprimerAvatar/{id}
     defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:supprimerAvatar }
 
 gatsun_website_utilisateur:
