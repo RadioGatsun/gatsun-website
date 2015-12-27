@@ -30,7 +30,7 @@
         </div>
     </section>
     <section>
-        <h3>Commentaires</h3>
+        <h3>Discussion</h3>
 
         <div class="card-panel">
             {% if app.user == null %}
@@ -143,7 +143,7 @@
                     <div class="input-field">
                         <textarea id="texte" class="materialize-textarea" required="required"></textarea>
                         <label for="texte">Commentaire</label>
-                        <button class="btn waves-effect waves-light" onClick="commenter()"
+                        <button class="btn waves-effect waves-light green" onClick="commenter()"
                                 id="boutonCommenter">
                             Envoyer
                             <i class="material-icons right">send</i>
@@ -153,12 +153,42 @@
             {% endif %}
         </div>
         <div id="commentaires">
-            {{ render(controller('GatsunWebsiteBundle:Ajax:rafraichirCommentaires', { 'page': 'live' })) }}
+            <div class="card-panel">
+                <em>Chargement de la discussion en cours&hellip;</em>
+            </div>
         </div>
     </section>
+
+    {# Boîte de confirmation de suppression #}
+    <div id="supprimerCommentaire" class="modal">
+        <div class="modal-content">
+            <h4>Suppression du commentaire</h4>
+            <p>Êtes-vous sur de vouloir supprimer votre commentaire ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="suppression" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
+
+    {# Boîte de confirmation de modération #}
+    <div id="modererCommentaire" class="modal">
+        <div class="modal-content">
+            <h4>Modération du commentaire</h4>
+            <p>Êtes-vous sur de vouloir modérer ce commentaire ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="moderation" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
+        // Variable utilisée pour récupérer la dernière valeur des commentaires.
+        var commentaires;
+
+        // Rafraîchissement intelligent du lecteur
         function rafraichirLecteur() {
             $.ajax({
                 url: "{{ path('gatsun_website_live_infos') }}",
@@ -200,96 +230,63 @@
             });
         }
 
+        // Rafraîchissement intelligent des commentaires
         function rafraichirCommentaires() {
             $.ajax({
                 url: "{{ path('gatsun_website_ajax_commentaires_rafraichir', { 'page': 'live' }) }}",
                 method: "GET",
                 cache: false
             }).done(function (response) {
-                var html = $.parseHTML(response);
-                var commentaires = $("#commentaires");
-                if (html.length != $.parseHTML(commentaires.html()).length) {
-                    var tooltiped =  $('.tooltipped');
+                if(response.replace(/\s/g, "").length == 0)
+                {
+                    $('#commentaires').html("<div class='card-panel'>Pas de commentaire dans les dernières 24 heures.</div>");
+                }
+                else if (response != commentaires) {
                     // Désactiver le tooltip des boutons des commentaires
-                    tooltiped.tooltip('remove');
+                    $('.tooltipped').tooltip('remove');
 
                     // Mise à jour visuelle des commentaires
-                    commentaires.html(html);
+                    commentaires = response;
+                    $('#commentaires').html($.parseHTML(commentaires));
 
                     // Réactivation des tooltips des commentaires
-                    tooltiped.tooltip({delay: 50});
+                    $('.tooltipped').tooltip({delay: 50});
+
+                    // Activation de la suppression et de la modération
+                    $('.modal-trigger').leanModal();
                 }
 
                 setTimeout(rafraichirCommentaires, 5000);
             });
         }
 
+        // Envoi d'un commentaire
         function commenter() {
             var texte = $('#texte');
             var boutonCommenter = $("#boutonCommenter");
 
-            texte.attr('disabled', 'disabled');
-            boutonCommenter.attr('disabled', 'disabled');
+            if (!texte.val() || /^\s*$/.test(texte.val()))
+            {
+                Materialize.toast("Le message du commentaire est vide.", 10000, "red");
+            } else {
 
-            $.ajax({
-                url: "{{ path('gatsun_website_ajax_commentaires_ajouter') }}",
-                method: "POST",
-                data: {texte: texte.val(), page: 'live'}
-            }).done(function () {
-                rafraichirCommentaires();
-                texte.val('');
-                texte.removeAttr('disabled');
-                boutonCommenter.removeAttr('disabled');
-            });
-        }
+                texte.attr('disabled', 'disabled');
+                boutonCommenter.attr('disabled', 'disabled');
 
-        function moderer(id) {
-            // Popup de confirmation
-            if (confirm('Êtes-vous sur de vouloir modérer ce commentaire ?')) {
-                // Requête AJAX
                 $.ajax({
-                            url: "{{ path('gatsun_website_ajax_commentaires_moderer') }}?id=" + id + "&page=live",
-                            dataType: 'html',
-                            cache: false
-                        })
-                        .done(function () {
-                            // Rafraichissement des commentaires avec les nouvelles modifications
-                            rafraichirCommentaires();
-
-                            // Message : Succès !
-                            Materialize.toast('Commentaire modéré avec succès', 4000, 'green');
-                        })
-                        .fail(function () {
-                            // Message : Erreur !
-                            Materialize.toast('Erreur lors de la modération du commentaire', 10000, 'red');
-                        });
+                    url: "{{ path('gatsun_website_ajax_commentaires_ajouter') }}",
+                    method: "POST",
+                    data: {texte: texte.val(), page: 'live'}
+                }).done(function () {
+                    //rafraichirCommentaires();
+                    texte.val('');
+                    texte.removeAttr('disabled');
+                    boutonCommenter.removeAttr('disabled');
+                });
             }
         }
 
-        function supprimer(id) {
-            // Popup de confirmation
-            if (confirm('Êtes-vous sur de vouloir supprimer votre commentaire ?')) {
-                // Requête AJAX
-                $.ajax({
-                            url: "{{ path('gatsun_website_ajax_commentaires_supprimer') }}?id=" + id + "&page=live",
-                            dataType: 'html',
-                            cache: false
-                        })
-                        .done(function () {
-                            // Rafraichissement des commentaires avec les nouvelles modifications
-                            rafraichirCommentaires();
-
-                            // Message : Succès !
-                            Materialize.toast('Commentaire supprimé avec succès', 4000, 'green');
-                        })
-                        .fail(function () {
-                            // Message : Erreur !
-                            Materialize.toast('Erreur lors de la suppression du commentaire', 10000, 'red');
-                        });
-            }
-        }
-
-        /*** BBCODE ***/
+        // Gestion du BBCode
         function bbcode(bbdebut, bbfin) {
             var input = document.getElementById("texte");
             input.focus();
@@ -336,8 +333,69 @@
         }
 
         $(document).ready(function () {
-            /*** Gestion de la touche entrée ***/
-            $("#texte").keypress(event, function () {
+            // Gestion de la suppression des commentaires
+            $(document).on('click', ".btn-supprimer", function () {
+                // Récupération de l'ID du commentaire et passage à la boîte
+                $("#suppression").data('comment', $(this).data('comment'));
+
+                // Ouverture de la boîte de dialogue
+                $("#supprimerCommentaire").openModal();
+            });
+
+            // Suppression du commentaire désiré
+            $("#suppression").click(function () {
+                // Requête AJAX
+                $.ajax({
+                            url: "{{ path('gatsun_website_ajax_commentaires_supprimer') }}?id=" + $(this).data('comment') + "&page=live",
+                            dataType: 'html',
+                            cache: false
+                        })
+                        .done(function () {
+                            // Rafraichissement des commentaires avec les nouvelles modifications
+                            rafraichirCommentaires();
+
+                            // Message : Succès !
+                            Materialize.toast('Commentaire supprimé avec succès', 4000, 'green');
+                        })
+                        .fail(function () {
+                            // Message : Erreur !
+                            Materialize.toast('Erreur lors de la suppression du commentaire', 10000, 'red');
+                        });
+                // }
+            });
+
+            // Gestion de la modération des commentaires
+            $(document).on('click', ".btn-moderer", function () {
+                // Récupération de l'ID du commentaire et passage à la boîte
+                $("#moderation").data('comment', $(this).data('comment'));
+
+                // Ouverture de la boîte de dialogue
+                $("#modererCommentaire").openModal();
+            });
+
+            // Modération du commentaire désiré
+            $("#moderation").click(function () {
+                // Requête AJAX
+                $.ajax({
+                            url: "{{ path('gatsun_website_ajax_commentaires_moderer') }}?id=" + $(this).data('comment') + "&page=live",
+                            dataType: 'html',
+                            cache: false
+                        })
+                        .done(function () {
+                            // Rafraichissement des commentaires avec les nouvelles modifications
+                            rafraichirCommentaires();
+
+                            // Message : Succès !
+                            Materialize.toast('Commentaire modéré avec succès', 4000, 'green');
+                        })
+                        .fail(function () {
+                            // Message : Erreur !
+                            Materialize.toast('Erreur lors de la modération du commentaire', 10000, 'red');
+                        });
+            });
+
+            // Gestion de la touche entrée
+            $("#texte").keypress(function (event) {
                 e = event || window.event;
                 var k = e.keyCode || e.which || e.charCode;
                 if (k == 13 && !e.shiftKey) {

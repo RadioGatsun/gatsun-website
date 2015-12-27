@@ -46,7 +46,7 @@ class AjaxController extends Controller
 			if($page == "live")
 			{
 				$commentaire = new CommentaireLive();
-				$commentaire->setTexte(strip_tags($texte));
+				$commentaire->setTexte(htmlspecialchars($texte));
 				$commentaire->setDate(new \DateTime());
 				$commentaire->setUtilisateur($this->getUser());
 			}
@@ -58,7 +58,7 @@ class AjaxController extends Controller
 									->getRepository('GatsunWebsiteBundle:Publication')
 									->findOneBy(array('id' => $page), array(), null, null);
 
-				$commentaire->setTexte(strip_tags($texte));
+				$commentaire->setTexte(htmlspecialchars($texte));
 				$commentaire->setDate(new \DateTime());
 				$commentaire->setUtilisateur($this->getUser());
 				$commentaire->setPublication($publication);

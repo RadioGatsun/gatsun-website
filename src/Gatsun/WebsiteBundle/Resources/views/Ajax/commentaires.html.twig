@@ -3,11 +3,11 @@
 		<p class="card-panel">
 			{% if app.user == commentaire.utilisateur and commentaire.modere == false %}
 				<span class="right">
-					 <button class="btn waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="Supprimer" onclick="supprimer({{ commentaire.id }})"><i class="material-icons">delete</i></button>
+					 <button class="btn btn-supprimer waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="Supprimer" data-comment="{{ commentaire.id }}"><i class="material-icons">delete</i></button>
 				</span>
 			{% elseif is_granted('ROLE_MEMBRE') and commentaire.modere == false %}
 				<span class="right">
-					<button type="button" class="btn btn-danger btn-xs orange tooltipped" data-position="left" data-delay="50" data-tooltip="Modérer" onclick="moderer({{ commentaire.id }})"><i class="material-icons">report</i></button>
+					<button type="button" class="btn btn-moderer waves-effect waves-light orange tooltipped" data-position="left" data-delay="50" data-tooltip="Modérer" data-comment="{{ commentaire.id }}"><i class="material-icons">report</i></button>
 				</span>
 			{% endif %}
 			<img class="avatar" src="{{ asset('images/profils/' ~ commentaire.utilisateur.username ~ '.' ~ commentaire.utilisateur.image)}}"/>
