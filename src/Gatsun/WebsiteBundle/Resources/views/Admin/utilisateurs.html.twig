@@ -1,14 +1,11 @@
 {% extends "::base.html.twig" %}
 {% block title %}Utilisateurs &ndash; Administration &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-    <section class="panel panel-default">
-        <div class="panel-heading">
-            <h1>Administration</h1>
-        </div>
-        <div class="panel-body">
-            <h2>Utilisateurs</h2>
-            <div id="alert"></div>
+    <section>
+        <h1>Administration</h1>
+        <h2>Utilisateurs</h2>
 
+        <div class="card-panel">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -37,24 +34,32 @@
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td class="btn-group-vertical">
+                        <td class="actions">
                             <a href="{{ path('gatsun_website_utilisateur', {'nom': utilisateur.username}) }}"
-                               class="btn btn-default btn-success"><span class="glyphicon glyphicon-user"></span>
-                                Détails</a>
+                               class="btn waves-effect waves-light green">
+                                <i class="material-icons left">subject</i>
+                                Détails
+                            </a>
                             <a href="{{ path('gatsun_website_utilisateur_modifier', {'nom': utilisateur.username}) }}"
-                               class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span>
-                                Modifier</a>
-                            {% if not utilisateur.isAccountNonLocked %}
-                                <a href="#"
-                                   onClick="confirmerAction('debanni', '{{ path('gatsun_website_utilisateur_debannir', {'nom': utilisateur.username}) }}')"
-                                   class="btn btn-default btn-warning"><span class="glyphicon glyphicon-plus"></span>
-                                    Débannir</a>
-                            {% else %}
-                                <a href="#"
-                                   onClick="confirmerAction('banni', '{{ path('gatsun_website_utilisateur_bannir', {'nom': utilisateur.username}) }}')"
-                                   class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span>
-                                    Bannir</a>
-                            {% endif %}
+                               class="btn waves-effect waves-light">
+                                <i class="material-icons left">mode_edit</i>
+                                Modifier
+                            </a>
+                            <div>
+                                {% if not utilisateur.isAccountNonLocked %}
+                                    <button class="btn btn-debannir waves-effect waves-light orange"
+                                            data-utilisateur="{{ utilisateur.id }}">
+                                        <i class="material-icons left">add_circle_outline</i>
+                                        Débannir
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-bannir waves-effect waves-light red"
+                                            data-utilisateur="{{ utilisateur.id }}">
+                                        <i class="material-icons left">block</i>
+                                        Bannir
+                                    </button>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                 {% else %}
@@ -66,35 +71,124 @@
             </table>
         </div>
     </section>
+
+    {# Boîte de confirmation de bannissement #}
+    <div id="bannirUtilisateur" class="modal">
+        <div class="modal-content">
+            <h4>Bannissement de l'utilisateur</h4>
+            <p>Êtes-vous sur de vouloir bannir cet utilisateur ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="bannissement" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
+
+    {# Boîte de confirmation de débannissement #}
+    <div id="debannirUtilisateur" class="modal">
+        <div class="modal-content">
+            <h4>Débannissement de l'utilisateur</h4>
+            <p>Êtes-vous sur de vouloir débannir cet utilisateur ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="debannissement" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script language="JavaScript" type="text/javascript">
+        $(document).ready(function () {
+            // Gestion du bannissement des utilisateurs
+            $(document).on('click', ".btn-bannir", function () {
+                // Récupération de l'ID de l'utilisateur et passage à la boîte
+                $("#bannissement").data('utilisateur', $(this).data('utilisateur'));
 
-        function confirmerAction(action, route) {
-            // Popup de confirmation
-            if (confirm('Êtes-vous sur de vouloir ' + action + 'r cet utilisateur ?')) {
-                // Requête AJAX
-                $.ajax({
-                            url: route,
-                            dataType: 'html',
-                            cache: false
-                        })
-                        .done(function (reponse) {
-                            // Rafraîchir le corps du tableau (tbody)
-                            $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
-                            // Message : Succès !
-                            $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> L\'utilisateur sélectionné a été ' + action + '.</div>');
-                        })
-                        .fail(function () {
-                            // Message : Erreur !
-                            $('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors du ' + action + 'ssement de l\'utilisateur.</div>');
+                // Ouverture de la boîte de dialogue
+                $("#bannirUtilisateur").openModal();
+            });
+
+            // Gestion du debannissement des utilisateurs
+            $(document).on('click', ".btn-debannir", function () {
+                // Récupération de l'ID de l'utilisateur et passage à la boîte
+                $("#debannissement").data('utilisateur', $(this).data('utilisateur'));
+
+                // Ouverture de la boîte de dialogue
+                $("#debannirUtilisateur").openModal();
+            });
+        });
+
+        // Bannissement de l'utilisateur désiré
+        $("#bannissement").click(function () {
+            var id = $(this).data('utilisateur');
+
+            // Requête AJAX
+            $.ajax({
+                        url: "{{ path('gatsun_website_utilisateur_bannir') }}?id=" + id,
+                        dataType: 'html',
+                        cache: false
+                    })
+                    .done(function () {
+                        // Modification de la ligne
+                        $('table > tbody > tr > td:first-child').each(function () {
+                            if ($(this).html() == id) {
+                                console.log($(this).parent().children('.actions').children('div').html());
+                                $(this).parent().children('.actions').children('div').html(
+                                        '<button class="btn btn-debannir waves-effect waves-light orange"' +
+                                        'data-utilisateur="' + id + '">' +
+                                        '<i class="material-icons left">add_circle_outline</i>' +
+                                        'Débannir' +
+                                        '</button>'
+                                );
+                            }
                         });
-            }
 
-            return false;
-        }
+                        // Message : Succès !
+                        Materialize.toast('Utilisateur banni avec succès', 4000, 'green');
+                    })
+                    .fail(function () {
+                        // Message : Erreur !
+                        Materialize.toast("Erreur lors du bannissement de l'utilisateur", 10000, 'red');
+                    });
+
+        });
+
+        // Débannissement de l'utilisateur désiré
+        $("#debannissement").click(function () {
+            var id = $(this).data('utilisateur');
+
+            // Requête AJAX
+            $.ajax({
+                        url: "{{ path('gatsun_website_utilisateur_debannir') }}?id=" + id,
+                        dataType: 'html',
+                        cache: false
+                    })
+                    .done(function () {
+                        // Modification de la ligne
+                        $('table > tbody > tr > td:first-child').each(function () {
+                            if ($(this).html() == id) {
+                                console.log($(this).parent().children('.actions').children('div').html());
+                                $(this).parent().children('.actions').children('div').html(
+                                        '<button class="btn btn-bannir waves-effect waves-light red"' +
+                                        'data-utilisateur="' + id + '">' +
+                                        '<i class="material-icons left">block</i>' +
+                                        'Bannir' +
+                                        '</button>'
+                                );
+                            }
+                        });
+
+                        // Message : Succès !
+                        Materialize.toast('Utilisateur débanni avec succès', 4000, 'green');
+                    })
+                    .fail(function () {
+                        // Message : Erreur !
+                        Materialize.toast("Erreur lors du débannissement de l'utilisateur", 10000, 'red');
+                    });
+
+        });
     </script>
 {% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}"/>
 {% endblock %}

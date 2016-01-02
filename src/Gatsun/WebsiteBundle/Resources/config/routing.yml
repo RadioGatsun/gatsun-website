@@ -63,11 +63,11 @@ gatsun_website_utilisateur_modifier:
     defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:modifier }
 
 gatsun_website_utilisateur_bannir:
-    path:   /utilisateur/bannir/{nom}
+    path:   /utilisateur/bannir
     defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:bannir }
 
 gatsun_website_utilisateur_debannir:
-    path:   /utilisateur/debannir/{nom}
+    path:   /utilisateur/debannir
     defaults:  { _controller: GatsunWebsiteBundle:Utilisateur:debannir }
 
 gatsun_website_utilisateur_supprimer_avatar:

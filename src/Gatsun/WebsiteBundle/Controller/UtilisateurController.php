@@ -279,8 +279,11 @@ class UtilisateurController extends Controller
         );
     }
 
-    public function bannirAction($nom)
+    public function bannirAction(Request $request)
     {
+        // Récupération de l'ID en paramètre de l'URL
+        $id = $request->query->get("id");
+
         // Gestion des accès
         if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
@@ -290,7 +293,7 @@ class UtilisateurController extends Controller
         $utilisateur = $this->getDoctrine()
             ->getManager()
             ->getRepository('GatsunWebsiteBundle:Utilisateur')
-            ->findOneBy(array('username' => $nom));
+            ->findOneById($id);
 
         if (empty($utilisateur))    // Utilisateur inconnu
         {
@@ -316,8 +319,11 @@ class UtilisateurController extends Controller
         );
     }
 
-    public function debannirAction($nom)
+    public function debannirAction(Request $request)
     {
+        // Récupération de l'ID en paramètre de l'URL
+        $id = $request->query->get("id");
+
         // Gestion des accès
         if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
@@ -327,7 +333,7 @@ class UtilisateurController extends Controller
         $utilisateur = $this->getDoctrine()
             ->getManager()
             ->getRepository('GatsunWebsiteBundle:Utilisateur')
-            ->findOneBy(array('username' => $nom));
+            ->findOneById($id);
 
         if (empty($utilisateur))    // Utilisateur inconnu
         {
