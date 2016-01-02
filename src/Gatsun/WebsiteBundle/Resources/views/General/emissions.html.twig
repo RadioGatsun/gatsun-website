@@ -7,7 +7,7 @@
             <div class="card hoverable">
                 <div class="card-image waves-effect waves-block waves-light">
                     <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">
-                        <img src="{{ asset(emission.bandeau != null ? emission.bandeau : 'images/defaut/emission.png') }}"/>
+                        <img src="{{ emission.bandeau != null ? vich_uploader_asset(emission, 'fichierBandeau') : asset('images/defaut/emission.png') }}"/>
                     </a>
                     <a class="card-title truncate white-text"
                        href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">

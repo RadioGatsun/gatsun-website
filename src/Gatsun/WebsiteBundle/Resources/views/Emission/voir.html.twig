@@ -3,7 +3,7 @@
 {% block body %}
     <section>
         <div class="center-align">
-            <img src="{{ asset(emission.bandeau != null ? emission.bandeau : 'images/defaut/emission.png') }}"
+            <img src="{{ emission.bandeau != null ? vich_uploader_asset(emission, 'fichierBandeau') : asset('images/defaut/emission.png') }}"
                  alt="{{ emission.nom }}" title="{{ emission.nom }}"/>
             <p>
                 {{ emission.description }}
@@ -12,24 +12,30 @@
 
         <div class="row">
             <div class="col s12 m12 l6">
-                <div id="presentateurs" class="card-panel">
+                <div class="card-panel">
                     <h4>Informations</h4>
                     {% if emission.active %}
                         Diffusée tous les {{ emission.jour.libelle|lower }}s
                         de {{ emission.heureDebut|date('H\\hi') }}
                         à {{ emission.heureFin|date('H\\hi') }}.
+                    {% else %}
+                        Cette émission n'est plus à l'antenne.
                     {% endif %}
-                    <h5>Présentée par :</h5>
-                    {% for utilisateur in emission.presentateurs %}
-                        <div class="truncate">
-                            <a class="waves-effect"
-                               href="{{ path('gatsun_website_utilisateur', {'nom' : utilisateur.username}) }}">
-                                <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
-                                     alt="Avatar de {{ utilisateur.username }}" class="circle"/>
-                                {{ utilisateur.username }}
-                            </a>
+                    {% if emission.presentateurs|length > 0 %}
+                        <div id="presentateurs">
+                            <h5>Présentée par :</h5>
+                            {% for utilisateur in emission.presentateurs %}
+                                <div class="truncate">
+                                    <a class="waves-effect"
+                                       href="{{ path('gatsun_website_utilisateur', {'nom' : utilisateur.username}) }}">
+                                        <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
+                                             alt="Avatar de {{ utilisateur.username }}" class="circle"/>
+                                        {{ utilisateur.username }}
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    {% endif %}
                     {% if app.user in emission.presentateurs or is_granted('ROLE_ADMIN') %}
                         <div class="center-align">
                             <a href="{{ path('gatsun_website_emission_modifier', { 'id': emission.id }) }}"
@@ -93,7 +99,9 @@
                         </div>
                     </div>
                 {% else %}
-                    Pas de publications.
+                    <div class="card-panel">
+                        Pas de publications.
+                    </div>
                 {% endfor %}
             </div>
         </div>

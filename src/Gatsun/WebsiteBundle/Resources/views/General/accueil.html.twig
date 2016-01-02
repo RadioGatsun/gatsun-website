@@ -91,7 +91,7 @@
                             <div class="card hoverable">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     <img class="activator"
-                                         src="{{ emission.vignette ? asset(emission.vignette) : asset('images/header.png') }}">
+                                         src="{{ emission.vignette ? vich_uploader_asset(emission, 'fichierVignette') : asset('images/header.png') }}">
                             <span class="card-title activator">
                                 {% if "now"|date('N') != emission.jour.id %}
                                     {{ emission.jour.libelle }},

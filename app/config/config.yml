@@ -35,6 +35,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form_themes:
+        # other form themes
+        - "VichUploaderBundle:Form:fields.html.twig"
 
 # Doctrine Configuration
 doctrine:
@@ -72,11 +75,13 @@ vich_uploader:
 
     mappings:
         utilisateur_image:
-            uri_prefix:         "/images/profils"
+            # Remove "/gatsun-website" for production environment
+            uri_prefix:         "/gatsun-website/web/images/profils"
             upload_destination: "%kernel.root_dir%/../web/images/profils"
 
         emission_image:
-            uri_prefix:         "/images/emissions"
+            # Remove "/gatsun-website" for production environment
+            uri_prefix:         "/gatsun-website/web/images/emissions"
             upload_destination: "%kernel.root_dir%/../web/images/emissions"
 
             inject_on_load:     false

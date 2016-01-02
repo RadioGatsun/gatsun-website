@@ -3,6 +3,9 @@
 namespace Gatsun\WebsiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -10,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Gatsun\WebsiteBundle\Entity\EmissionRepository")
+ * @Vich\Uploadable
  */
 class Emission
 {
@@ -37,6 +41,15 @@ class Emission
     private $description;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="emission_image", fileNameProperty="bandeau")
+     *
+     * @var File
+     */
+    private $fichierBandeau;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="bandeau", type="text", nullable=true)
@@ -44,11 +57,34 @@ class Emission
     private $bandeau;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $dateMiseaJourBandeau;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="emission_image", fileNameProperty="vignette")
+     *
+     * @var File
+     */
+    private $fichierVignette;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="vignette", type="text")
+     * @ORM\Column(name="vignette", type="text", nullable=true)
      */
     private $vignette;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $dateMiseaJourVignette;
 
     /**
      * @var boolean
@@ -83,6 +119,13 @@ class Emission
      */
     private $presentateurs;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->presentateurs = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -143,19 +186,36 @@ class Emission
     /**
      * Set bandeau
      *
-     * @param string $bandeau
-     * @return Emission
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setBandeau($bandeau)
+    public function setFichierBandeau(File $image = null)
     {
-        $this->bandeau = $bandeau;
+        $this->fichierBandeau = $image;
 
-        return $this;
+        if ($image) {
+            // Il est obligatoire de changer au moins une valeur si Doctrine est utilisé
+            // sinon les écouteurs d'événements ne seront pas appelés et le fichier sera perdu.
+            $this->dateMiseaJourBandeau = new \DateTime('now');
+        }
     }
 
     /**
-     * Get bandeau
-     *
+     * @return File
+     */
+    public function getFichierBandeau()
+    {
+        return $this->fichierBandeau;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setBandeau($nom)
+    {
+        $this->bandeau = $nom;
+    }
+
+    /**
      * @return string
      */
     public function getBandeau()
@@ -166,32 +226,41 @@ class Emission
     /**
      * Set vignette
      *
-     * @param string $vignette
-     * @return Emission
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setVignette($vignette)
+    public function setFichierVignette(File $image = null)
     {
-        $this->vignette = $vignette;
+        $this->fichierVignette = $image;
 
-        return $this;
+        if ($image) {
+            // Il est obligatoire de changer au moins une valeur si Doctrine est utilisé
+            // sinon les écouteurs d'événements ne seront pas appelés et le fichier sera perdu.
+            $this->dateMiseaJourVignette = new \DateTime('now');
+        }
     }
 
     /**
-     * Get vignette
-     *
+     * @return File
+     */
+    public function getFichierVignette()
+    {
+        return $this->fichierVignette;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setVignette($nom)
+    {
+        $this->vignette = $nom;
+    }
+
+    /**
      * @return string
      */
     public function getVignette()
     {
         return $this->vignette;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->presentateurs = new ArrayCollection();
     }
 
     /**

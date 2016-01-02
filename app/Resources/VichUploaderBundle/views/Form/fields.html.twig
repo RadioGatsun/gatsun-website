@@ -1,0 +1,69 @@
+{% block vich_file_widget %}
+    {% spaceless %}
+        <div class="vich-file">
+            <div class="file-field input-field">
+                <div class="btn waves-effect waves-light">
+                    <span>{{ form_label(form.file) }}</span>
+                    {{ form_widget(form.file) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text"
+                           placeholder="Aucun fichier sélectionné">
+                </div>
+            </div>
+            {% if form.delete is defined %}
+                {{ form_errors(form.delete) }}
+                <div class="input-field">
+                    {{ form_widget(form.delete) }}
+                    {{ form_label(form.delete) }}
+                </div>
+            {% endif %}
+
+            {% if download_uri is defined and download_uri %}
+                <a class="btn waves-effect waves-light" href="{{ download_uri }}">
+                    <i class="material-icons left">file_download</i>
+                    {{ 'download'|trans({}, 'VichUploaderBundle') }}
+                </a>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block vich_image_widget %}
+    {% spaceless %}
+        <div class="vich-image">
+            <div class="file-field input-field">
+                <div class="btn waves-effect waves-light">
+                    <span>{{ form_label(form.file) }}</span>
+                    {{ form_widget(form.file) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text"
+                           placeholder="Aucun fichier sélectionné">
+                </div>
+            </div>
+
+            <div class="input-field">
+                {% if download_uri is defined and download_uri %}
+                    <a href="{{ download_uri }}"><img src="{{ download_uri }}" alt=""/></a>
+                {% endif %}
+
+                {% if show_download_link and download_uri is defined and download_uri %}
+                    <a class="btn waves-effect waves-light" href="{{ download_uri }}">
+                        <i class="material-icons left">file_download</i>
+                        {{ 'download'|trans({}, 'VichUploaderBundle') }}
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if form.delete is defined %}
+                {{ form_errors(form.delete) }}
+                <div class="input-field">
+                    {{ form_widget(form.delete) }}
+                    {{ form_label(form.delete) }}
+                </div>
+            {% endif %}
+
+        </div>
+    {% endspaceless %}
+{% endblock %}

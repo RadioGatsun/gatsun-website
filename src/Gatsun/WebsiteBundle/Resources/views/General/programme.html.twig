@@ -14,7 +14,7 @@
 
             <div class="card-panel">
                 <img class="inline-block"
-                     src="{{ emission.vignette ? asset(emission.vignette) : asset('images/header.png') }}"/>
+                     src="{{ emission.vignette ? vich_uploader_asset(emission, 'fichierVignette') : asset('images/header.png') }}"/>
 
                 <div class="inline-block">
                     <h5>{{ emission.nom }}</h5>

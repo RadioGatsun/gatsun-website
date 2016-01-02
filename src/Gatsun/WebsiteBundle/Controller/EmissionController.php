@@ -4,9 +4,17 @@
 
 namespace Gatsun\WebsiteBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Gatsun\WebsiteBundle\Entity\Emission;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EmissionController extends Controller
 {
@@ -28,7 +36,7 @@ class EmissionController extends Controller
         );
     }
 
-    public function ajouterAction()
+    public function ajouterAction(Request $request)
     {
         // Vérification des droits
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
@@ -43,26 +51,57 @@ class EmissionController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('nom', 'text', array('label' => 'Nom : '))
-            ->add('description', 'text', array('label' => 'Description : '))
-            ->add('vignette', 'url', array('label' => 'Lien vers la vignette : ', 'data' => ''))
-            ->add('bandeau', 'url', array('label' => 'Lien vers le bandeau : ', 'data' => ''))
+            ->add('nom', TextType::class, array('label' => 'Nom'))
+            ->add('description', TextType::class, array('label' => 'Description'))
+            ->add(
+                'fichierVignette',
+                VichImageType::class,
+                array('label' => 'Vignette', 'data' => '', 'required' => false)
+            )
+            ->add(
+                'fichierBandeau',
+                VichImageType::class,
+                array('label' => 'Bandeau', 'data' => '', 'required' => false)
+            )
+            ->add(
+                'active',
+                CheckboxType::class,
+                array('label' => 'Émission active ?', 'data' => false, 'required' => false)
+            )
+            ->add(
+                'jour',
+                EntityType::class,
+                array(
+                    'class' => 'GatsunWebsiteBundle:Jour',
+                    'choice_label' => 'libelle',
+                    'label' => 'Jour de diffusion',
+                    'multiple' => false,
+                )
+            )
+            ->add('heureDebut', TimeType::class, array('data' => new \DateTime('T20:00')))
+            ->add('heureFin', TimeType::class, array('data' => new \DateTime('T22:00')))
             ->add(
                 'presentateurs',
-                'entity',
+                EntityType::class,
                 array(
                     'class' => 'GatsunWebsiteBundle:Utilisateur',
-                    'property' => 'username',
-                    'label' => 'Présentateurs : ',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :membre')
+                            ->orWhere('u.roles LIKE :admin')
+                            ->orderBy('u.username', 'ASC')
+                            ->setParameter('membre', '%ROLE_MEMBRE%')
+                            ->setParameter('admin', '%ROLE_ADMIN%');
+                    },
+                    'choice_label' => 'username',
+                    'label' => 'Présentateurs',
+                    'required' => false,
                     'multiple' => true,
                 )
             );
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
-
-        // On récupère la requête
-        $request = $this->get('request');
 
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $emission contient les valeurs entrées dans le formulaire par le visiteur
@@ -91,7 +130,7 @@ class EmissionController extends Controller
         );
     }
 
-    public function modifierAction($id)
+    public function modifierAction(Request $request, $id)
     {
         $emission = $this->getDoctrine()
             ->getManager()
@@ -112,26 +151,44 @@ class EmissionController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('nom', 'text', array('label' => 'Nom : '))
-            ->add('description', 'text', array('label' => 'Description : '))
-            ->add('vignette', 'url', array('label' => 'Lien vers la vignette : '))
-            ->add('bandeau', 'url', array('label' => 'Lien vers le bandeau : '))
+            ->add('nom', TextType::class, array('label' => 'Nom'))
+            ->add('description', TextType::class, array('label' => 'Description'))
+            ->add('fichierVignette', VichImageType::class, array('label' => 'Vignette', 'required' => false))
+            ->add('fichierBandeau', VichImageType::class, array('label' => 'Bandeau', 'required' => false))
+            ->add('active', CheckboxType::class, array('label' => 'Émission active ?', 'required' => false))
+            ->add(
+                'jour',
+                EntityType::class,
+                array(
+                    'class' => 'GatsunWebsiteBundle:Jour',
+                    'choice_label' => 'libelle',
+                    'label' => 'Jour de diffusion',
+                    'multiple' => false,
+                )
+            )
+            ->add('heureDebut', TimeType::class)
+            ->add('heureFin', TimeType::class)
             ->add(
                 'presentateurs',
-                'entity',
+                EntityType::class,
                 array(
                     'class' => 'GatsunWebsiteBundle:Utilisateur',
-                    'property' => 'username',
-                    'label' => 'Présentateurs : ',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :membre')
+                            ->orWhere('u.roles LIKE :admin')
+                            ->orderBy('u.username', 'ASC')
+                            ->setParameter('membre', '%ROLE_MEMBRE%')
+                            ->setParameter('admin', '%ROLE_ADMIN%');
+                    },
+                    'choice_label' => 'username',
+                    'label' => 'Présentateurs',
                     'multiple' => true,
                 )
             );
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
-
-        // On récupère la requête
-        $request = $this->get('request');
 
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $emission contient les valeurs entrées dans le formulaire par le visiteur

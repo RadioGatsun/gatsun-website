@@ -2,9 +2,9 @@
     font-family: 'Script MT Bold';
     src: url('../fonts/script_mt_bold.eot');
     src: url('../fonts/script_mt_bold.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/script_mt_bold.svg#Script MT Bold') format('svg'),
-         url('../fonts/script_mt_bold.woff') format('woff'),
-         url('../fonts/script_mt_bold.ttf') format('truetype');
+    url('../fonts/script_mt_bold.svg#Script MT Bold') format('svg'),
+    url('../fonts/script_mt_bold.woff') format('woff'),
+    url('../fonts/script_mt_bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -48,18 +48,20 @@ img {
     height: 200px;
     color: white;
 }
+
 .card-twitter {
     background: url("../images/twitter.png") no-repeat right bottom #39A0CE;
     height: 200px;
     color: white;
 }
 
-.card-facebook h4{
+.card-facebook h4 {
     background-color: rgba(58, 88, 151, 0.53);
     display: inline-block;
     padding: 10px;
     margin: 7px -10px 3px -10px;
 }
+
 .card-twitter h4 {
     background-color: rgba(57, 160, 206, 0.53);
     display: inline-block;
@@ -73,11 +75,9 @@ nav img {
 }
 
 .slick-prev:before,
-.slick-next:before
-{
+.slick-next:before {
     color: silver;
 }
-
 
 .brand-logo {
     font-family: 'Script MT Bold', serif;
@@ -127,7 +127,16 @@ h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
     color: white;
     border-top: 5px solid #EB9723 !important;
     font-size: 18px;
+}*/
+
+#partenaires img {
+    max-width: 200px;
+    max-height: 55px;
+    display: inline-block;
+    vertical-align: middle;
 }
+
+/*
 
 .facebook-logo
 {
@@ -152,8 +161,7 @@ h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
     background-position: 0px 24px;
 }*/
 
-aside
-{
+aside {
     font-size: 0.8em;
     color: gray;
 }
@@ -162,13 +170,27 @@ aside time {
     font-size: inherit;
 }
 
-aside .material-icons
-{
+aside .material-icons {
     vertical-align: middle;
 }
 
 .input-field label {
     left: 0;
+}
+
+.inline-field input {
+    width: auto !important;
+    display: inline-block !important;
+}
+
+.input-field.inline-field, .inline-field .select-wrapper {
+    display: inline-block !important;
+}
+
+.vich-file .file-field label, .vich-image .file-field label {
+    position: relative;
+    color: white;
+    top: 0;
 }
 
 /*.btn-xs img
