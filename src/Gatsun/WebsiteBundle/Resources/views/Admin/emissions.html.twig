@@ -1,88 +1,148 @@
 {% extends "::base.html.twig" %}
 {% block title %}Émissions &ndash; Administration &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-<section class="panel panel-default">
-	<div class="panel-heading">
-		<h1>Émissions &ndash; Administration</h1>
-	</div>
-	<div class="panel-body">
-		<div id="alert"></div>
-		<a href="{{ path('gatsun_website_emission_ajouter') }}"class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-plus"></span> Ajouter une émission</a>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Nom</th>
-					<th>Vignette</th>
-					<th>Bandeau</th>
-					<th>Description</th>
-					<th>Présentateurs</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for emission in emissions %}			
-					<tr>
-						<td>{{ emission.id }}</td>
-						<td>{{ emission.nom }}</td>
-						<td><img src="{{ emission.vignette != null ? vich_uploader_asset(emission, 'fichierVignette') : asset('images/defaut/default.png') }}" alt="Vignette de {{ emission.nom }}" /></td>
-						<td><img src="{{ emission.bandeau != null ? vich_uploader_asset(emission, 'fichierBandeau') : asset('images/defaut/emission.png') }}" alt="Bandeau de {{ emission.nom }}" /></td>
-						<td>{{ emission.description }}</td>
-						<td>
-							{% for utilisateur in emission.presentateurs %}
-								<a href="{{ path('gatsun_website_utilisateur', {'nom': utilisateur.username}) }}">{{ utilisateur.username }}</a>
-								{% if loop.last == false %}
-								, 
-								{% endif %}
-							{% endfor %}
-						</td>
-						<td class="btn-group-vertical">
-							<a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-user"></span> Détails</a>
-							<a href="{{ path('gatsun_website_emission_modifier', {'id': emission.id}) }}" class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>
-							<a href="#" onClick="confirmerSuppression('{{ path('gatsun_website_emission_supprimer', {'id': emission.id}) }}')" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="4">Pas d'émission.</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</section>
+    <section>
+        <h1>Administration</h1>
+        <h2>Émissions</h2>
+
+        <a href="{{ path('gatsun_website_emission_ajouter') }}" class="btn waves-effect waves-lignt green">
+            <i class="material-icons left">add</i>
+            Ajouter une émission
+        </a>
+
+        <div class="card-panel">
+            {#TODO: Remove#}
+            <div id="alert"></div>
+            <table class="bordered highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Vignette</th>
+                    <th>Bandeau</th>
+                    <th>Description</th>
+                    <th>Horaires</th>
+                    <th>Présentateurs</th>
+                    <th class="center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for emission in emissions %}
+                    <tr>
+                        <td>{{ emission.id }}</td>
+                        <td>{{ emission.nom }}</td>
+                        <td>
+                            <img src="{{ emission.vignette != null ? vich_uploader_asset(emission, 'fichierVignette') : asset('images/defaut/default.png') }}"
+                                 alt="Vignette de {{ emission.nom }}"/></td>
+                        <td>
+                            <img src="{{ emission.bandeau != null ? vich_uploader_asset(emission, 'fichierBandeau') : asset('images/defaut/emission.png') }}"
+                                 alt="Bandeau de {{ emission.nom }}"/></td>
+                        <td>{{ emission.description }}</td>
+                        <td>
+                            {% if emission.active %}
+                                {{ emission.jour.libelle }},
+                                de {{ emission.heureDebut|date('H\\hi') }}
+                                à {{ emission.heureFin|date('H\\hi') }}.
+                            {% else %}
+                                Non diffusée
+                            {% endif %}
+                        </td>
+                        <td id="presentateurs">
+                            {% for utilisateur in emission.presentateurs %}
+                                <div class="truncate">
+                                    <a class="waves-effect"
+                                       href="{{ path('gatsun_website_utilisateur', {'nom' : utilisateur.username}) }}">
+                                        <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
+                                             alt="Avatar de {{ utilisateur.username }}" class="circle"/>
+                                        {{ utilisateur.username }}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        <td class="center">
+                            <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}"
+                               class="btn waves-effect waves-light green">
+                                <i class="material-icons left">subject</i>
+                                Détails
+                            </a>
+                            <a href="{{ path('gatsun_website_emission_modifier', {'id': emission.id}) }}"
+                               class="btn waves-effect waves-light">
+                                <i class="material-icons left">mode_edit</i>
+                                Modifier
+                            </a>
+                            <button class="btn btn-supprimer waves-effect waves-light red"
+                                    data-emission="{{ emission.id }}">
+                                <i class="material-icons left">delete</i>
+                                Supprimer
+                            </button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Pas d'émission.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    {# Boîte de confirmation de suppression #}
+    <div id="supprimerEmission" class="modal">
+        <div class="modal-content">
+            <h4>Suppression de l'émission</h4>
+            <p>Êtes-vous sur de vouloir supprimer cette émission ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="suppression" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
-<script language="JavaScript" type="text/javascript">
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function () {
+            // Gestion de la suppression des émissions
+            $(document).on('click', ".btn-supprimer", function () {
+                // Récupération de l'ID du commentaire et passage à la boîte
+                $("#suppression").data('emission', $(this).data('emission'));
 
-function confirmerSuppression(route)
-{
-	// Popup de confirmation
-	if(confirm('Êtes-vous sur de vouloir supprimer cette émission ?'))
-	{
-		// Requête AJAX
-		$.ajax({
-	        url: route,
-	        dataType: 'html',
-	        cache: false
-	    })
-	    .done(function(reponse) {
-	    	// Rafraîchir le corps du tableau (tbody)
-	        $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
-	        // Message : Succès !
-	        $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> L\'émission sélectionnée a été correctement supprimée.</div>');
-	    })
-	    .fail(function()
-	    {
-	    	// Message : Erreur !
-	    	$('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de l\'émission.</div>');
-	    });
-	}
+                // Ouverture de la boîte de dialogue
+                $("#supprimerEmission").openModal();
+            });
+        });
 
-	return false;
-}
-</script>
+        // Suppression de l'émission désirée
+        $("#suppression").click(function () {
+            var id = $(this).data('emission');
+
+            // Requête AJAX
+            $.ajax({
+                        url: "{{ path('gatsun_website_emission_supprimer') }}?id=" + id,
+                        dataType: 'html',
+                        cache: false
+                    })
+                    .done(function () {
+                        // Suppression de la ligne
+                        $('table > tbody > tr > td:first-child').each(function () {
+                           if($(this).html() == id)
+                           {
+                               $(this).parent().remove();
+                           }
+                        });
+
+                        // Message : Succès !
+                        Materialize.toast('Émission supprimée avec succès', 4000, 'green');
+                    })
+                    .fail(function () {
+                        // Message : Erreur !
+                        Materialize.toast("Erreur lors de la suppression de l'émission", 10000, 'red');
+                    });
+
+        });
+    </script>
 {% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/emission.css') }}"/>
 {% endblock %}

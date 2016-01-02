@@ -121,10 +121,8 @@ gatsun_website_emission_modifier:
        id:  \d+
 
 gatsun_website_emission_supprimer:
-   path:  /emission/supprimer/{id}
+   path:  /emission/supprimer/
    defaults: { _controller: GatsunWebsiteBundle:Emission:supprimer }
-   requirements:
-       id:  \d+
 
 #Vignettes
 

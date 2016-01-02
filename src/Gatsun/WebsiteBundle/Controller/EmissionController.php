@@ -225,8 +225,11 @@ class EmissionController extends Controller
         );
     }
 
-    public function supprimerAction($id)
+    public function supprimerAction(Request $request)
     {
+        // Récupération de l'ID en paramètre de l'URL
+        $id = $request->query->get("id");
+
         // Vérification des droits
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_MEMBRE')) {
             // Sinon on déclenche une exception « Accès interdit »
