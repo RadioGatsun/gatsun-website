@@ -16,7 +16,7 @@
                 {% if utilisateur.image != "/../defaut.png" %}
                     <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
                          alt="Avatar de {{ utilisateur.username }}"/>
-                    <button class="btn red modal-trigger" data-target="supprimerAvatar">
+                    <button class="btn waves-effect red modal-trigger" data-target="supprimerAvatar">
                         <i class="material-icons left">delete</i>
                         Supprimer
                     </button>

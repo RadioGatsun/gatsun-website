@@ -25,8 +25,8 @@
 					<tr>
 						<td>{{ emission.id }}</td>
 						<td>{{ emission.nom }}</td>
-						<td><img src="{{ asset(emission.vignette)}}" alt="Vignette de {{ emission.nom }}" /></td>
-						<td><img src="{{ asset(emission.bandeau)}}" alt="Bandeau de {{ emission.nom }}" /></td>
+						<td><img src="{{ emission.vignette != null ? vich_uploader_asset(emission, 'fichierVignette') : asset('images/defaut/default.png') }}" alt="Vignette de {{ emission.nom }}" /></td>
+						<td><img src="{{ emission.bandeau != null ? vich_uploader_asset(emission, 'fichierBandeau') : asset('images/defaut/emission.png') }}" alt="Bandeau de {{ emission.nom }}" /></td>
 						<td>{{ emission.description }}</td>
 						<td>
 							{% for utilisateur in emission.presentateurs %}
