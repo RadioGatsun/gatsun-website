@@ -3,23 +3,20 @@
 namespace Gatsun\WebsiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+//use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Utilisateur
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Gatsun\WebsiteBundle\Entity\UtilisateurRepository")
- * @ORM\HasLifecycleCallbacks
+ * @Vich\Uploadable
  */
 class Utilisateur implements AdvancedUserInterface, \Serializable
 {
-    public $fichier;
-
-    // Propriété utilisée temporairement pour la suppression
-    private $filenameForRemove;
-
     /**
      * @var integer
      *
@@ -58,11 +55,27 @@ class Utilisateur implements AdvancedUserInterface, \Serializable
     private $email;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="utilisateur_image", fileNameProperty="avatar")
+     *
+     * @var File
+     */
+    private $fichierAvatar;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=14, nullable=true)
+     * @ORM\Column(name="avatar", type="text", nullable=true)
      */
-    private $image;
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $dateMiseaJourAvatar;
 
     /**
      * @var string
@@ -177,77 +190,6 @@ class Utilisateur implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->fichier) {
-            // faites ce que vous voulez pour générer un nom unique
-            $this->image = time() . $this->fichier->guessExtension();
-        }
-        /*else
-        {
-            $this->image = "/../defaut.png";
-        }*/
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->fichier) {
-            return;
-        }
-
-        // s'il y a une erreur lors du déplacement du fichier, une exception
-        // va automatiquement être lancée par la méthode move(). Cela va empêcher
-        // proprement l'entité d'être persistée dans la base de données si
-        // erreur il y a
-        $this->fichier->move($this->getUploadRootDir(), $this->username.'.'.$this->image);
-
-        unset($this->fichier);
-    }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function storeFilenameForRemove()
-    {
-        $this->filenameForRemove = $this->getAbsolutePath();
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($this->filenameForRemove) {
-            unlink($this->filenameForRemove);
-        }
-    }
-
-    public function getAbsolutePath()
-    {
-        return $this->getUploadRootDir().'/'.$this->username.'.'.$this->image;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return 'images/profils';
-    }
-
-    /**
      * Get id
      *
      * @return integer 
@@ -288,10 +230,6 @@ class Utilisateur implements AdvancedUserInterface, \Serializable
      */
     public function setPassword($password)
     {
-        /*$factory = $this->get('security.encoder_factory');
-        $encoder = $factory->getEncoder($this);
-        $mdp = $encoder->encodePassword($password, $this->getSalt());
-        $this->password = $mdp;*/
         $this->password = $password;
     
         return $this;
@@ -331,50 +269,43 @@ class Utilisateur implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set image
+     * Set bandeau
      *
-     * @param string $image
-     * @return Utilisateur
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage($image)
+    public function setFichierAvatar(File $image = null)
     {
-        if(!empty($image))
-        {
-            $this->image = $image;
+        $this->fichierAvatar = $image;
+
+        if ($image) {
+            // Il est obligatoire de changer au moins une valeur si Doctrine est utilisé
+            // sinon les écouteurs d'événements ne seront pas appelés et le fichier sera perdu.
+            $this->dateMiseaJourAvatar = new \DateTime('now');
         }
-        else
-        {
-            $this->image = "/../defaut.png";
-        }
-    
-        return $this;
     }
 
     /**
-     * Delete image
-     *
-     * @return Utilisateur
+     * @return File
      */
-    public function supprimerImage()
+    public function getFichierAvatar()
     {
-        if($this->image != "/../defaut.png")
-        {
-            $this->storeFilenameForRemove();
-            unlink($this->filenameForRemove);
-            $this->image = "/../defaut.png";
-        }
-
-        return $this;
+        return $this->fichierAvatar;
     }
 
     /**
-     * Get image
-     *
-     * @return string 
+     * @param string $nom
      */
-    public function getImage()
+    public function setAvatar($nom)
     {
-        return $this->image;
+        $this->avatar = $nom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
     }
 
     /**

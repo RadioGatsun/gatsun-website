@@ -10,7 +10,7 @@
 					<button type="button" class="btn btn-moderer waves-effect waves-light orange tooltipped" data-position="left" data-delay="50" data-tooltip="Modérer" data-comment="{{ commentaire.id }}"><i class="material-icons">report</i></button>
 				</span>
 			{% endif %}
-			<img class="avatar" src="{{ asset('images/profils/' ~ commentaire.utilisateur.username ~ '.' ~ commentaire.utilisateur.image)}}"/>
+			<img class="avatar" src="{{ commentaire.utilisateur.avatar ? vich_uploader_asset(commmentaire.utilisateur, "fichierAvatar") : asset("images/defaut/default.png") }}"/>
 			<a href="{{ path('gatsun_website_utilisateur', {'nom':commentaire.utilisateur.username}) }}">{{ commentaire.utilisateur.username }}</a>, 
 			<time class="date" datetime="{{ commentaire.date|date('Y-d-m') }}+02:00">le {{ commentaire.date|date('d/m/Y à H:i') }}</time>
 			<br />

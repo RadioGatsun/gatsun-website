@@ -76,7 +76,7 @@
                     <li {% if 'utilisateur' in app.request.uri and app.user.username in app.request.uri %}class="active"{% endif %}>
                         <a class="waves-effect"
                            href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
-                            <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
+                            <img src="{{ app.user.avatar ? vich_uploader_asset(app.user, "fichierAvatar") : asset("images/defaut/default.png") }}"
                                  alt="Avatar de {{ app.user.username }}" class="circle"/>
                             {{ app.user.username }}
                         </a>
@@ -143,7 +143,7 @@
                     <li {% if app.request.uri|split('/')[3] == 'utilisateur' and app.request.uri|split('/')[4] == app.user.username %}class="active"{% endif %}>
                         <a class="waves-effect"
                            href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
-                            <img src="{{ asset('images/profils/' ~ app.user.username ~ '.' ~ app.user.image) }}"
+                            <img src="{{ app.user.avatar ? vich_uploader_asset(app.user, "fichierAvatar") : asset("images/defaut/default.png") }}"
                                  alt="Avatar de {{ app.user.username }}"/>
                             {{ app.user.username }}
                         </a>

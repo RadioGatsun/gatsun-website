@@ -28,7 +28,7 @@
                                 <div class="truncate">
                                     <a class="waves-effect"
                                        href="{{ path('gatsun_website_utilisateur', {'nom' : utilisateur.username}) }}">
-                                        <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
+                                        <img src="{{ utilisateur.avatar ? vich_uploader_asset(utilisateur, "fichierAvatar") : asset("images/defaut/default.png") }}"
                                              alt="Avatar de {{ utilisateur.username }}" class="circle"/>
                                         {{ utilisateur.username }}
                                     </a>

@@ -9,33 +9,12 @@
         <div class="card-panel">
             <h3>Personnalisation du profil</h3>
 
-            <em>Tous les champs sont facultatifs.</em>
+            <aside>Tous les champs sont facultatifs.</aside><br />
 
-            <div id="avatar">
-                Avatar actuel :
-                {% if utilisateur.image != "/../defaut.png" %}
-                    <img src="{{ asset('images/profils/' ~ utilisateur.username ~ '.' ~ utilisateur.image) }}"
-                         alt="Avatar de {{ utilisateur.username }}"/>
-                    <button class="btn waves-effect red modal-trigger" data-target="supprimerAvatar">
-                        <i class="material-icons left">delete</i>
-                        Supprimer
-                    </button>
-                    <br/>
-                {% else %}
-                    Aucun<br/>
-                {% endif %}
-            </div>
-
-            {{ form_errors(form.fichier) }}
-            <div class="file-field input-field">
-                <div class="btn waves-effect waves-light">
-                    <span>Avatar</span>
-                    {{ form_widget(form.fichier) }}
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" placeholder="Sélectionnez un fichier">
-                </div>
-            </div>
+            {{ form_label(form.fichierAvatar) }}
+            <aside><strong>Note :</strong> La taille minimum recommandée pour l'avatar est de 250 × 250.</aside>
+            {{ form_errors(form.fichierAvatar) }}
+            {{ form_widget(form.fichierAvatar) }}
 
             {{ form_errors(form.facebook) }}
             <div class="input-field">

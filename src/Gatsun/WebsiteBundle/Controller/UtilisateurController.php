@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UtilisateurController extends Controller
 {
@@ -64,7 +65,7 @@ class UtilisateurController extends Controller
                 )
             )
             ->add('email', EmailType::class, array('label' => 'E-mail'))
-            ->add('fichier', FileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('fichierAvatar', VichFileType::class, array('required' => false, 'label' => 'Avatar'))
             ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
             ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
             ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
@@ -176,7 +177,7 @@ class UtilisateurController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('fichier', FileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('fichierAvatar', VichFileType::class, array('required' => false, 'label' => 'Avatar'))
             ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
             ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
             ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
@@ -229,9 +230,6 @@ class UtilisateurController extends Controller
             $form->handleRequest($request);
             // On vérifie que les valeurs entrées sont correctes
             if ($form->isValid()) {
-                // Lancement de l'upload
-                $user->preUpload();
-
                 // On l'enregistre notre objet $user dans la base de données
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
