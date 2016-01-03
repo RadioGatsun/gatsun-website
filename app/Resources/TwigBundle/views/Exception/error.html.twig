@@ -1,27 +1,29 @@
 {% extends "::base.html.twig" %}
 {% block title %}Erreur {{ status_code }} &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-	<section class="panel panel-danger">
-		<div class="panel-heading">
-			<h1>Erreur {{ status_code }}</h1>
-		</div>
-    	<div class="panel-body">
-			<p>
-				Une erreur s'est produite lors du chargement du lien demandé !
-			</p>
-			<p>
-				Si vous venez de cliquer sur un lien présent dans le site, merci d'envoyer un mail à <a href="mailto:gatsun.radio@gmail.com?subject=[Gatsun Site] Erreur {{ status_code }} : {{ status_text }}">gatsun.radio@gmail.com</a> en précisant :
-				<ul>
-					<li>La page sur laquelle vous avez trouvé le lien ;</li>
-					<li>Le lien auquel vous tentez d'accéder ;</li>
-					<li>Votre pseudo sur le site de Radio Gatsun.</li>
-				</ul>
-				Merci d'avance pour votre retour, et désolé des problèmes occasionnés.
-			</p>
-			<p>
-				L'équipe Web de Radio Gatsun.
-			</p>
-			<pre>Erreur {{ status_code }} : {{ status_text }} &ndash; {{ exception.message }}</pre>
-		</div>
+    <section>
+        <h1>Erreur {{ status_code }}</h1>
+        <div class="card-panel">
+            <p>
+                Une erreur s'est produite lors du chargement du lien demandé !
+            </p>
+            <p>
+                Si vous venez de cliquer sur un lien présent dans le site, merci d'envoyer un mail à
+                <a href="mailto:gatsun.radio@gmail.com?subject=[Gatsun Site] Erreur {{ status_code }} : {{ status_text }}">gatsun.radio@gmail.com</a>
+                en précisant :
+            </p>
+            <ul>
+                <li>La page sur laquelle vous avez trouvé le lien ;</li>
+                <li>Le lien auquel vous tentez d'accéder ;</li>
+                <li>Votre pseudo sur le site de Radio Gatsun.</li>
+            </ul>
+            <p>
+                Merci d'avance pour votre retour, et désolé des problèmes occasionnés.
+            </p>
+            <p>
+                L'équipe Web de Radio Gatsun.
+            </p>
+            <pre>Erreur {{ status_code }} : {{ status_text }} &ndash; {{ exception.message }}</pre>
+        </div>
     </section>
 {% endblock %}
