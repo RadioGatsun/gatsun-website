@@ -6,11 +6,14 @@ namespace Gatsun\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Gatsun\WebsiteBundle\Entity\Vignette;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class VignetteController extends Controller
 {
-    public function ajouterAction()
+    public function ajouterAction(Request $request)
     {
         if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
@@ -22,23 +25,20 @@ class VignetteController extends Controller
         $formBuilder = $this->createFormBuilder($vignette);
 
         $formBuilder
-            ->add('titre', 'text', array('label' => 'Titre : '))
-            ->add('description', 'text', array('label' => 'Description : '))
-            ->add('lien', 'text', array('label' => 'Lien : '))
-            ->add('fichier', 'file', array('label' => 'Image : '));
+            ->add('titre', TextType::class, array('label' => 'Titre'))
+            ->add('description', TextType::class, array('label' => 'Description'))
+            ->add('lien', TextType::class, array('label' => 'Lien'))
+            ->add('fichierImage', VichImageType::class, array('label' => 'Image', 'allow_delete' => false));
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
-
-        // On récupère la requête
-        $request = $this->get('request');
 
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $vignette contient les valeurs entrées dans le formulaire par le visiteur
         $form->handleRequest($request);
         // On vérifie que les valeurs entrées sont correctes
         if ($form->isValid()) {
-            // On l'enregistre notre objet $user dans la base de données
+            // On enregistre notre objet $vignette dans la base de données
             $em = $this->getDoctrine()->getManager();
             $em->persist($vignette);
             $em->flush();
@@ -60,9 +60,8 @@ class VignetteController extends Controller
         );
     }
 
-    public function modifierAction(
-        $id
-    ) {
+    public function modifierAction(Request $request, $id)
+    {
         if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
@@ -76,26 +75,20 @@ class VignetteController extends Controller
         $formBuilder = $this->createFormBuilder($vignette);
 
         $formBuilder
-            ->add('titre', 'text', array('label' => 'Titre : '))
-            ->add('description', 'text', array('label' => 'Description : '))
-            ->add('lien', 'text', array('label' => 'Lien : '))
-            ->add('fichier', 'file', array('required' => false, 'label' => 'Image : '));
+            ->add('titre', TextType::class, array('label' => 'Titre'))
+            ->add('description', TextType::class, array('label' => 'Description'))
+            ->add('lien', TextType::class, array('label' => 'Lien'))
+            ->add('fichierImage', VichImageType::class, array('required' => false, 'label' => 'Image', 'allow_delete' => false));
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
-
-        // On récupère la requête
-        $request = $this->get('request');
 
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $vignette contient les valeurs entrées dans le formulaire par le visiteur
         $form->handleRequest($request);
         // On vérifie que les valeurs entrées sont correctes
         if ($form->isValid()) {
-            // On met à jour la vignette manuellement (Symfony n'appelle pas automatiquement l'upload)
-            $vignette->preUpload();
-
-            // On l'enregistre notre objet $user dans la base de données
+            // On enregistre notre objet $vignette dans la base de données
             $em = $this->getDoctrine()->getManager();
             $em->persist($vignette);
             $em->flush();

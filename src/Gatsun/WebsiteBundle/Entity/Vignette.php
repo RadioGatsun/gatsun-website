@@ -3,15 +3,15 @@
 namespace Gatsun\WebsiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Vignette
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Gatsun\WebsiteBundle\Entity\VignetteRepository")
- * @ORM\HasLifecycleCallbacks
+ * @Vich\Uploadable
  */
 class Vignette
 {
@@ -25,19 +25,28 @@ class Vignette
     private $id;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="vignette_image", fileNameProperty="image")
+     *
+     * @var File
+     */
+    private $fichierImage;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\Column(name="image", type="text")
      */
     private $image;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
      */
-    public $fichier;
+    private $dateMiseaJourImage;
 
-    // Propriété utilisée temporairement pour la suppression
-    private $filenameForRemove;
 
     /**
      * @var string
@@ -74,95 +83,41 @@ class Vignette
     /**
      * Set image
      *
-     * @param string $image
-     * @return Vignette
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage($image)
+    public function setFichierImage(File $image = null)
     {
-        $this->image = $image;
-    
-        return $this;
+        $this->fichierImage = $image;
+
+        if ($image) {
+            // Il est obligatoire de changer au moins une valeur si Doctrine est utilisé
+            // sinon les écouteurs d'événements ne seront pas appelés et le fichier sera perdu.
+            $this->dateMiseaJourImage = new \DateTime('now');
+        }
     }
 
     /**
-     * Get image
-     *
-     * @return string 
+     * @return File
+     */
+    public function getFichierImage()
+    {
+        return $this->fichierImage;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setImage($nom)
+    {
+        $this->image = $nom;
+    }
+
+    /**
+     * @return string
      */
     public function getImage()
     {
         return $this->image;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->fichier) 
-        {
-            $name = strtolower($this->titre);
-            $name = preg_replace('/[^a-z0-9 -]+/', '', $name);
-            $name = str_replace(' ', '-', $name);
-            $name = trim($name, '-');
-            $this->image = $name . '.' . $this->fichier->guessExtension();
-        }
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->fichier) {
-            return;
-        }
-
-        // s'il y a une erreur lors du déplacement du fichier, une exception
-        // va automatiquement être lancée par la méthode move(). Cela va empêcher
-        // proprement l'entité d'être persistée dans la base de données si
-        // erreur il y a
-        $this->fichier->move($this->getUploadRootDir(), $this->image);
-
-        unset($this->fichier);
-    }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function storeFilenameForRemove()
-    {
-        $this->filenameForRemove = $this->getAbsolutePath();
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($this->filenameForRemove) {
-            unlink($this->filenameForRemove);
-        }
-    }
-
-    public function getAbsolutePath()
-    {
-        return $this->getUploadRootDir().'/'.$this->image;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return 'images/vignettes';
     }
 
     /**

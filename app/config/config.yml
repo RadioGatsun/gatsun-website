@@ -91,3 +91,12 @@ vich_uploader:
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
+
+        vignette_image:
+            # Remove "/gatsun-website" for production environment
+            uri_prefix:         "/gatsun-website/web/images/vignettes"
+            upload_destination: "%kernel.root_dir%/../web/images/vignettes"
+
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
