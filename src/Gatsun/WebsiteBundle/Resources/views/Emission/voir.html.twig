@@ -56,7 +56,7 @@
                 {% for publication in publications %}
                     <div class="card hoverable">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="{{ asset(publication.vignette) }}">
+                            <img class="activator" src="{{ publication.image ? vich_uploader_asset(publication, "fichierImage") : (publication.emission ? (publication.emission.bandeau ? vich_uploader_asset(publication.emission, "fichierBandeau") : asset("images/defaut/emission.png")) : asset("images/defaut/news.png")) }}">
                             <span class="card-title activator">{{ publication.titre }}</span>
                         </div>
                         <div class="card-reveal">
