@@ -137,7 +137,7 @@ gatsun_website_vignette_modifier:
        id:  \d+
 
 gatsun_website_vignette_supprimer:
-   path:  /vignette/supprimer/{id}
+   path:  /vignette/supprimer
    defaults: { _controller: GatsunWebsiteBundle:Vignette:supprimer }
 
 #Ajax

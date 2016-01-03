@@ -1,76 +1,109 @@
 {% extends "::base.html.twig" %}
 {% block title %}Vignettes &ndash; Administration &ndash; {{ parent() }}{% endblock %}
 {% block body %}
-<section class="panel panel-default">
-	<div class="panel-heading">
-		<h1>Vignettes &ndash; Administration</h1>
-	</div>
-	<div class="panel-body">
-		<div id="alert"></div>
-		<a href="{{ path('gatsun_website_vignette_ajouter') }}"class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-plus"></span> Ajouter une vignette</a>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Titre</th>
-					<th>Description</th>
-					<th>Image</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for vignette in vignettes %}			
-					<tr>
-						<td>{{ vignette.id }}</td>
-						<td>{{ vignette.titre }}</td>
-						<td>{{ vignette.description }}</td>
-						<td><img src="{{ asset('images/vignettes/' ~ vignette.image) }}"/></td>
-						<td class="btn-group-vertical">
-							<a href="{{ path('gatsun_website_vignette_modifier', {'id': vignette.id}) }}" class="btn btn-default btn-info"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>
-							<a href="#" onClick="confirmerSuppression('{{ path('gatsun_website_vignette_supprimer', {'id': vignette.id}) }}')" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="4">Pas de vignette</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</section>
+    <section>
+        <h1>Administration</h1>
+        <h2>Vignettes</h2>
+
+        <a href="{{ path('gatsun_website_vignette_ajouter') }}" class="btn waves-effect waves-light green">
+            <i class="material-icons left">add</i>
+            Ajouter une vignette
+        </a>
+
+        <div class="card-panel">
+            <table class="bordered highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for vignette in vignettes %}
+                    <tr>
+                        <td>{{ vignette.id }}</td>
+                        <td>{{ vignette.titre }}</td>
+                        <td>{{ vignette.description }}</td>
+                        <td><img src="{{ vich_uploader_asset(vignette, 'fichierImage') }}"/></td>
+                        <td>
+                            <a href="{{ path('gatsun_website_vignette_modifier', {'id': vignette.id}) }}"
+                               class="btn waves-effect waves-light">
+                                <i class="material-icons left">mode_edit</i>
+                                Modifier</a>
+                            <button class="btn btn-supprimer waves-effect waves-light red"
+                                    data-vignette="{{ vignette.id }}">
+                                <i class="material-icons left">delete</i>
+                                Supprimer
+                            </button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Pas de vignette</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    {# Boîte de confirmation de suppression #}
+    <div id="supprimerVignette" class="modal">
+        <div class="modal-content">
+            <h4>Suppression de la vignette</h4>
+            <p>Êtes-vous sur de vouloir supprimer cette vignette ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Non</a>
+            <a id="suppression" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
-<script language="JavaScript" type="text/javascript">
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function () {
+            // Gestion de la suppression des vignettes
+            $(document).on('click', ".btn-supprimer", function () {
+                // Récupération de l'ID de la vignette et passage à la boîte
+                $("#suppression").data('vignette', $(this).data('vignette'));
 
-function confirmerSuppression(route)
-{
-	// Popup de confirmation
-	if(confirm('Êtes-vous sur de vouloir supprimer cette vignette ?'))
-	{
-		// Requête AJAX
-		$.ajax({
-	        url: route,
-	        dataType: 'html',
-	        cache: false
-	    })
-	    .done(function(reponse) {
-	    	// Rafraîchir le corps du tableau (tbody)
-	        $('tbody').replaceWith($(reponse).filter('div.container').html().slice($(reponse).filter('div.container').html().indexOf('<tbody>'), $(reponse).filter('div.container').html().indexOf('</tbody>') + 8));
-	        // Message : Succès !
-	        $('#alert').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Terminé !</strong> La vignette sélectionnée a été correctement supprimée.</div>');
-	    })
-	    .fail(function()
-	    {
-	    	// Message : Erreur !
-	    	$('#alert').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Oups !</strong> Une erreur s\'est produite lors de la suppression de la vignette.</div>');
-	    });
-	}
+                // Ouverture de la boîte de dialogue
+                $("#supprimerVignette").openModal();
+            });
+        });
 
-	return false;
-}
-</script>
+        // Suppression de la vignette désirée
+        $("#suppression").click(function () {
+            var id = $(this).data('vignette');
+
+            // Requête AJAX
+            $.ajax({
+                        url: "{{ path('gatsun_website_vignette_supprimer') }}?id=" + id,
+                        dataType: 'html',
+                        cache: false
+                    })
+                    .done(function () {
+                        // Suppression de la ligne
+                        $('table > tbody > tr > td:first-child').each(function () {
+                            if ($(this).html() == id) {
+                                $(this).parent().remove();
+                            }
+                        });
+
+                        // Message : Succès !
+                        Materialize.toast('Vignette supprimée avec succès', 4000, 'green');
+                    })
+                    .fail(function () {
+                        // Message : Erreur !
+                        Materialize.toast("Erreur lors de la suppression de la vignette", 10000, 'red');
+                    });
+
+        });
+    </script>
 {% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}"/>
 {% endblock %}

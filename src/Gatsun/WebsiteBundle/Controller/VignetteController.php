@@ -78,7 +78,11 @@ class VignetteController extends Controller
             ->add('titre', TextType::class, array('label' => 'Titre'))
             ->add('description', TextType::class, array('label' => 'Description'))
             ->add('lien', TextType::class, array('label' => 'Lien'))
-            ->add('fichierImage', VichImageType::class, array('required' => false, 'label' => 'Image', 'allow_delete' => false));
+            ->add(
+                'fichierImage',
+                VichImageType::class,
+                array('required' => false, 'label' => 'Image', 'allow_delete' => false)
+            );
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
@@ -111,10 +115,11 @@ class VignetteController extends Controller
         );
     }
 
-    public
-    function supprimerAction(
-        $id
-    ) {
+    public function supprimerAction(Request $request)
+    {
+        // Récupération de l'ID en paramètre de l'URL
+        $id = $request->query->get("id");
+
         if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
