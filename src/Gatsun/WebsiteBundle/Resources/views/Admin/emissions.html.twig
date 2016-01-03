@@ -5,7 +5,7 @@
         <h1>Administration</h1>
         <h2>Émissions</h2>
 
-        <a href="{{ path('gatsun_website_emission_ajouter') }}" class="btn waves-effect waves-lignt green">
+        <a href="{{ path('gatsun_website_emission_ajouter') }}" class="btn waves-effect waves-light green">
             <i class="material-icons left">add</i>
             Ajouter une émission
         </a>
@@ -102,7 +102,7 @@
         $(document).ready(function () {
             // Gestion de la suppression des émissions
             $(document).on('click', ".btn-supprimer", function () {
-                // Récupération de l'ID du commentaire et passage à la boîte
+                // Récupération de l'ID de l'émission et passage à la boîte
                 $("#suppression").data('emission', $(this).data('emission'));
 
                 // Ouverture de la boîte de dialogue

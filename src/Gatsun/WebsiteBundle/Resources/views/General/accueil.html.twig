@@ -5,7 +5,7 @@
         {% for vignette in listeVignettes %}
             <div class="vignette">
                 <a href="{{ vignette.lien }}">
-                    <img src="{{ asset('images/vignettes/' ~ vignette.image) }}">
+                    <img src="{{ vich_uploader_asset(vignette, 'fichierImage') }}">
                 </a>
 
                 <div class="caption center-align">
