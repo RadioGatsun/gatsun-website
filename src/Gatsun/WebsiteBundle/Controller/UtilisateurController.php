@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UtilisateurController extends Controller
 {
@@ -64,7 +64,7 @@ class UtilisateurController extends Controller
                 )
             )
             ->add('email', EmailType::class, array('label' => 'E-mail'))
-            ->add('fichierAvatar', VichFileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('fichierAvatar', VichImageType::class, array('required' => false, 'label' => 'Avatar'))
             ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
             ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
             ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
@@ -79,7 +79,7 @@ class UtilisateurController extends Controller
                     'label' => 'Date de naissance',
                     'widget' => 'single_text',
                     'format' => 'dd MMMM y',
-                    'attr' => array('class' => 'datepicker')
+                    'attr' => array('class' => 'datepicker'),
                 )
             )
             ->add('nom', TextType::class, array('required' => false, 'label' => 'Prénom'))
@@ -176,7 +176,7 @@ class UtilisateurController extends Controller
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
         $formBuilder
-            ->add('fichierAvatar', VichFileType::class, array('required' => false, 'label' => 'Avatar'))
+            ->add('fichierAvatar', VichImageType::class, array('required' => false, 'label' => 'Avatar'))
             ->add('facebook', TextType::class, array('required' => false, 'label' => 'Facebook'))
             ->add('twitter', TextType::class, array('required' => false, 'label' => 'Twitter'))
             ->add('googlePlus', TextType::class, array('required' => false, 'label' => 'Google+'))
@@ -191,7 +191,7 @@ class UtilisateurController extends Controller
                     'label' => 'Date de naissance',
                     'widget' => 'single_text',
                     'format' => 'dd MMMM y',
-                    'attr' => array('class' => 'datepicker')
+                    'attr' => array('class' => 'datepicker'),
                 )
             )
             ->add('nom', TextType::class, array('required' => false, 'label' => 'Prénom'))
@@ -214,7 +214,7 @@ class UtilisateurController extends Controller
                     'multiple' => true,
                     'choices_as_values' => true,
                     'required' => true,
-                    'label' => 'Rôle'
+                    'label' => 'Rôle',
                 )
             );
         }

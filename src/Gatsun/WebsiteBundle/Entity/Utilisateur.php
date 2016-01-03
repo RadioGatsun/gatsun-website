@@ -268,7 +268,7 @@ class Utilisateur implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set bandeau
+     * Set avatar
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
