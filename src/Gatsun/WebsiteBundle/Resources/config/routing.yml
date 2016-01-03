@@ -32,12 +32,6 @@ gatsun_website_live_infos:
     path: /live/infos
     defaults: { _controller: GatsunWebsiteBundle:General:liveInfo }
 
-# Aide
-
-gatsun_website_aide_bbcode:
-    path: /aide/bbcode
-    defaults: { _controller: GatsunWebsiteBundle:General:aidebbcode }
-
 # Utilisateurs
 
 gatsun_website_connexion:

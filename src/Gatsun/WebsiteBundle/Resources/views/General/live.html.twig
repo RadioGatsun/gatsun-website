@@ -132,8 +132,7 @@
                         </button>
                     </div>
                     <div class="inline-block">
-                        <button class="waves-effect waves-teal btn-flat"
-                                onClick='window.open("{{ path('gatsun_website_aide_bbcode') }}","","width=720,height=400");'>
+                        <button id="aide" class="waves-effect waves-teal btn-flat">
                             <i class="material-icons">help_outline</i>
                         </button>
                     </div>
@@ -181,6 +180,9 @@
             <a id="moderation" class="modal-action modal-close waves-effect waves-green btn-flat">Oui</a>
         </div>
     </div>
+
+    {% include "::aideFormatage.html.twig" %}
+
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
@@ -391,6 +393,12 @@
                             // Message : Erreur !
                             Materialize.toast('Erreur lors de la modération du commentaire', 10000, 'red');
                         });
+            });
+
+            // Gestion de l'affichage de l'aide
+            $(document).on('click', "#aide", function () {
+                // Ouverture de la boîte de dialogue
+                $("#aideFormatage").openModal();
             });
 
             // Gestion de la touche entrée

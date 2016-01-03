@@ -1,0 +1,566 @@
+{# Boîte d'aide au formatage #}
+<div id="aideFormatage" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Aide au formatage</h4>
+        Cliquez sur un des boutons ci-dessous pour accéder à son fonctionnement :
+
+        {# Boutons BBCode #}
+        <div class="inline-block">
+            <a href="#gras" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_bold</i>
+            </a>
+            <a href="#italique" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_italic</i>
+            </a>
+            <a href="#souligne" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_underlined</i>
+            </a>
+            <a href="#barre" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_strikethrough</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#texte-gauche" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_align_left</i>
+            </a>
+            <a href="#texte-centre" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_align_center</i>
+            </a>
+            <a href="#texte-droite" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_align_right</i>
+            </a>
+            <a href="#texte-justifie" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_align_justify</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#liste-puces" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_list_bulleted</i>
+            </a>
+            <a href="#liste-numerique" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_list_numbered</i>
+            </a>
+            <a href="#ligne" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">remove</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#citer" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_quote</i>
+            </a>
+            <a href="#tableau" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">grid_on</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#image" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">insert_photo</i>
+            </a>
+            <a href="#lien" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">insert_link</i>
+            </a>
+            <a href="#video" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">movie_creation</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#taille" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_size</i>
+            </a>
+            <a href="#couleur" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">format_color_text</i>
+            </a>
+            <a href="#police" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons">font_download</i>
+            </a>
+        </div>
+        <div class="inline-block">
+            <a href="#indice" class="waves-effect waves-teal btn-flat">
+                A<sub>x</sub>
+            </a>
+            <a href="#exposant" class="waves-effect waves-teal btn-flat">
+                A<sup>x</sup>
+            </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="gras">Texte en gras</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[b]Texte en gras[/b]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div><strong>Texte en gras</strong></div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="souligne">Texte souligné</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[u]Texte souligné[/u]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <ins>Texte souligné</ins>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="italique">Texte en italique</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[i]Texte en italique[/i]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div><em>Texte en italique</em></div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="barre">Texte barré</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[s]Texte barré[/s]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <del>Texte barré</del>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="texte-gauche">Texte à gauche</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[left]Texte à gauche[/left]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="text-align: left">Texte à gauche</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="texte-centre">Texte au centre</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[center]Texte au centre[/center]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="text-align: center">Texte au centre</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="texte-droite">Texte à droite</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[right]Texte à droite[/right]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="text-align: right">Texte à droite</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="texte-justifie">Texte justifié</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[justified]Texte justifié[/justified]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="text-align: justify">Texte justifié</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="liste-puces">Liste à puces</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[list][*]Puce n°1<br/>[*]Puce n°2[/list]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <ul>
+                        <li>Puce n°1</li>
+                        <li>Puce n°2</li>
+                    </ul>
+                </div>
+            </div>
+            <em>Attention ! Revenez à la ligne après chaque puce, sauf la dernière.</em>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="liste-numerique">Liste numérique</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[list=1][*]Puce n°1<br/>[*]Puce n°2[/list=1]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <ol>
+                        <li>Puce n°1</li>
+                        <li>Puce n°2</li>
+                    </ol>
+                </div>
+            </div>
+            <em>Attention ! Revenez à la ligne après chaque puce, sauf la dernière.</em>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="ligne">Ligne</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[hr]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="citer">Citer</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[quote=Nom de l'auteur]Citation[/quote]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <div id="quote">&nbsp; Auteur : Nom de l'auteur <br/><em>&nbsp; Citation</em></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="tableau">Tableau</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>
+                    [table]<br/>
+                    [tr]<br/>
+                    [th]Titre colonne 1[/th][th]Titre colonne 2[/th]<br/>
+                    [/tr]<br/>
+                    [tr]<br/>
+                    [td]Ligne 1 Colonne 1[/td][td]Ligne 1 Colonne 2[/td]<br/>
+                    [/tr]<br/>
+                    [tr]<br/>
+                    [td]Ligne 1 Colonne 1[/td][td]Ligne 1 Colonne 2[/td]<br/>
+                    [/tr]<br/>
+                    [/table]
+                </div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <table>
+                        <tr>
+                            <th>Titre colonne 1</th>
+                            <th>Titre colonne 2</th>
+                        </tr>
+                        <tr>
+                            <td>Ligne 1 Colonne 1</td>
+                            <td>Ligne 1 Colonne 2</td>
+                        </tr>
+                        <tr>
+                            <td>Ligne 1 Colonne 1</td>
+                            <td>Ligne 1 Colonne 2</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <em>La ligne de titre n'est pas obligatoire.</em>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="image">Image</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[img]http://gatsun.asso.insa-lyon.fr/web/images/header.png[/img]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <a href="{{ asset('images/header.png') }}" title="Cliquez pour agrandir">
+                        <img style="max-width: 550px" src="{{ asset('images/header.png') }}" alt=""/>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="lien">Lien</h5>
+        <h6>Lien + Texte</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[url=http://gatsun.asso.insa-lyon.fr]Site Internet de Radio Gatsun[/url]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <a href="http://gatsun.asso.insa-lyon.fr">Site Internet de Radio Gatsun</a>
+                </div>
+            </div>
+        </div>
+
+        <h6>Lien seul</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[url]http://gatsun.asso.insa-lyon.fr[/url]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    <a href="http://gatsun.asso.insa-lyon.fr">http://gatsun.asso.insa-lyon.fr</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="video">Vidéo</h5>
+        <div>
+            Code :
+            <div>[video]http://www.youtube.com/watch?v=jU3b5BOlZL0[/video]</div>
+        </div>
+        <div>
+            Aperçu :
+            <div>
+                <iframe width="640" height="360" src="//www.youtube-nocookie.com/embed/jU3b5BOlZL0?rel=0"
+                        frameborder="0" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="taille">Taille du texte</h5>
+        <h6>Avec des mots-clefs</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[size=xx-small]Texte très très petit[/size]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-size: xx-small">Texte très très petit</div>
+            </div>
+        </div>
+        <em>Liste des mots-clefs (passez la souris pour afficher la traduction) : <br/>
+            <dfn title="très très petit">xx-small</dfn> ; <dfn title="très petit">x-small</dfn> ;
+            <dfn title="petit">small</dfn> ; <dfn title="moyen">medium</dfn> ;
+            <dfn title="grand">large</dfn> ; <dfn title="très grand">x-large</dfn> ;
+            <dfn title="très très grand">xx-large</dfn>
+        </em>
+
+        <h6>Avec une taille en pixels (px)</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[size=16px]Texte en 16px[/size]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-size: 16px">Texte en 16px</div>
+            </div>
+        </div>
+
+        <h6>Avec une valeur en pourcentage (%)</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[size=200%]Texte en 200 %[/size]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-size: 200%">Texte en 200%</div>
+            </div>
+        </div>
+
+        <h6>Avec une valeur en taille relative (em)</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[size=1.3em]Texte en 1.3em[/size]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-size: 1.3em">Texte en 1.3em</div>
+            </div>
+        </div>
+
+        <h6>Avec une valeur en taille relative par rapport à la lettre "x" (ex)</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[size=2.5ex]Texte en 2.5ex[/size]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-size: 2.5ex">Texte en 2.5ex</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="couleur">Couleur du texte</h5>
+        <h6>Avec des noms de couleurs</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[color=lime]Texte en vert citron[/color]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="color: lime">Texte en vert citron</div>
+            </div>
+        </div>
+        <em>Liste des couleurs (passez la souris pour afficher la traduction) : <br/>
+            <dfn title="eau">aqua</dfn> ; <dfn title="noir">black</dfn> ;
+            <dfn title="bleu">blue</dfn> ; <dfn title="fuschia">fuschia</dfn> ;
+            <dfn title="gris">gray</dfn> ; <dfn title="vert">green</dfn> ;
+            <dfn title="vert citron">lime</dfn> ; <dfn title="marron">maroon</dfn> ;
+            <dfn title="marine">navy</dfn> ; <dfn title="vert olive">olive</dfn> ;
+            <dfn title="violet">purple</dfn> ; <dfn title="rouge">red</dfn> ;
+            <dfn title="argent">silver</dfn> ; <dfn title="bleu-vert">teal</dfn> ;
+            <dfn title="blanc">white</dfn> ; <dfn title="jaune">yellow</dfn>
+        </em>
+
+        <h6>Avec une couleur en format hexadécimal</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[color=#993300]Texte en marron[/color]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="color: #993300">Texte en marron</div>
+            </div>
+        </div>
+
+        <h6>Avec une valeur de type RGB(R,G,B)</h6>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[color=RGB(255,0,0)]Texte en rouge[/color]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="color: RGB(255,0,0)">Texte en rouge</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="police">Police du texte</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[font=Times New Roman]Texte en Times New Roman[/font]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="font-family: 'Times New Roman', serif;">Texte en Times New Roman</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="indice">Texte en indice</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>Texte normal [sub]Texte en indice[/sub]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    Texte normal
+                    <sub>Texte en indice</sub>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h5 id="exposant">Texte en exposant</h5>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>Texte normal [sup]Texte en exposant[/sup]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div>
+                    Texte normal
+                    <sup>Texte en exposant</sup>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>Ces balises sont bien sûr combinables entre-elles.</div>
+        <div class="row">
+            <div class="col s12 m6 l6">
+                Code :
+                <div>[color=blue]Texte bleu [b]Texte bleu et gras[/b][/color]</div>
+            </div>
+            <div class="col s12 m6 l6">
+                Aperçu :
+                <div style="color: blue">Texte bleu <strong>Texte bleu et gras</strong></div>
+            </div>
+        </div>
+        <em>Attention : pensez à refermer les balises dans le bon ordre !</em>
+
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Fermer</a>
+    </div>
+</div>

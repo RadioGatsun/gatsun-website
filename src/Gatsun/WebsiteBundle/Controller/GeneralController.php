@@ -144,11 +144,6 @@ class GeneralController extends Controller
         );
     }
 
-    public function aidebbcodeAction()
-    {
-        return $this->render('GatsunWebsiteBundle:Popup:aideBBCode.html.twig');
-    }
-
     public function conditionsUtilisationAction()
     {
         return $this->render('GatsunWebsiteBundle:General:conditions.html.twig');
