@@ -5,7 +5,7 @@
         <h1>{{ publication.titre }}</h1>
         <div class="card-panel">
             <div class="vignette-publication">
-                <img src="{{ asset(publication.vignette) }}" id="vignette"/>
+                <img src="{{ publication.image ? vich_uploader_asset(publication, "fichierImage") : (publication.emission ? (publication.emission.bandeau ? vich_uploader_asset(publication.emission, "fichierBandeau") : asset("images/defaut/emission.png")) : asset("images/defaut/news.png")) }}" id="vignette"/>
                 <aside>
                     <i class="material-icons tiny">account_circle</i> {{ publication.utilisateur.username }}
                     <i class="material-icons tiny">access_time</i>
@@ -20,6 +20,10 @@
 
             {% if publication.podcast != '' %}
                 <p id="podcast">
+                    <audio controls="controls" autoplay="autoplay">
+                        <source src="{{ publication.podcast }}" type="audio/mpeg"/>
+                        <embed height="34" width="530" src="{{ publication.podcast }}"></embed>
+                    </audio>
                 </p>
                 <aside>
                     Si le lecteur ne s'affiche pas : <a href="{{ publication.podcast }}">Lien direct</a>
@@ -35,7 +39,6 @@
             {% else %}
                 <form action="" method="post" id="texteCommentaire">
                     {# Boutons BBCode #}
-
                     <div class="inline-block">
                         <button class="waves-effect waves-teal btn-flat" onClick="bbcode('[b]', '[/b]');return(false)">
                             <i class="material-icons">format_bold</i>

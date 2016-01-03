@@ -4,10 +4,15 @@
 
 namespace Gatsun\WebsiteBundle\Controller;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Gatsun\WebsiteBundle\Entity\Publication;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PublicationController extends Controller
 {
@@ -25,7 +30,7 @@ class PublicationController extends Controller
         return $this->render('GatsunWebsiteBundle:Publication:voir.html.twig', array('publication' => $publication));
     }
 
-    public function ajouterAction()
+    public function ajouterAction(Request $request)
     {
         // Vérification des droits
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_MEMBRE')) {
@@ -55,52 +60,36 @@ class PublicationController extends Controller
         $formBuilder
             ->add(
                 'emission',
-                'entity',
+                EntityType::class,
                 array(
                     'required' => false,
                     'class' => 'GatsunWebsiteBundle:Emission',
-                    'property' => 'nom',
-                    'empty_value' => 'Actualités',
-                    'label' => 'Catégorie : ',
+                    'choice_label' => 'nom',
+                    'placeholder' => 'News',
+                    'label' => 'Catégorie',
                 )
             )
-            ->add('titre', 'text', array('label' => 'Titre : '))
+            ->add('titre', TextType::class, array('label' => 'Titre'))
             ->add(
-                'vignette',
-                'url',
-                array(
-                    'required' => false,
-                    'label' => 'Lien vers la vignette (Si non rempli, l\'image par défaut sera associée) : ',
-                    'data' => '',
-                )
+                'fichierImage',
+                VichImageType::class,
+                array('required' => false, 'label' => 'Image',)
             )
-            ->add('contenu', 'textarea', array('label' => 'Contenu : '))
-            ->add('podcast', 'text', array('required' => false, 'label' => 'Podcast : '));
+            ->add(
+                'contenu',
+                TextareaType::class,
+                array('label' => 'Contenu', 'attr' => array('class' => 'materialize-textarea'))
+            )
+            ->add('podcast', TextType::class, array('required' => false, 'label' => 'Podcast'));
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
 
-        // On récupère la requête
-        $request = $this->get('request');
-
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $publication contient les valeurs entrées dans le formulaire par le visiteur
         $form->handleRequest($request);
-        // On vérifie la vignette
-        // S'il n'y en a pas, on passe à la vignette par défaut de l'émission.
-        // Si elle n'existe pas non plus, on conserve la vignette par défaut définie dans l'entité.
-        $vignette = $publication->getVignette();
-        if ($vignette == "images/defaut/news.png") {
-            $emission = $publication->getEmission();
-            if (isset($emission)) {
-                $vignetteEmission = $emission->getVignette();
-                if (isset($vignetteEmission)) {
-                    $publication->setVignette($vignetteEmission);
-                }
-            }
-        }
+
         // On vérifie que les valeurs entrées sont correctes
-        // (Nous verrons la validation des objets en détail dans le prochain chapitre)
         if ($form->isValid()) {
             // On l'enregistre notre objet $publication dans la base de données
             $em = $this->getDoctrine()->getManager();
@@ -126,7 +115,7 @@ class PublicationController extends Controller
         );
     }
 
-    public function modifierAction($id)
+    public function modifierAction(Request $request, $id)
     {
         // Récupération de la publication
         $publication = $this->getDoctrine()
@@ -159,54 +148,36 @@ class PublicationController extends Controller
         $formBuilder
             ->add(
                 'emission',
-                'entity',
+                EntityType::class,
                 array(
                     'required' => false,
                     'class' => 'GatsunWebsiteBundle:Emission',
-                    'property' => 'nom',
-                    'empty_value' => 'Actualités',
-                    'label' => 'Catégorie : ',
+                    'choice_label' => 'nom',
+                    'placeholder' => 'News',
+                    'label' => 'Catégorie',
                 )
             )
-            ->add('titre', 'text', array('label' => 'Titre : '))
+            ->add('titre', TextType::class, array('label' => 'Titre'))
             ->add(
-                'vignette',
-                'url',
-                array(
-                    'required' => false,
-                    'label' => 'Lien vers la vignette (Si non rempli, l\'image par défaut sera associée) : ',
-                    'data' => '',
-                )
+                'fichierImage',
+                VichImageType::class,
+                array('required' => false, 'label' => 'Image',)
             )
-            ->add('contenu', 'textarea', array('label' => 'Contenu : '))
-            ->add('podcast', 'text', array('required' => false, 'label' => 'Podcast : '));
-        // Pour l'instant, pas de commentaires, catégories, etc., on les gérera plus tard
+            ->add(
+                'contenu',
+                TextareaType::class,
+                array('label' => 'Contenu', 'attr' => array('class' => 'materialize-textarea'))
+            )
+            ->add('podcast', TextType::class, array('required' => false, 'label' => 'Podcast'));
 
         // À partir du formBuilder, on génère le formulaire
         $form = $formBuilder->getForm();
-
-        // On récupère la requête
-        $request = $this->get('request');
 
         // On fait le lien Requête <-> Formulaire
         // À partir de maintenant, la variable $publication contient les valeurs entrées dans le formulaire par le visiteur
         $form->handleRequest($request);
 
-        // On vérifie la vignette
-        // S'il n'y en a pas, on passe à la vignette par défaut de l'émission.
-        // Si elle n'existe pas non plus, on conserve la vignette par défaut définie dans l'entité.
-        $vignette = $publication->getVignette();
-        if ($vignette == "images/defaut/news.png") {
-            $emission = $publication->getEmission();
-            if (isset($emission)) {
-                $vignetteEmission = $emission->getVignette();
-                if (isset($vignetteEmission)) {
-                    $publication->setVignette($vignetteEmission);
-                }
-            }
-        }
         // On vérifie que les valeurs entrées sont correctes
-        // (Nous verrons la validation des objets en détail dans le prochain chapitre)
         if ($form->isValid()) {
             // On l'enregistre notre objet $publication dans la base de données
             $em = $this->getDoctrine()->getManager();
@@ -233,8 +204,11 @@ class PublicationController extends Controller
         );
     }
 
-    public function supprimerAction($id)
+    public function supprimerAction(Request $request)
     {
+        // Récupération de l'ID en paramètre de l'URL
+        $id = $request->query->get("id");
+
         // Récupération de la publication
         $publication = $this->getDoctrine()
             ->getManager()
@@ -242,7 +216,7 @@ class PublicationController extends Controller
             ->findOneById($id);
 
         // Vérification des droits
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN') && $publication->getUtilisateur(
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') && $publication->getUtilisateur(
             ) != $this->getUser()
         ) {
             // Sinon on déclenche une exception « Accès interdit »

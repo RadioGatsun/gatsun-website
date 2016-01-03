@@ -3,12 +3,15 @@
 namespace Gatsun\WebsiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Publication
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Gatsun\WebsiteBundle\Entity\PublicationRepository")
+ * @Vich\Uploadable
  */
 class Publication
 {
@@ -29,11 +32,27 @@ class Publication
     private $titre;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="publication_image", fileNameProperty="image")
+     *
+     * @var File
+     */
+    private $fichierImage;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="vignette", type="string", length=255)
+     * @ORM\Column(name="image", type="text", nullable=true)
      */
-    private $vignette;
+    private $image;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $dateMiseaJourImage;
 
     /**
      * @var string
@@ -73,12 +92,20 @@ class Publication
      */
     private $utilisateur;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="\Gatsun\WebsiteBundle\Entity\Commentaire", mappedBy="publication", cascade={"remove"})
+     */
+    private $commentaires;
 
+    /**
+     * Publication constructor.
+     */
     public function __construct()
     {
         $this->date = new \Datetime();  // Par défaut, la date de la publication est la date d'aujourd'hui
         $this->podcast = '';            // Par défaut, la publication est une news
-        $this->vignette = 'images/defaut/news.png';
     }
 
 
@@ -116,32 +143,45 @@ class Publication
     }
 
     /**
-     * Set vignette
+     * Set image
      *
-     * @param string $vignette
-     * @return Publication
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setVignette($vignette)
+    public function setFichierImage(File $image = null)
     {
-        if($vignette == null)
-        {
-            $vignette = 'images/defaut/news.png';
-        }
+        $this->fichierImage = $image;
 
-        $this->vignette = $vignette;
-    
-        return $this;
+        if ($image) {
+            // Il est obligatoire de changer au moins une valeur si Doctrine est utilisé
+            // sinon les écouteurs d'événements ne seront pas appelés et le fichier sera perdu.
+            $this->dateMiseaJourImage = new \DateTime('now');
+        }
     }
 
     /**
-     * Get vignette
-     *
-     * @return string 
+     * @return File
      */
-    public function getVignette()
+    public function getFichierImage()
     {
-        return $this->vignette;
+        return $this->fichierImage;
     }
+
+    /**
+     * @param string $nom
+     */
+    public function setImage($nom)
+    {
+        $this->image = $nom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
 
     /**
      * Set contenu
@@ -261,5 +301,38 @@ class Publication
     public function getUtilisateur()
     {
         return $this->utilisateur;
+    }
+
+    /**
+     * Add commentaire
+     *
+     * @param \Gatsun\WebsiteBundle\Entity\Commentaire $commentaire
+     * @return Emission
+     */
+    public function addCommentaire($commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Gatsun\WebsiteBundle\Entity\Commentaire $commentaire
+     */
+    public function removeCommentaire($commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
     }
 }

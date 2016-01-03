@@ -60,7 +60,7 @@ class Commentaire
     /**
      * @var \Gatsun\WebsiteBundle\Entity\Publication
      *
-     * @ORM\ManyToOne(targetEntity="Gatsun\WebsiteBundle\Entity\Publication")
+     * @ORM\ManyToOne(targetEntity="Gatsun\WebsiteBundle\Entity\Publication", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
      */
     private $publication;

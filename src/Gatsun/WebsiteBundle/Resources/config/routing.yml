@@ -97,7 +97,7 @@ gatsun_website_publication_modifier:
         id:  \d+
 
 gatsun_website_publication_supprimer:
-    path:  /publication/supprimer/{id}
+    path:  /publication/supprimer
     defaults: { _controller: GatsunWebsiteBundle:Publication:supprimer }
     requirements:
         id:  \d+

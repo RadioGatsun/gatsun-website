@@ -1,15 +1,3 @@
-.glyphicon
-{
-	top: 0px;
-}
-
-textarea
-{
-	height: 200px !important;
-	resize: none;
-}
-
-form .col-md-9, form p .col-md-3
-{
-	padding: 0px !important;
+textarea {
+    min-height: 180px !important;
 }
