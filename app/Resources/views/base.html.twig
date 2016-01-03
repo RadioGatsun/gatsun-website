@@ -47,42 +47,55 @@
                     <a class="waves-effect" href="{{ path('gatsun_website_radio') }}">La radio</a>
                 </li>
                 {% if app.user == null %}
-                    <li {% if 'utilisateur' in app.request.uri and 'connexion' in app.request.uri %}class="active"{% endif %}>
-                        <a class="waves-effect" href="{{ path('gatsun_website_connexion') }}">Connexion</a>
-                    </li>
-                    <li {% if 'utilisateur' in app.request.uri and 'inscription' in app.request.uri %}class="active"{% endif %}>
-                        <a class="waves-effect" href="{{ path('gatsun_website_inscription') }}">Inscription</a>
-                    </li>
-                {% else %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li {% if 'admin' in app.request.uri %}class="active"{% endif %}>
-                            <a class="dropdown-button waves-effect" href="#" data-activates="dropdown-admin">
-                                Admin
-                                <i class="material-icons right">arrow_drop_down</i>
-                            </a>
-                            <ul id="dropdown-admin" class="dropdown-content">
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a>
-                                </li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_publications') }}">Publications</a>
-                                </li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a>
-                                </li>
-                                <li><a class="waves-effect" href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a>
-                                </li>
-                            </ul>
+                <li {% if 'utilisateur' in app.request.uri %}class="active"{% endif %}>
+                    <a class="dropdown-button waves-effect" href="#" data-activates="dropdown-user">
+                        Non connecté
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                    <ul id="dropdown-user" class="dropdown-content">
+                        <li><a class="waves-effect" href="{{ path('gatsun_website_connexion') }}">Connexion</a>
                         </li>
-
-                    {% endif %}
-                    <li {% if 'utilisateur' in app.request.uri and app.user.username in app.request.uri %}class="active"{% endif %}>
-                        <a class="waves-effect"
-                           href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">
-                            <img src="{{ app.user.avatar ? vich_uploader_asset(app.user, "fichierAvatar") : asset("images/defaut/default.png") }}"
-                                 alt="Avatar de {{ app.user.username }}" class="circle"/>
-                            {{ app.user.username }}
+                        <li><a class="waves-effect" href="{{ path('gatsun_website_inscription') }}">Inscription</a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li {% if 'admin' in app.request.uri %}class="active"{% endif %}>
+                        <a class="dropdown-button waves-effect" href="#" data-activates="dropdown-admin">
+                            Admin
+                            <i class="material-icons right">arrow_drop_down</i>
                         </a>
+                        <ul id="dropdown-admin" class="dropdown-content">
+                            <li><a class="waves-effect" href="{{ path('gatsun_website_admin_utilisateurs') }}">Utilisateurs</a>
+                            </li>
+                            <li><a class="waves-effect" href="{{ path('gatsun_website_admin_publications') }}">Publications</a>
+                            </li>
+                            <li><a class="waves-effect"
+                                   href="{{ path('gatsun_website_admin_emissions') }}">Émissions</a>
+                            </li>
+                            <li><a class="waves-effect"
+                                   href="{{ path('gatsun_website_admin_vignettes') }}">Vignettes</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li><a class="waves-effect" href="{{ path('gatsun_website_deconnexion') }}">Déconnexion</a></li>
+
                 {% endif %}
+                <li {% if 'utilisateur' in app.request.uri and app.user.username in app.request.uri %}class="active"{% endif %}>
+                    <a class="dropdown-button waves-effect" href="#" data-activates="dropdown-user-connected">
+                        <img src="{{ app.user.avatar ? vich_uploader_asset(app.user, "fichierAvatar") : asset("images/defaut/default.png") }}"
+                             alt="Avatar de {{ app.user.username }}" class="circle"/>
+                        {{ app.user.username }}
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                    <ul id="dropdown-user-connected" class="dropdown-content">
+                        <li><a class="waves-effect"
+                               href="{{ path('gatsun_website_utilisateur', {'nom':app.user.username}) }}">Mon profil</a>
+                        </li>
+                        <li><a class="waves-effect" href="{{ path('gatsun_website_deconnexion') }}">Déconnexion</a>
+                        </li>
+                    </ul>
+                    {% endif %}
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
