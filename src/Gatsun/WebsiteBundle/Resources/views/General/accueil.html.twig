@@ -96,10 +96,15 @@
                             <span class="card-title activator">
                                 {% if "now"|date('N') != emission.jour.id %}
                                     {{ emission.jour.libelle }},
-                                {% elseif date() >= emission.heureDebut and date() <= emission.heureFin %}
-                                    <strong>EN DIRECT</strong>
+                                    {{ emission.heureDebut|date('H\\hi') }}
+                                {% elseif date()|date('H\\hi') >= emission.heureDebut|date('H\\hi') and date()|date('H\\hi') <= emission.heureFin|date('H\\hi') %}
+                                    <strong>
+                                        <i class="material-icons red-text">fiber_manual_record</i>
+                                        EN DIRECT
+                                    </strong>
+                                {% else %}
+                                    {{ emission.heureDebut|date('H\\hi') }}
                                 {% endif %}
-                                {{ emission.heureDebut|date('H\\hi') }}
                             </span>
                                 </div>
                                 <div class="card-reveal">
@@ -114,6 +119,9 @@
                                     <p>{{ emission.description }}</p>
 
                                     <div class="card-action">
+                                        {% if "now"|date('N') == emission.jour.id and date()|date('H\\hi') >= emission.heureDebut|date('H\\hi') and date()|date('H\\hi') <= emission.heureFin|date('H\\hi') %}
+                                            <a href="{{ path('gatsun_website_live') }}">Écouter</a>
+                                        {% endif %}
                                         <a href="{{ path('gatsun_website_emission', {'id': emission.id}) }}">L'émission</a>
                                     </div>
                                 </div>

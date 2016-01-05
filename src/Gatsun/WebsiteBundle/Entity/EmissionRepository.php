@@ -27,7 +27,7 @@ class EmissionRepository extends EntityRepository
                         $qb->expr()->gte(($current ? 'e.heureFin' : 'e.heureDebut'), ':heure')
                     ),
                     // OU Le jour est plus tard
-                    $qb->expr()->gte('e.jour', ':jour')
+                    $qb->expr()->gt('e.jour', ':jour')
                 )
             )
             ->setParameter('jour', date('N'))
