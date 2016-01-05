@@ -46,7 +46,9 @@
 /web/images/emissions
 /web/images/profils
 /web/images/vignettes
+/web/images/publications
 !/web/images/emissions/.gitkeep
 !/web/images/profils/.gitkeep
 !/web/images/vignettes/.gitkeep
+!/web/images/publications/.gitkeep
 composer.lock
