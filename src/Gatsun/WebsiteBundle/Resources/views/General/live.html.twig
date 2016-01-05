@@ -207,7 +207,7 @@
                     if (minutesFin < 10) minutesFin = "0" + minutesFin;
                     $('#infosPlayer').html(heureDebut + 'h' + minutesDebut + " &rarr; " + heureFin + 'h' + minutesFin + " : <strong>" + json.nom + "</strong><br />" + json.description);
                     if (json.vignette != "") {
-                        $('#imagePlayer').find('img').attr('src', json.vignette);
+                        $('#imagePlayer').find('img').attr('src', '../images/emissions/' + json.vignette);
                     } else {
                         $('#imagePlayer').find('img').attr('src', "{{ asset('images/header.png') }}");
                     }
