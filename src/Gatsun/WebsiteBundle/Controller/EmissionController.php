@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Gatsun\WebsiteBundle\Entity\Emission;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,9 +137,9 @@ class EmissionController extends Controller
             ->findOneById($id);
 
         // Vérification des droits
-        if (!($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || (sizeof(
-                    $emission->getPresentateurs()
-                ) != 0 && in_array($this->getUser(), $emission->getPresentateurs())))
+        if (!($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ||
+            (sizeof($emission->getPresentateurs()) != 0 &&
+                in_array($this->getUser(), (array) $emission->getPresentateurs())))
         ) {
             // Sinon on déclenche une exception « Accès interdit »
             throw new AccessDeniedHttpException();
